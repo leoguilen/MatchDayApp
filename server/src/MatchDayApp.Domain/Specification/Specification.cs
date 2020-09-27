@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MatchDayApp.Domain.Interfaces.Base
+namespace MatchDayApp.Domain.Specification
 {
-    class Base
+    class Specification
     {
     }
 }

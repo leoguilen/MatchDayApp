@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{63E4DAAC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchDayApp.Domain", "src\MatchDayApp.Domain\MatchDayApp.Domain.csproj", "{FC39E0B8-95FF-4C7F-AD73-AB3C33FAB362}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchDayApp.Unit", "tests\MatchDayApp.Unit\MatchDayApp.Unit.csproj", "{90246E79-8274-46ED-B690-DEF2E94042DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchDayApp.Test", "tests\MatchDayApp.Unit\MatchDayApp.Test.csproj", "{90246E79-8274-46ED-B690-DEF2E94042DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
