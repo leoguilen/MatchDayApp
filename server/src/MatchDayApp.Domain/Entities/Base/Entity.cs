@@ -6,6 +6,7 @@ namespace MatchDayApp.Domain.Entities.Base
     {
         protected Entity()
         {
+            Id = Guid.NewGuid();
             CreatedAt = DateTime.Now;
         }
 
