@@ -7,20 +7,20 @@ using Xunit;
 
 namespace MatchDayApp.Test.Domain.Entities
 {
-    public class PlayerTest
+    public class UserTest
     {
         private readonly Faker _faker;
 
-        public PlayerTest()
+        public UserTest()
         {
             _faker = new Faker("pt_BR");
         }
 
         [Fact]
-        [Trait("Entity", "Player")]
+        [Trait("Entity", "User")]
         public void Should_Be_Created_New_Entity_User()
         {
-            var expectedPlayer = new
+            var expectedUser = new
             {
                 FirstName = _faker.Name.FirstName(),
                 LastName = _faker.Name.LastName(),
@@ -32,18 +32,18 @@ namespace MatchDayApp.Test.Domain.Entities
                 Deleted = false
             };
 
-            var newPlayer = new User(
-                    expectedPlayer.FirstName, expectedPlayer.LastName,
-                    expectedPlayer.Username, expectedPlayer.Email,
-                    expectedPlayer.Password, expectedPlayer.Avatar);
+            var newUser = new User(
+                    expectedUser.FirstName, expectedUser.LastName,
+                    expectedUser.Username, expectedUser.Email,
+                    expectedUser.Password, expectedUser.Avatar);
 
-            expectedPlayer
+            expectedUser
                 .ToExpectedObject()
-                .ShouldMatch(newPlayer);
-            newPlayer.Id
+                .ShouldMatch(newUser);
+            newUser.Id
                 .Should()
                 .NotBeEmpty();
-            newPlayer.CreatedAt
+            newUser.CreatedAt
                 .Should()
                 .BeSameDateAs(DateTime.Now);
         }

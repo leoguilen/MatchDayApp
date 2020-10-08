@@ -1,4 +1,5 @@
 ﻿using MatchDayApp.Domain.Entities.Base;
+using MatchDayApp.Domain.Enum;
 
 namespace MatchDayApp.Domain.Entities
 {
@@ -17,12 +18,13 @@ namespace MatchDayApp.Domain.Entities
         public User() { }
 
         public string FirstName { get; set; }
-        public string LastName { get; set;  }
+        public string LastName { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public bool ConfirmedEmail { get; set; } = false;
         public string Password { get; set; }
         public string Salt { get; set; } = "abc";
+        public UserType UserType { get; set; }
         public string Avatar { get; set; }
         public bool Deleted { get; set; } = false;
     }
