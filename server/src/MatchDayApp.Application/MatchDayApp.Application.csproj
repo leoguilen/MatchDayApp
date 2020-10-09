@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Mapper\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Events\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MatchDayApp.Domain\MatchDayApp.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

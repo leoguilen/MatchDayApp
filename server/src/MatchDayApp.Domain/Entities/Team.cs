@@ -10,7 +10,7 @@ namespace MatchDayApp.Domain.Entities
 
         public string Name { get; set; }
         public string Image { get; set; }
-        public int TotalPlayers { get; set; } = 0;
+        public int TotalPlayers { get; set; };
         public Guid OwnerUserId { get; set; }
 
         [ForeignKey(nameof(OwnerUserId))]
