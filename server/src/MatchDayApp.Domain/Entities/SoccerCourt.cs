@@ -6,20 +6,7 @@ namespace MatchDayApp.Domain.Entities
 {
     public class SoccerCourt : Entity
     {
-        public SoccerCourt(string name, string image, decimal hourPrice, string phone, string address, string cep, double latitude, double longitude, Guid ownerUserId)
-        {
-            Name = name;
-            Image = image;
-            HourPrice = hourPrice;
-            Phone = phone;
-            Address = address;
-            Cep = cep;
-            Latitude = latitude;
-            Longitude = longitude;
-            OwnerUserId = ownerUserId;
-        }
-
-        public SoccerCourt() { }
+        protected SoccerCourt() { }
 
         public string Name { get; set; }
         public string Image { get; set; }

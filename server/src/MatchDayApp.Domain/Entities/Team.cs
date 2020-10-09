@@ -6,14 +6,7 @@ namespace MatchDayApp.Domain.Entities
 {
     public class Team : Entity
     {
-        public Team(string name, string image, Guid ownerUserId)
-        {
-            Name = name;
-            Image = image;
-            OwnerUserId = ownerUserId;
-        }
-
-        public Team() { }
+        protected Team() { }
 
         public string Name { get; set; }
         public string Image { get; set; }

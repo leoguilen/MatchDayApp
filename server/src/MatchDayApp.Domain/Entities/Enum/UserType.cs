@@ -1,4 +1,4 @@
-﻿namespace MatchDayApp.Domain.Enum
+﻿namespace MatchDayApp.Domain.Entities.Enum
 {
     public enum UserType : int
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace MatchDayApp.Domain.Interfaces.Base
+namespace MatchDayApp.Domain.Repository.Base
 {
     public interface IRepositoryBase<T, TId> where T : IEntityBase<TId>
     {
