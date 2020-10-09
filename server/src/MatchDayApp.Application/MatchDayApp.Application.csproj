@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Mapper\" />
     <Folder Include="Commands\" />
+	<Folder Include="Events\" />
   </ItemGroup>
 
   <ItemGroup>
