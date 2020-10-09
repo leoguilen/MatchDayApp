@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchDayApp.UnitTest", "tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchDayApp.Contract", "src\MatchDayApp.Contract\MatchDayApp.Contract.csproj", "{3822783E-C92B-49C5-BC7A-287F09478766}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchDayApp.Application", "src\MatchDayApp.Application\MatchDayApp.Application.csproj", "{49666BFC-CDC3-43FA-B929-8F064F3FB8C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{3822783E-C92B-49C5-BC7A-287F09478766}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3822783E-C92B-49C5-BC7A-287F09478766}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3822783E-C92B-49C5-BC7A-287F09478766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49666BFC-CDC3-43FA-B929-8F064F3FB8C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49666BFC-CDC3-43FA-B929-8F064F3FB8C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49666BFC-CDC3-43FA-B929-8F064F3FB8C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49666BFC-CDC3-43FA-B929-8F064F3FB8C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{FC39E0B8-95FF-4C7F-AD73-AB3C33FAB362} = {5C3909F5-EF9C-46B1-B19C-F730C30F74B7}
 		{F82756E2-FBB4-4B96-877B-3D2433BBA920} = {63E4DAAC-0C87-4C9D-B6D7-644127998F56}
 		{3822783E-C92B-49C5-BC7A-287F09478766} = {5C3909F5-EF9C-46B1-B19C-F730C30F74B7}
+		{49666BFC-CDC3-43FA-B929-8F064F3FB8C2} = {5C3909F5-EF9C-46B1-B19C-F730C30F74B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F8E11EC-040D-416F-9F39-5A5427BB5AC7}

@@ -1,15 +1,10 @@
-﻿using System;
+﻿using MatchDayApp.Application.Models.Base;
+using System;
 
-namespace MatchDayApp.Domain.Entities
+namespace MatchDayApp.Application.Models
 {
-    public class ScheduledMatch
+    public class ScheduleMatchModel : BaseModel
     {
-        protected ScheduledMatch()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public Guid Id { get; private set; }
         public Guid FirstTeamId { get; set; }
         public Guid SecondTeamId { get; set; }
         public Guid SoccerCourtId { get; set; }
