@@ -5,12 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
+    <Folder Include="Commands\ScheduleMatch\" />
+    <Folder Include="Commands\SoccerCourt\" />
+    <Folder Include="Commands\Team\" />
+    <Folder Include="Commands\User\" />
 	<Folder Include="Events\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
