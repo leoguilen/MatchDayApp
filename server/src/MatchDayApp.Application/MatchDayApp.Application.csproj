@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Mapper\" />
     <Folder Include="Commands\" />
 	<Folder Include="Events\" />
   </ItemGroup>
@@ -15,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MatchDayApp.Contract\MatchDayApp.Contract.csproj" />
     <ProjectReference Include="..\MatchDayApp.Domain\MatchDayApp.Domain.csproj" />
   </ItemGroup>
 

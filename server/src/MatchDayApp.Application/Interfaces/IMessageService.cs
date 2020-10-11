@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace MatchDayApp.Application.Interfaces
 {
-    public interface INotificationService
+    public interface IMessageService
     {
         Task<bool> SendAsync(MessageModel message);
     }
