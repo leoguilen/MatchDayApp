@@ -1,6 +1,6 @@
 ﻿using MatchDayApp.Application.Interfaces;
-using MatchDayApp.Contract.Contract.V1.Request.Auth;
-using MatchDayApp.Contract.Contract.V1.Response;
+using MatchDayApp.Application.Models;
+using MatchDayApp.Application.Models.Auth;
 using System;
 using System.Threading.Tasks;
 
@@ -8,22 +8,22 @@ namespace MatchDayApp.Application.Services
 {
     public class AuthService : IAuthService
     {
-        public Task<Response<object>> ForgotPasswordAsync(ForgotPasswordRequest request)
+        public Task<AuthenticationResult> ForgotPasswordAsync(string email)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Response<object>> LoginAsync(AuthRequest request)
+        public Task<AuthenticationResult> LoginAsync(LoginModel login)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Response<object>> RegisterAsync(RegisterRequest request)
+        public Task<AuthenticationResult> RegisterAsync(RegisterModel register)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Response<object>> ResetPasswordAsync(ResetPasswordRequest request)
+        public Task<AuthenticationResult> ResetPasswordAsync(ResetPasswordModel resetPassword)
         {
             throw new NotImplementedException();
         }

@@ -1,9 +1,11 @@
-﻿using MatchDayApp.Contract.Contract.V1.Request.Auth;
+﻿using MatchDayApp.Application.Models;
+using MatchDayApp.Application.Models.Auth;
 using MediatR;
 
 namespace MatchDayApp.Application.Commands.Auth
 {
-    public class RegisterCommand : IRequest<RegisterRequest>
+    public class RegisterCommand : IRequest<AuthenticationResult>
     {
+        public RegisterModel Register { get; set; }
     }
 }

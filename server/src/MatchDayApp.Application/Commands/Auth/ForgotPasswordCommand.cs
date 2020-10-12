@@ -1,9 +1,10 @@
-﻿using MatchDayApp.Contract.Contract.V1.Request.Auth;
+﻿using MatchDayApp.Application.Models;
 using MediatR;
 
 namespace MatchDayApp.Application.Commands.Auth
 {
-    public class ForgotPasswordCommand : IRequest<ForgotPasswordRequest>
+    public class ForgotPasswordCommand : IRequest<AuthenticationResult>
     {
+        public string Email { get; set; }
     }
 }

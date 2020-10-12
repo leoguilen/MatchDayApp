@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MatchDayApp.Contract\MatchDayApp.Contract.csproj" />
     <ProjectReference Include="..\MatchDayApp.Domain\MatchDayApp.Domain.csproj" />
   </ItemGroup>
 
