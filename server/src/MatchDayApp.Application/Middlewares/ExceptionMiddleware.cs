@@ -2,5 +2,8 @@
 {
     public class ExceptionMiddleware
     {
+        public ExceptionMiddleware()
+        {
+        }
     }
 }
