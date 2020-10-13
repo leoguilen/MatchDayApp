@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace MatchDayApp.Domain.Repository.Base
 {
-    public interface IRepositoryBase<T, TId> where T : IEntityBase<TId>
+    public interface IRepositoryBase<T, TId> 
+        where T : IEntityBase<TId>
     {
         IQueryable<T> Table { get; }
 

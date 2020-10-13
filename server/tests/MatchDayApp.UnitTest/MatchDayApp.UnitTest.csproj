@@ -10,6 +10,7 @@
     <PackageReference Include="Bogus" Version="31.0.2" />
     <PackageReference Include="ExpectedObjects" Version="2.3.5" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.8" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
@@ -17,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MatchDayApp.Infra.Data\MatchDayApp.Infra.Data.csproj" />
     <ProjectReference Include="..\..\src\MatchDayApp.Domain\MatchDayApp.Domain.csproj" />
   </ItemGroup>
 

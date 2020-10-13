@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchDayApp.Application", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchDayApp.UnitTest", "tests\MatchDayApp.UnitTest\MatchDayApp.UnitTest.csproj", "{734CB268-9400-4D97-969A-8A97839985DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchDayApp.Infra.Data", "MatchDayApp.Infra.Data\MatchDayApp.Infra.Data.csproj", "{E9188615-91CA-4461-9001-5C67CDA39874}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{734CB268-9400-4D97-969A-8A97839985DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{734CB268-9400-4D97-969A-8A97839985DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{734CB268-9400-4D97-969A-8A97839985DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9188615-91CA-4461-9001-5C67CDA39874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9188615-91CA-4461-9001-5C67CDA39874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9188615-91CA-4461-9001-5C67CDA39874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9188615-91CA-4461-9001-5C67CDA39874}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{3822783E-C92B-49C5-BC7A-287F09478766} = {5C3909F5-EF9C-46B1-B19C-F730C30F74B7}
 		{49666BFC-CDC3-43FA-B929-8F064F3FB8C2} = {5C3909F5-EF9C-46B1-B19C-F730C30F74B7}
 		{734CB268-9400-4D97-969A-8A97839985DB} = {63E4DAAC-0C87-4C9D-B6D7-644127998F56}
+		{E9188615-91CA-4461-9001-5C67CDA39874} = {5C3909F5-EF9C-46B1-B19C-F730C30F74B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F8E11EC-040D-416F-9F39-5A5427BB5AC7}
