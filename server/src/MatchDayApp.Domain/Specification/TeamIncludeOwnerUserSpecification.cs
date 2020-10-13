@@ -4,21 +4,21 @@ using System;
 
 namespace MatchDayApp.Domain.Specification
 {
-    public class TeamWithOwnerUserSpecification : BaseSpecification<Team>
+    public class TeamIncludeOwnerUserSpecification : BaseSpecification<Team>
     {
-        public TeamWithOwnerUserSpecification(string name)
+        public TeamIncludeOwnerUserSpecification(string name)
             : base(t => t.Name.Contains(name))
         {
             AddInclude(t => t.OwnerUser);
         }
 
-        public TeamWithOwnerUserSpecification(Guid id)
+        public TeamIncludeOwnerUserSpecification(Guid id)
             : base(t => t.Id == id)
         {
             AddInclude(t => t.OwnerUser);
         }
 
-        public TeamWithOwnerUserSpecification()
+        public TeamIncludeOwnerUserSpecification()
             : base(null)
         {
             AddInclude(t => t.OwnerUser);

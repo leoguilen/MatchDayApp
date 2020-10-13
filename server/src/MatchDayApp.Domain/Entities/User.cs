@@ -13,7 +13,7 @@ namespace MatchDayApp.Domain.Entities
         public string Password { get; set; }
         public string Salt { get; set; }
         public UserType UserType { get; set; }
-        public string Avatar { get; set; }
+        public string Avatar { get; set; } = string.Empty;
         public bool Deleted { get; set; } = false;
     }
 }
