@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchDayApp.Application", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchDayApp.UnitTest", "tests\MatchDayApp.UnitTest\MatchDayApp.UnitTest.csproj", "{734CB268-9400-4D97-969A-8A97839985DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchDayApp.Infra.Data", "MatchDayApp.Infra.Data\MatchDayApp.Infra.Data.csproj", "{E9188615-91CA-4461-9001-5C67CDA39874}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchDayApp.Infra.Data", "src\MatchDayApp.Infra.Data\MatchDayApp.Infra.Data.csproj", "{E9188615-91CA-4461-9001-5C67CDA39874}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
