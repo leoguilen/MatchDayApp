@@ -25,6 +25,8 @@ namespace MatchDayApp.UnitTest.Persistence
         private readonly IUserRepository _userRepository;
 
         private readonly Faker<User> _fakeUser;
+        private readonly User _userTest;
+        private readonly object _expectedUser;
 
         public UserRepositoryTest()
         {
@@ -35,6 +37,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 .SeedFakeUserData();
 
             _userRepository = new UserRepository(_memoryDb);
+            _userTest = _memoryDb.Users.First();
 
             string salt = SecurePasswordHasher.CreateSalt(8);
             _fakeUser = new Faker<User>()
@@ -45,6 +48,15 @@ namespace MatchDayApp.UnitTest.Persistence
                 .RuleFor(u => u.Password, f => SecurePasswordHasher.GenerateHash(f.Internet.Password(), salt))
                 .RuleFor(u => u.Salt, salt)
                 .RuleFor(u => u.UserType, UserType.Player);
+
+            _expectedUser = new
+            {
+                FirstName = "Test",
+                LastName = "One",
+                Username = "test1",
+                Email = "test1@email.com",
+                UserType = UserType.SoccerCourtOwner
+            };
         }
 
         [Fact, Order(1)]
@@ -87,21 +99,10 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(3)]
         public async Task GetByIdAsync_User_OneUserWithSameId()
         {
-            var userTestId = _memoryDb.Users.First().Id;
-            var expectedUser = new
-            {
-                Id = userTestId,
-                FirstName = "Test",
-                LastName = "One",
-                Username = "test1",
-                Email = "test1@email.com",
-                UserType = UserType.SoccerCourtOwner
-            };
-
             var user = await _userRepository
-                .GetByIdAsync(userTestId);
+                .GetByIdAsync(_userTest.Id);
 
-            user.Should().BeEquivalentTo(expectedUser, options =>
+            user.Should().BeEquivalentTo(_expectedUser, options =>
                 options.ExcludingMissingMembers());
         }
 
@@ -119,37 +120,21 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(5)]
         public async Task GetAsync_User_GetUserWithMatchTheUserTypeSpecification()
         {
-            var expectedUser = new
-            {
-                FirstName = "Test",
-                LastName = "Two",
-                Username = "test2",
-                Email = "test2@email.com",
-                UserType = UserType.TeamOwner
-            };
-
-            var spec = new UserContainEmailOrUsernameSpecification("test2@email.com");
+            var spec = new UserContainEmailOrUsernameSpecification("test1@email.com");
             var user = (await _userRepository.GetAsync(spec)).FirstOrDefault();
 
-            user.Should().BeEquivalentTo(expectedUser, options =>
+            user.Should().BeEquivalentTo(_expectedUser, options =>
                 options.ExcludingMissingMembers());
         }
 
         [Fact, Order(6)]
         public async Task GetAsync_User_GetUserWithMatchThePredicate()
         {
-            var expectedUser = new
-            {
-                FirstName = "Test",
-                LastName = "Two",
-                Username = "test2",
-                Email = "test2@email.com",
-                UserType = UserType.TeamOwner
-            };
+            var user = (await _userRepository
+                .GetAsync(u => u.Username == "test1"))
+                .FirstOrDefault();
 
-            var user = (await _userRepository.GetAsync(u => u.Username == "test2")).FirstOrDefault();
-
-            user.Should().BeEquivalentTo(expectedUser, options =>
+            user.Should().BeEquivalentTo(_expectedUser, options =>
                 options.ExcludingMissingMembers());
         }
 

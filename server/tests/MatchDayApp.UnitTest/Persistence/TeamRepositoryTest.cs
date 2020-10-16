@@ -22,7 +22,9 @@ namespace MatchDayApp.UnitTest.Persistence
         private readonly MatchDayAppContext _memoryDb;
         private readonly ITeamRepository _teamRepository;
 
-        private readonly Faker<Team> _fakeUser;
+        private readonly Faker<Team> _fakeTeam;
+        private readonly Team _teamTest;
+        private readonly object _expectedTeam;
 
         public TeamRepositoryTest()
         {
@@ -33,12 +35,20 @@ namespace MatchDayApp.UnitTest.Persistence
                 .SeedFakeTeamData();
 
             _teamRepository = new TeamRepository(_memoryDb);
+            _teamTest = _memoryDb.Teams.First();
 
-            _fakeUser = new Faker<Team>()
+            _fakeTeam = new Faker<Team>()
                 .RuleFor(u => u.Name, f => f.Company.CompanyName())
                 .RuleFor(u => u.Image, f => f.Image.PicsumUrl())
                 .RuleFor(u => u.TotalPlayers, f => f.Random.Int(6, 16))
                 .RuleFor(u => u.OwnerUserId, f => _memoryDb.Users.First().Id);
+
+            _expectedTeam = new
+            {
+                Name = "Team 3",
+                Image = "team3.png",
+                TotalPlayers = 11
+            };
         }
 
         [Fact, Order(1)]
@@ -84,20 +94,10 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(3)]
         public async Task GetByIdAsync_Team_OneTeamWithSameId()
         {
-            var teamFake = _memoryDb.Teams.First();
-            var expectedTeam = new
-            {
-                Id = teamFake.Id,
-                Name = "Team 3",
-                Image = "team3.png",
-                TotalPlayers = 11,
-                OwnerUserId = teamFake.OwnerUserId
-            };
-
             var team = await _teamRepository
-                .GetByIdAsync(teamFake.Id);
+                .GetByIdAsync(_teamTest.Id);
 
-            team.Should().BeEquivalentTo(expectedTeam, options =>
+            team.Should().BeEquivalentTo(_expectedTeam, options =>
                 options.ExcludingMissingMembers());
             team.OwnerUser.Should()
                 .NotBeNull()
@@ -118,19 +118,10 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(5)]
         public async Task GetAsync_Team_GetTeamWithMatchTheOwnerUserSpecification()
         {
-            var teamFake = _memoryDb.Teams.Last();
-            var expectedTeam = new
-            {
-                Id = teamFake.Id,
-                Name = "Team 1",
-                Image = "team1.png",
-                TotalPlayers = 15
-            };
-
-            var spec = new TeamWithUserSpecification(teamFake.OwnerUserId);
+            var spec = new TeamWithUserSpecification(_teamTest.OwnerUserId);
             var team = (await _teamRepository.GetAsync(spec)).FirstOrDefault();
 
-            team.Should().BeEquivalentTo(expectedTeam, options =>
+            team.Should().BeEquivalentTo(_expectedTeam, options =>
                 options.ExcludingMissingMembers());
             team.OwnerUser.Should()
                 .NotBeNull()
@@ -140,20 +131,10 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(6)]
         public async Task GetAsync_Team_GetTeamWithMatchTheTeamNameSpecification()
         {
-            var teamFake = _memoryDb.Teams.Last();
-            var expectedTeam = new
-            {
-                Id = teamFake.Id,
-                Name = "Team 1",
-                Image = "team1.png",
-                TotalPlayers = 15,
-                OwnerUserId = teamFake.OwnerUserId
-            };
-
-            var spec = new TeamWithUserSpecification("Team 1");
+            var spec = new TeamWithUserSpecification("Team 3");
             var team = (await _teamRepository.GetAsync(spec)).FirstOrDefault();
 
-            team.Should().BeEquivalentTo(expectedTeam, options =>
+            team.Should().BeEquivalentTo(_expectedTeam, options =>
                 options.ExcludingMissingMembers());
             team.OwnerUser.Should()
                 .NotBeNull()
@@ -209,7 +190,7 @@ namespace MatchDayApp.UnitTest.Persistence
         public async Task AddRangeAsync_Team_AddedListTeams()
         {
             var result = await _teamRepository
-                .AddRangeAsync(_fakeUser.Generate(5));
+                .AddRangeAsync(_fakeTeam.Generate(5));
 
             result.Should().NotBeNull()
                 .And.HaveCount(5);
