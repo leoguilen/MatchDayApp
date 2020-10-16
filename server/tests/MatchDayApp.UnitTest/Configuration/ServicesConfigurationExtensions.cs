@@ -4,6 +4,7 @@ using MatchDayApp.Domain.Entities.Enum;
 using MatchDayApp.Infra.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MatchDayApp.UnitTest.Configuration
 {
@@ -52,6 +53,43 @@ namespace MatchDayApp.UnitTest.Configuration
             };
 
             testContext.Users.AddRange(users);
+            testContext.SaveChanges();
+
+            foreach (var entity in testContext.ChangeTracker.Entries())
+                entity.State = EntityState.Detached;
+
+            return testContext;
+        }
+        public static MatchDayAppContext SeedFakeTeamData(this MatchDayAppContext testContext)
+        {
+            testContext.SeedFakeUserData();
+
+            var teams = new List<Team>
+            {
+                new Team
+                {
+                    Name = "Team 1",
+                    Image = "team1.png",
+                    TotalPlayers = 15,
+                    OwnerUserId = testContext.Users.ToList()[0].Id
+                },
+                new Team
+                {
+                    Name = "Team 2",
+                    Image = "team2.png",
+                    TotalPlayers = 13,
+                    OwnerUserId = testContext.Users.ToList()[1].Id
+                },
+                new Team
+                {
+                    Name = "Team 3",
+                    Image = "team3.png",
+                    TotalPlayers = 11,
+                    OwnerUserId = testContext.Users.ToList()[2].Id
+                }
+            };
+
+            testContext.Teams.AddRange(teams);
             testContext.SaveChanges();
 
             foreach (var entity in testContext.ChangeTracker.Entries())

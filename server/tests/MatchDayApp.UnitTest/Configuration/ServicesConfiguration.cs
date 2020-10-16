@@ -13,7 +13,7 @@ namespace MatchDayApp.UnitTest.Configuration
             var serviceProvider = new ServiceCollection();
 
             serviceProvider.AddDbContext<MatchDayAppContext>(options => options
-                .UseInMemoryDatabase($"FakeDB-{Guid.NewGuid()}")
+                .UseInMemoryDatabase($"TestDB-{Guid.NewGuid()}")
                 .UseInternalServiceProvider(new ServiceCollection()
                     .AddEntityFrameworkInMemoryDatabase()
                     .BuildServiceProvider())

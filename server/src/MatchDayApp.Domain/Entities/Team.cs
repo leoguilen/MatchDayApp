@@ -6,8 +6,6 @@ namespace MatchDayApp.Domain.Entities
 {
     public class Team : Entity
     {
-        protected Team() { }
-
         public string Name { get; set; }
         public string Image { get; set; }
         public int TotalPlayers { get; set; }
