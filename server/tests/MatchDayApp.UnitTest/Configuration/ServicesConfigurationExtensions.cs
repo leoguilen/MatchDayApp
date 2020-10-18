@@ -3,6 +3,7 @@ using MatchDayApp.Domain.Entities;
 using MatchDayApp.Domain.Entities.Enum;
 using MatchDayApp.Infra.Data.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -142,6 +143,88 @@ namespace MatchDayApp.UnitTest.Configuration
             };
 
             testContext.SoccerCourts.AddRange(soccerCourt);
+            testContext.SaveChanges();
+
+            foreach (var entity in testContext.ChangeTracker.Entries())
+                entity.State = EntityState.Detached;
+
+            return testContext;
+        }
+        public static MatchDayAppContext SeedFakeScheduledMatchesData(this MatchDayAppContext testContext)
+        {
+            testContext
+                .SeedFakeUserData()
+                .SeedFakeTeamData()
+                .SeedFakeSoccerCourtData();
+
+            var matches = new List<ScheduleMatch>
+            {
+                new ScheduleMatch
+                {
+                    FirstTeamId = testContext.Teams.ToList()[0].Id,
+                    FirstTeamConfirmed = true,
+                    SecondTeamId = testContext.Teams.ToList()[2].Id,
+                    SecondTeamConfirmed = true,
+                    SoccerCourtId = testContext.SoccerCourts.ToList()[2].Id,
+                    TotalHours = 1,
+                    Date = new DateTime(2020,10,20,21,0,0,DateTimeKind.Local),
+                    MatchStatus = MatchStatus.Confirmed
+                },
+                new ScheduleMatch
+                {
+                    FirstTeamId = testContext.Teams.ToList()[1].Id,
+                    FirstTeamConfirmed = true,
+                    SecondTeamId = testContext.Teams.ToList()[0].Id,
+                    SecondTeamConfirmed = false,
+                    SoccerCourtId = testContext.SoccerCourts.ToList()[1].Id,
+                    TotalHours = 1,
+                    Date = new DateTime(2020,10,19,18,0,0,DateTimeKind.Local),
+                    MatchStatus = MatchStatus.WaitingForConfirmation
+                },
+                new ScheduleMatch
+                {
+                    FirstTeamId = testContext.Teams.ToList()[1].Id,
+                    FirstTeamConfirmed = true,
+                    SecondTeamId = testContext.Teams.ToList()[2].Id,
+                    SecondTeamConfirmed = true,
+                    SoccerCourtId = testContext.SoccerCourts.ToList()[1].Id,
+                    TotalHours = 1,
+                    Date = new DateTime(2020,10,21,19,0,0,DateTimeKind.Local),
+                    MatchStatus = MatchStatus.Confirmed
+                },
+                new ScheduleMatch
+                {
+                    FirstTeamId = testContext.Teams.ToList()[0].Id,
+                    FirstTeamConfirmed = true,
+                    SecondTeamId = testContext.Teams.ToList()[1].Id,
+                    SecondTeamConfirmed = true,
+                    SoccerCourtId = testContext.SoccerCourts.ToList()[0].Id,
+                    TotalHours = 1,
+                    Date = new DateTime(2020,10,16,20,0,0,DateTimeKind.Local),
+                    MatchStatus = MatchStatus.Finished
+                },
+                new ScheduleMatch
+                {
+                    FirstTeamId = testContext.Teams.ToList()[2].Id,
+                    FirstTeamConfirmed = false,
+                    SecondTeamId = testContext.Teams.ToList()[1].Id,
+                    SecondTeamConfirmed = true,
+                    SoccerCourtId = testContext.SoccerCourts.ToList()[2].Id,
+                    TotalHours = 1,
+                    Date = new DateTime(2020,10,18,17,0,0,DateTimeKind.Local),
+                    MatchStatus = MatchStatus.Canceled
+                }
+            };
+
+            testContext.ScheduleMatches.Add(matches[0]);
+            testContext.SaveChanges();
+            testContext.ScheduleMatches.Add(matches[1]);
+            testContext.SaveChanges();
+            testContext.ScheduleMatches.Add(matches[2]);
+            testContext.SaveChanges();
+            testContext.ScheduleMatches.Add(matches[3]);
+            testContext.SaveChanges();
+            testContext.ScheduleMatches.Add(matches[4]);
             testContext.SaveChanges();
 
             foreach (var entity in testContext.ChangeTracker.Entries())

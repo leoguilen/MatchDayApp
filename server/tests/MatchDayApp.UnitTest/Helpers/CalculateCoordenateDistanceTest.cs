@@ -4,7 +4,7 @@ using Xunit;
 
 namespace MatchDayApp.UnitTest.Helpers
 {
-    [Trait("Helpers", "Coordenate Distance")]
+    [Trait("Helpers", "CoordenateDistance")]
     public class CalculateCoordenateDistanceTest
     {
         [Theory]

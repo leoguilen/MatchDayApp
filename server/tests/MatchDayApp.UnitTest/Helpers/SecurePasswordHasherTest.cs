@@ -5,7 +5,7 @@ using Xunit;
 
 namespace MatchDayApp.UnitTest.Helpers
 {
-    [Trait("Helpers","Password Hasher")]
+    [Trait("Helpers","PasswordHasher")]
     public class SecurePasswordHasherTest
     {
         private const int _saltSize = 8;
