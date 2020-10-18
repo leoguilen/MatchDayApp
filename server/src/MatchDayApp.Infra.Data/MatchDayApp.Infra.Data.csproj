@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MatchDayApp.Application\MatchDayApp.Application.csproj" />
     <ProjectReference Include="..\MatchDayApp.Domain\MatchDayApp.Domain.csproj" />
   </ItemGroup>
 

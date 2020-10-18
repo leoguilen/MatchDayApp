@@ -6,8 +6,9 @@ namespace MatchDayApp.Application.Interfaces
 {
     public interface IUnitOfWork
     {
-        public ISoccerCourtRepository SoccerCourtRepository { get; set; }
-        public ITeamRepository TeamRepository { get; set; }
+        public ISoccerCourtRepository SoccerCourtRepository { get; }
+        public ITeamRepository TeamRepository { get; }
+        public IUserRepository UserRepository { get; }
         Task<int> CommitAsync(CancellationToken cancellationToken = default);
     }
 }
