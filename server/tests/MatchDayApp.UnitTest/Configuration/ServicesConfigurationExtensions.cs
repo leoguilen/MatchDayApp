@@ -97,5 +97,57 @@ namespace MatchDayApp.UnitTest.Configuration
 
             return testContext;
         }
+        public static MatchDayAppContext SeedFakeSoccerCourtData(this MatchDayAppContext testContext)
+        {
+            testContext.SeedFakeUserData();
+
+            var soccerCourt = new List<SoccerCourt>
+            {
+                new SoccerCourt
+                {
+                    Name = "Soccer Court 1",
+                    Image = "soccerCourt1.png",
+                    HourPrice = 100M,
+                    Phone = "(11) 1234-5678",
+                    Address = "Av. teste 10, teste",
+                    Cep = "12345-789",
+                    Latitude = -23.1278154,
+                    Longitude = -46.5552845,
+                    OwnerUserId = testContext.Users.ToList()[0].Id
+                },
+                new SoccerCourt
+                {
+                    Name = "Soccer Court 2",
+                    Image = "soccerCourt2.png",
+                    HourPrice = 110M,
+                    Phone = "(11) 0000-9999",
+                    Address = "Av. teste 123, teste",
+                    Cep = "98745-036",
+                    Latitude = -22.3254,
+                    Longitude = -43.7595,
+                    OwnerUserId = testContext.Users.ToList()[1].Id
+                },
+                new SoccerCourt
+                {
+                    Name = "Soccer Court 3",
+                    Image = "soccerCourt3.png",
+                    HourPrice = 90M,
+                    Phone = "(11) 3692-1472",
+                    Address = "Av. teste 321, teste",
+                    Cep = "01012-345",
+                    Latitude = -23.1096504,
+                    Longitude = -46.533172,
+                    OwnerUserId = testContext.Users.ToList()[2].Id
+                }
+            };
+
+            testContext.SoccerCourts.AddRange(soccerCourt);
+            testContext.SaveChanges();
+
+            foreach (var entity in testContext.ChangeTracker.Entries())
+                entity.State = EntityState.Detached;
+
+            return testContext;
+        }
     }
 }

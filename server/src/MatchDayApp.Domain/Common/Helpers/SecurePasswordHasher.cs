@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MatchDayApp.Domain.Common.Helpers
 {
-    public class SecurePasswordHasher
+    public static class SecurePasswordHasher
     {
         public static string CreateSalt(int size)
         {

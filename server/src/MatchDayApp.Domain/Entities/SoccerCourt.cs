@@ -6,8 +6,6 @@ namespace MatchDayApp.Domain.Entities
 {
     public class SoccerCourt : Entity
     {
-        protected SoccerCourt() { }
-
         public string Name { get; set; }
         public string Image { get; set; }
         public decimal HourPrice { get; set; }

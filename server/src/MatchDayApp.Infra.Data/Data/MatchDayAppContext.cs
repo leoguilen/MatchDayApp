@@ -14,5 +14,6 @@ namespace MatchDayApp.Infra.Data.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<SoccerCourt> SoccerCourts { get; set; }
     }
 }
