@@ -13,6 +13,7 @@ namespace MatchDayApp.Infra.Data.Repositories
         private ISoccerCourtRepository _soccerCourt;
         private ITeamRepository _team;
         private IUserRepository _user;
+        private IScheduleMatchRepository _match;
 
         public UnitOfWork(MatchDayAppContext context)
         {
@@ -22,6 +23,7 @@ namespace MatchDayApp.Infra.Data.Repositories
         public ISoccerCourtRepository SoccerCourtRepository => _soccerCourt ??= new SoccerCourtRepository(_context);
         public ITeamRepository TeamRepository => _team ??= new TeamRepository(_context);
         public IUserRepository UserRepository => _user ??= new UserRepository(_context);
+        public IScheduleMatchRepository ScheduleMatchRepository => _match ??= new ScheduleMatchRepository(_context);
 
         public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
         {

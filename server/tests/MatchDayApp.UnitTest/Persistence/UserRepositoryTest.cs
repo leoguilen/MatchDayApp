@@ -34,7 +34,7 @@ namespace MatchDayApp.UnitTest.Persistence
 
             _memoryDb = configServices
                 .GetRequiredService<MatchDayAppContext>()
-                .SeedFakeUserData();
+                .SeedFakeData();
 
             _userRepository = new UserRepository(_memoryDb);
             _userTest = _memoryDb.Users.First();
@@ -55,7 +55,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 LastName = "One",
                 Username = "test1",
                 Email = "test1@email.com",
-                UserType = UserType.SoccerCourtOwner
+                UserType = UserType.SoccerCourtOwner,
             };
         }
 
@@ -81,18 +81,21 @@ namespace MatchDayApp.UnitTest.Persistence
                         user1.Username.Should().Be("test1");
                         user1.Email.Should().Be("test1@email.com");
                         user1.UserType.Should().Be(UserType.SoccerCourtOwner);
+                        user1.UserTeam.Team.Name.Should().Be("Team 1");
                     },
                     user2 =>
                     {
                         user2.Username.Should().Be("test2");
                         user2.Email.Should().Be("test2@email.com");
                         user2.UserType.Should().Be(UserType.TeamOwner);
+                        user2.UserTeam.Team.Name.Should().Be("Team 2");
                     },
                     user3 =>
                     {
                         user3.Username.Should().Be("test3");
                         user3.Email.Should().Be("test3@email.com");
                         user3.UserType.Should().Be(UserType.SoccerCourtOwner);
+                        user3.UserTeam.Team.Name.Should().Be("Team 3");
                     });
         }
 
@@ -104,6 +107,7 @@ namespace MatchDayApp.UnitTest.Persistence
 
             user.Should().BeEquivalentTo(_expectedUser, options =>
                 options.ExcludingMissingMembers());
+            user.UserTeam.Team.Name.Should().Be("Team 1");
         }
 
         [Fact, Order(4)]

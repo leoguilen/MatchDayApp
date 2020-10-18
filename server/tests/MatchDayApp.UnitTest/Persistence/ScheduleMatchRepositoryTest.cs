@@ -29,7 +29,7 @@ namespace MatchDayApp.UnitTest.Persistence
 
             _memoryDb = configServices
                 .GetRequiredService<MatchDayAppContext>()
-                .SeedFakeScheduledMatchesData();
+                .SeedFakeData();
 
             _matchRepository = new ScheduleMatchRepository(_memoryDb);
             _matchTest = _memoryDb.ScheduleMatches.First();

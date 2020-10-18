@@ -32,7 +32,7 @@ namespace MatchDayApp.UnitTest.Persistence
 
             _memoryDb = configServices
                 .GetRequiredService<MatchDayAppContext>()
-                .SeedFakeTeamData();
+                .SeedFakeData();
 
             _teamRepository = new TeamRepository(_memoryDb);
             _teamTest = _memoryDb.Teams.First();

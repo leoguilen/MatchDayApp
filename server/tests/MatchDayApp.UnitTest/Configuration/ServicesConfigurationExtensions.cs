@@ -11,8 +11,10 @@ namespace MatchDayApp.UnitTest.Configuration
 {
     public static class ServicesConfigurationExtensions
     {
-        public static MatchDayAppContext SeedFakeUserData(this MatchDayAppContext testContext)
+        public static MatchDayAppContext SeedFakeData(this MatchDayAppContext testContext)
         {
+            #region User
+
             var salt = SecurePasswordHasher.CreateSalt(8);
 
             var users = new List<User>
@@ -53,21 +55,12 @@ namespace MatchDayApp.UnitTest.Configuration
                 }
             };
 
-            users[0].UserTeam = new UserTeam { UserId = users[0].Id, TeamId = Guid.NewGuid(), Accepted = true };
-            users[1].UserTeam = new UserTeam { UserId = users[1].Id, TeamId = Guid.NewGuid(), Accepted = true };
-            users[2].UserTeam = new UserTeam { UserId = users[2].Id, TeamId = Guid.NewGuid(), Accepted = true };
-
             testContext.Users.AddRange(users);
             testContext.SaveChanges();
 
-            foreach (var entity in testContext.ChangeTracker.Entries())
-                entity.State = EntityState.Detached;
+            #endregion
 
-            return testContext;
-        }
-        public static MatchDayAppContext SeedFakeTeamData(this MatchDayAppContext testContext)
-        {
-            testContext.SeedFakeUserData();
+            #region Team
 
             var teams = new List<Team>
             {
@@ -94,17 +87,17 @@ namespace MatchDayApp.UnitTest.Configuration
                 }
             };
 
+            users[0].UserTeam = new UserTeam { UserId = users[0].Id, TeamId = teams[0].Id, Accepted = true };
+            users[1].UserTeam = new UserTeam { UserId = users[1].Id, TeamId = teams[1].Id, Accepted = true };
+            users[2].UserTeam = new UserTeam { UserId = users[2].Id, TeamId = teams[2].Id, Accepted = true };
+
+            testContext.Users.UpdateRange(users);
             testContext.Teams.AddRange(teams);
             testContext.SaveChanges();
 
-            foreach (var entity in testContext.ChangeTracker.Entries())
-                entity.State = EntityState.Detached;
+            #endregion
 
-            return testContext;
-        }
-        public static MatchDayAppContext SeedFakeSoccerCourtData(this MatchDayAppContext testContext)
-        {
-            testContext.SeedFakeUserData();
+            #region Soccer Court
 
             var soccerCourt = new List<SoccerCourt>
             {
@@ -149,17 +142,9 @@ namespace MatchDayApp.UnitTest.Configuration
             testContext.SoccerCourts.AddRange(soccerCourt);
             testContext.SaveChanges();
 
-            foreach (var entity in testContext.ChangeTracker.Entries())
-                entity.State = EntityState.Detached;
+            #endregion
 
-            return testContext;
-        }
-        public static MatchDayAppContext SeedFakeScheduledMatchesData(this MatchDayAppContext testContext)
-        {
-            testContext
-                .SeedFakeUserData()
-                .SeedFakeTeamData()
-                .SeedFakeSoccerCourtData();
+            #region Schedule Match
 
             var matches = new List<ScheduleMatch>
             {
@@ -230,6 +215,8 @@ namespace MatchDayApp.UnitTest.Configuration
             testContext.SaveChanges();
             testContext.ScheduleMatches.Add(matches[4]);
             testContext.SaveChanges();
+
+            #endregion
 
             foreach (var entity in testContext.ChangeTracker.Entries())
                 entity.State = EntityState.Detached;

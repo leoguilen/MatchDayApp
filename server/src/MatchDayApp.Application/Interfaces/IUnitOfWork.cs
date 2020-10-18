@@ -9,6 +9,7 @@ namespace MatchDayApp.Application.Interfaces
         public ISoccerCourtRepository SoccerCourtRepository { get; }
         public ITeamRepository TeamRepository { get; }
         public IUserRepository UserRepository { get; }
+        public IScheduleMatchRepository ScheduleMatchRepository { get; }
         Task<int> CommitAsync(CancellationToken cancellationToken = default);
     }
 }

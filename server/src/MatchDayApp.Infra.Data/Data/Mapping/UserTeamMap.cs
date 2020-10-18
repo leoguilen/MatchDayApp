@@ -9,7 +9,7 @@ namespace MatchDayApp.Infra.Data.Data.Mapping
         public void Configure(EntityTypeBuilder<UserTeam> builder)
         {
             builder.Property(prop => prop.Id).ValueGeneratedOnAdd();
-            builder.HasKey(prop => new { prop.Id, prop.TeamId, prop.UserId });
+            builder.Ignore(prop => prop.User).HasKey(prop => new { prop.Id, prop.UserId, prop.TeamId });
         }
     }
 }
