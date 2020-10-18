@@ -178,12 +178,18 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(9)]
         public async Task AddRangeAsync_User_AddedListUsers()
         {
+            var fakeUsers = _fakeUser.Generate(5);
+
+            fakeUsers.ForEach(u => u.UserTeam = new UserTeam 
+                { UserId = u.Id, TeamId = Guid.NewGuid(), Accepted = true });
+
             var result = await _userRepository
-                .AddRangeAsync(_fakeUser.Generate(5));
+                .AddRangeAsync(fakeUsers);
 
             result.Should().NotBeNull()
                 .And.HaveCount(5);
             _memoryDb.Users.Should().HaveCount(8);
+            _memoryDb.UserTeams.Should().HaveCount(8);
         }
 
         [Fact, Order(10)]

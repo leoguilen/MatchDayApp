@@ -53,6 +53,10 @@ namespace MatchDayApp.UnitTest.Configuration
                 }
             };
 
+            users[0].UserTeam = new UserTeam { UserId = users[0].Id, TeamId = Guid.NewGuid(), Accepted = true };
+            users[1].UserTeam = new UserTeam { UserId = users[1].Id, TeamId = Guid.NewGuid(), Accepted = true };
+            users[2].UserTeam = new UserTeam { UserId = users[2].Id, TeamId = Guid.NewGuid(), Accepted = true };
+
             testContext.Users.AddRange(users);
             testContext.SaveChanges();
 

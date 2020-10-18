@@ -15,5 +15,6 @@ namespace MatchDayApp.Domain.Entities
         public UserType UserType { get; set; }
         public string Avatar { get; set; } = string.Empty;
         public bool Deleted { get; set; } = false;
+        public virtual UserTeam UserTeam { get; set; }
     }
 }
