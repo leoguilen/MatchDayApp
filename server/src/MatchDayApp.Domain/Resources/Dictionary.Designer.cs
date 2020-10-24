@@ -61,11 +61,110 @@ namespace MatchDayApp.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Não foi encontrado usuário com o email especificado.
+        /// </summary>
+        public static string ME001 {
+            get {
+                return ResourceManager.GetString("ME001", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Um erro inesperado aconteceu ao resetar a senha.
+        /// </summary>
+        public static string ME002 {
+            get {
+                return ResourceManager.GetString("ME002", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erro ao salvar alterações no banco de dados.
+        /// </summary>
+        public static string ME003 {
+            get {
+                return ResourceManager.GetString("ME003", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login com a combinação Email/senha é invalida.
+        /// </summary>
+        public static string ME004 {
+            get {
+                return ResourceManager.GetString("ME004", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Falha no registro de usuário.
+        /// </summary>
+        public static string ME005 {
+            get {
+                return ResourceManager.GetString("ME005", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login efetuado com sucesso.
         /// </summary>
         public static string MS001 {
             get {
                 return ResourceManager.GetString("MS001", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Senha redefinida com sucesso.
+        /// </summary>
+        public static string MS002 {
+            get {
+                return ResourceManager.GetString("MS002", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registrado com sucesso.
+        /// </summary>
+        public static string MS003 {
+            get {
+                return ResourceManager.GetString("MS003", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email inválido.
+        /// </summary>
+        public static string MV001 {
+            get {
+                return ResourceManager.GetString("MV001", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Senha inválida.
+        /// </summary>
+        public static string MV002 {
+            get {
+                return ResourceManager.GetString("MV002", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Endereço de email já existente.
+        /// </summary>
+        public static string MV003 {
+            get {
+                return ResourceManager.GetString("MV003", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username já existente.
+        /// </summary>
+        public static string MV004 {
+            get {
+                return ResourceManager.GetString("MV004", resourceCulture);
             }
         }
     }

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MatchDayApp.Application.Models.Auth;
+using MatchDayApp.Domain.Entities;
 
 namespace MatchDayApp.Application.Mapper
 {
@@ -6,6 +8,7 @@ namespace MatchDayApp.Application.Mapper
     {
         public ViewModelToDomainMappingProfile()
         {
+            CreateMap<RegisterModel, User>().ReverseMap();
         }
     }
 }

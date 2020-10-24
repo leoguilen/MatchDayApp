@@ -1,8 +1,6 @@
 ﻿using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Domain.Repository;
 using MatchDayApp.Infra.Data.Data;
-using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Infra.Data.Repositories
@@ -20,29 +18,14 @@ namespace MatchDayApp.Infra.Data.Repositories
             _context = context;
         }
 
-        public ISoccerCourtRepository SoccerCourtRepository => _soccerCourt ??= new SoccerCourtRepository(_context);
-        public ITeamRepository TeamRepository => _team ??= new TeamRepository(_context);
-        public IUserRepository UserRepository => _user ??= new UserRepository(_context);
-        public IScheduleMatchRepository ScheduleMatchRepository => _match ??= new ScheduleMatchRepository(_context);
+        public ISoccerCourtRepository SoccerCourts => _soccerCourt ??= new SoccerCourtRepository(_context);
+        public ITeamRepository Teams => _team ??= new TeamRepository(_context);
+        public IUserRepository Users => _user ??= new UserRepository(_context);
+        public IScheduleMatchRepository ScheduleMatches => _match ??= new ScheduleMatchRepository(_context);
 
-        public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
+        public async Task<int> CommitAsync()
         {
-            int status = 0;
-
-            using var dbContextTransaction =
-                await _context.Database
-                    .BeginTransactionAsync(cancellationToken);
-            try
-            {
-                status = await _context.SaveChangesAsync();
-                await dbContextTransaction.CommitAsync();
-            }
-            catch
-            {
-                await dbContextTransaction.RollbackAsync();
-            }
-
-            return status;
+            return await _context.SaveChangesAsync();
         }
     }
 }

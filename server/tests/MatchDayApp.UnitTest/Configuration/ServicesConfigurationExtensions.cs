@@ -28,7 +28,8 @@ namespace MatchDayApp.UnitTest.Configuration
                     ConfirmedEmail = true,
                     Password = SecurePasswordHasher.GenerateHash("test123", salt),
                     Salt = salt,
-                    UserType = UserType.SoccerCourtOwner
+                    UserType = UserType.SoccerCourtOwner,
+                    Deleted = true
                 },
                 new User
                 {

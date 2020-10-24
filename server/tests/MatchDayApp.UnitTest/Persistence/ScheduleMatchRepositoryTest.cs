@@ -15,7 +15,7 @@ using Xunit.Extensions.Ordering;
 
 namespace MatchDayApp.UnitTest.Persistence
 {
-    [Trait("Repository", "ScheduleMatch")]
+    [Trait("Repositories", "ScheduleMatch")]
     public class ScheduleMatchRepositoryTest
     {
         private readonly MatchDayAppContext _memoryDb;

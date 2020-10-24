@@ -26,5 +26,12 @@ namespace MatchDayApp.Infra.Data.Repositories
                 .Include(u => u.UserTeam.Team)
                 .SingleOrDefaultAsync(u => u.Id == id);
         }
+
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await Entities
+                .Include(u => u.UserTeam.Team)
+                .SingleOrDefaultAsync(u => u.Email.Contains(email));
+        }
     }
 }

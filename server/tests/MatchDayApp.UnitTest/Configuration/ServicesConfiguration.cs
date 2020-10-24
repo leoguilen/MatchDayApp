@@ -1,8 +1,12 @@
-﻿using MatchDayApp.Infra.Data.Data;
+﻿using AutoMapper;
+using MatchDayApp.Application.Interfaces;
+using MatchDayApp.Infra.Data.Data;
+using MatchDayApp.Infra.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
 
 namespace MatchDayApp.UnitTest.Configuration
 {
@@ -20,6 +24,9 @@ namespace MatchDayApp.UnitTest.Configuration
                 .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .EnableSensitiveDataLogging()
                 .EnableServiceProviderCaching(false));
+
+            serviceProvider.AddSingleton<IUnitOfWork, UnitOfWork>();
+            serviceProvider.AddAutoMapper(Assembly.Load("MatchDayApp.Application"));
 
             return serviceProvider
                 .BuildServiceProvider();

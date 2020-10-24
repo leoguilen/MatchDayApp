@@ -227,5 +227,25 @@ namespace MatchDayApp.UnitTest.Persistence
             deletedUser.Should().BeNull();
             _memoryDb.Users.Should().HaveCount(2);
         }
+
+        [Fact, Order(12)]
+        public async Task GetByEmailAsync_User_OneUserWithSameEmail()
+        {
+            var user = await _userRepository
+                .GetByEmailAsync("test1@email.com");
+
+            user.Should().BeEquivalentTo(_expectedUser, options =>
+                options.ExcludingMissingMembers());
+            user.UserTeam.Team.Name.Should().Be("Team 1");
+        }
+
+        [Fact, Order(13)]
+        public async Task GetByEmailAsync_User_NullWithEmailNotRegistered()
+        {
+            var user = await _userRepository
+                .GetByEmailAsync(new Faker().Person.Email);
+
+            user.Should().BeNull();
+        }
     }
 }

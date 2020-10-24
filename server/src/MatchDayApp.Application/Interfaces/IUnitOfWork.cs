@@ -1,15 +1,14 @@
 ﻿using MatchDayApp.Domain.Repository;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Application.Interfaces
 {
     public interface IUnitOfWork
     {
-        public ISoccerCourtRepository SoccerCourtRepository { get; }
-        public ITeamRepository TeamRepository { get; }
-        public IUserRepository UserRepository { get; }
-        public IScheduleMatchRepository ScheduleMatchRepository { get; }
-        Task<int> CommitAsync(CancellationToken cancellationToken = default);
+        public ISoccerCourtRepository SoccerCourts { get; }
+        public ITeamRepository Teams { get; }
+        public IUserRepository Users { get; }
+        public IScheduleMatchRepository ScheduleMatches { get; }
+        Task<int> CommitAsync();
     }
 }

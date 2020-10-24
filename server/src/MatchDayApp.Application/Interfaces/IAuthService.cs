@@ -7,7 +7,6 @@ namespace MatchDayApp.Application.Interfaces
     public interface IAuthService
     {
         Task<AuthenticationResult> LoginAsync(LoginModel login);
-        Task<AuthenticationResult> ForgotPasswordAsync(string email);
         Task<AuthenticationResult> RegisterAsync(RegisterModel register);
         Task<AuthenticationResult> ResetPasswordAsync(ResetPasswordModel resetPassword);
     }

@@ -8,7 +8,7 @@ namespace MatchDayApp.Application.Services
 {
     public class AuthService : IAuthService
     {
-        public Task<AuthenticationResult> ForgotPasswordAsync(string email)
+        public Task<AuthenticationResult> ResetPasswordAsync(string email)
         {
             throw new NotImplementedException();
         }
