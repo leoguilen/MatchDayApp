@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using MatchDayApp.Application.Interfaces;
+using MatchDayApp.Domain.Configuration;
 using MatchDayApp.Infra.Data.Data;
 using MatchDayApp.Infra.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Reflection;
+using System.Text;
 
 namespace MatchDayApp.UnitTest.Configuration
 {
@@ -27,6 +30,23 @@ namespace MatchDayApp.UnitTest.Configuration
 
             serviceProvider.AddSingleton<IUnitOfWork, UnitOfWork>();
             serviceProvider.AddAutoMapper(Assembly.Load("MatchDayApp.Application"));
+
+            var jwtOptions = new JwtOptions
+            {
+                Secret = "9ce891b219b6fb5b0088e3e05e05baf5",
+                TokenLifetime = TimeSpan.FromMinutes(5)
+            };
+
+            serviceProvider.AddSingleton(jwtOptions);
+            serviceProvider.AddSingleton(new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret)),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                RequireExpirationTime = true,
+                ValidateLifetime = true
+            });
 
             return serviceProvider
                 .BuildServiceProvider();

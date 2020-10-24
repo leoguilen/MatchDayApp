@@ -2,10 +2,10 @@
 using Bogus;
 using FluentAssertions;
 using MatchDayApp.Application.Interfaces;
-using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Models.Auth;
+using MatchDayApp.Application.Services;
 using MatchDayApp.Domain.Common.Helpers;
-using MatchDayApp.Domain.Entities;
+using MatchDayApp.Domain.Configuration;
 using MatchDayApp.Domain.Resources;
 using MatchDayApp.Infra.Data.Data;
 using MatchDayApp.UnitTest.Configuration;
@@ -35,7 +35,8 @@ namespace MatchDayApp.UnitTest.Services
                 .GetRequiredService<IUnitOfWork>();
 
             _authService = new AuthService(_uow,
-                configServices.GetRequiredService<IMapper>());
+                configServices.GetRequiredService<IMapper>(),
+                configServices.GetService<JwtOptions>());
         }
 
         #region Reset Password
@@ -92,7 +93,6 @@ namespace MatchDayApp.UnitTest.Services
 
             authResult.Message.Should().Be(Dictionary.MS002);
             authResult.Success.Should().BeTrue();
-            authResult.User.Email.Should().Be(resetPasswordModel.Email);
 
             var userWithResetedPassword = await _uow.Users
                 .GetByEmailAsync(resetPasswordModel.Email);
@@ -173,13 +173,14 @@ namespace MatchDayApp.UnitTest.Services
 
             authResult.Message.Should().Be(Dictionary.MS001);
             authResult.Success.Should().BeTrue();
+            authResult.Token.Should().NotBeNullOrEmpty();
             authResult.User.Email.Should().Be(loginModel.Email);
         }
 
         #endregion
 
         #region Register
-        
+
         [Fact]
         public async Task RegisterAsync_AuthenticationResult_ErrorIfEmailAlreadyExists()
         {
@@ -243,6 +244,7 @@ namespace MatchDayApp.UnitTest.Services
 
             authResult.Message.Should().Be(Dictionary.MS003);
             authResult.Success.Should().BeTrue();
+            authResult.Token.Should().NotBeNullOrEmpty();
             authResult.User.Email.Should().Be(registerModel.Email);
 
             var insertedUser = await _uow.Users
@@ -255,127 +257,5 @@ namespace MatchDayApp.UnitTest.Services
         }
 
         #endregion
-    }
-
-    public class AuthService : IAuthService
-    {
-        private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
-
-        public AuthService(IUnitOfWork uow, IMapper mapper)
-        {
-            _uow = uow;
-            _mapper = mapper;
-        }
-
-        public async Task<AuthenticationResult> LoginAsync(LoginModel login)
-        {
-            var user = await _uow.Users
-                .GetByEmailAsync(login.Email);
-
-            if(user == null || user.Deleted)
-            {
-                return new AuthenticationResult
-                {
-                    Message = Dictionary.ME004,
-                    Success = false,
-                    Errors = new[] { Dictionary.MV001 }
-                };
-            }
-
-            if(!SecurePasswordHasher.AreEqual(
-                login.Password,user.Password,user.Salt))
-            {
-                return new AuthenticationResult
-                {
-                    Message = Dictionary.ME004,
-                    Success = false,
-                    Errors = new[] { Dictionary.MV002 }
-                };
-            }
-
-            return new AuthenticationResult
-            {
-                Message = Dictionary.MS001,
-                Success = true,
-                User = _mapper.Map<UserModel>(user)
-            };
-
-            // Retornar Token
-        }
-
-        public async Task<AuthenticationResult> RegisterAsync(RegisterModel register)
-        {
-            var existsEmail = await _uow.Users
-                .GetByEmailAsync(register.Email);
-
-            if(existsEmail != null)
-            {
-                return new AuthenticationResult
-                {
-                    Message = Dictionary.ME005,
-                    Success = false,
-                    Errors = new[] { Dictionary.MV003 }
-                };
-            }
-
-            var existsUsername = await _uow.Users
-                .GetAsync(u => u.Username.Contains(register.UserName));
-
-            if(existsUsername.Any())
-            {
-                return new AuthenticationResult
-                {
-                    Message = Dictionary.ME005,
-                    Success = false,
-                    Errors = new[] { Dictionary.MV004 }
-                };
-            }
-
-            string salt = SecurePasswordHasher.CreateSalt(8);
-            string hashedPassword = SecurePasswordHasher.GenerateHash(register.Password, salt);
-
-            var newUser = _mapper.Map<User>(register);
-
-            newUser.Salt = salt;
-            newUser.Password = hashedPassword;
-
-            await _uow.Users.AddRangeAsync(new User[] { newUser });
-            
-            return new AuthenticationResult
-            {
-                Message = Dictionary.MS003,
-                Success = true,
-                User = _mapper.Map<UserModel>(newUser)
-            };
-        }
-
-        public async Task<AuthenticationResult> ResetPasswordAsync(ResetPasswordModel resetPassword)
-        {
-            var user = await _uow.Users
-                .GetByEmailAsync(resetPassword.Email);
-
-            if (user == null || user.Deleted)
-            {
-                return new AuthenticationResult
-                {
-                    Message = Dictionary.ME001,
-                    Success = false,
-                };
-            }
-
-            user.Salt = SecurePasswordHasher.CreateSalt(8);
-            user.Password = SecurePasswordHasher
-                .GenerateHash(resetPassword.Password, user.Salt);
-
-            await _uow.Users.SaveAsync(user);
-
-            return new AuthenticationResult
-            {
-                Message = Dictionary.MS002,
-                Success = true,
-                User = _mapper.Map<UserModel>(user)
-            };
-        }
     }
 }
