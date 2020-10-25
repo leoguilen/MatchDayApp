@@ -9,6 +9,7 @@ namespace MatchDayApp.Application.Mapper
         public DomainToViewModelMappingProfile()
         {
             CreateMap<User, UserModel>().ReverseMap();
+            CreateMap<Team, TeamModel>().ReverseMap();
         }
     }
 }

@@ -7,10 +7,10 @@ namespace MatchDayApp.Application.Interfaces
 {
     public interface ITeamService
     {
-        Task<IReadOnlyCollection<TeamModel>> GetTeamsListAsync();
+        Task<IReadOnlyList<TeamModel>> GetTeamsListAsync();
         Task<TeamModel> GetTeamByIdAsync(Guid teamId);
         Task<bool> AddTeamAsync(TeamModel team);
-        Task<bool> UpdateTeamAsync(TeamModel team);
+        Task<bool> UpdateTeamAsync(Guid teamId, TeamModel teamModel);
         Task<bool> DeleteTeamAsync(Guid teamId);
     }
 }
