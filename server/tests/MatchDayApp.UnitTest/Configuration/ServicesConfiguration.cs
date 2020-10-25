@@ -36,6 +36,7 @@ namespace MatchDayApp.UnitTest.Configuration
             serviceProvider.AddTransient<IAuthService, AuthService>();
             serviceProvider.AddTransient<IUserService, UserService>();
             serviceProvider.AddTransient<ITeamService, TeamService>();
+            serviceProvider.AddTransient<ISoccerCourtService, SoccerCourtService>();
 
             var jwtOptions = new JwtOptions
             {

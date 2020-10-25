@@ -10,6 +10,7 @@ namespace MatchDayApp.Application.Mapper
         {
             CreateMap<User, UserModel>().ReverseMap();
             CreateMap<Team, TeamModel>().ReverseMap();
+            CreateMap<SoccerCourt, SoccerCourtModel>().ReverseMap();
         }
     }
 }

@@ -1,36 +1,79 @@
-﻿using MatchDayApp.Application.Interfaces;
+﻿using AutoMapper;
+using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Application.Models;
+using MatchDayApp.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Application.Services
 {
     public class SoccerCourtService : ISoccerCourtService
     {
-        public Task<bool> AddSoccerCourtAsync(SoccerCourtModel soccerCourt)
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
+
+        public SoccerCourtService(IUnitOfWork uow, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _uow = uow ?? throw new ArgumentNullException(nameof(uow));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public Task<bool> DeleteTeamAsync(Guid soccerCourtId)
+        public async Task<bool> AddSoccerCourtAsync(SoccerCourtModel soccerCourt)
         {
-            throw new NotImplementedException();
+            var newSoccerCourt = _mapper.Map<SoccerCourt>(soccerCourt);
+
+            var cmdResult = await _uow.SoccerCourts
+                .AddRangeAsync(new[] { newSoccerCourt });
+
+            return cmdResult.Any();
         }
 
-        public Task<SoccerCourtModel> GetSoccerCourtByIdAsync(Guid soccerCourtId)
+        public async Task<bool> DeleteSoccerCourtAsync(Guid soccerCourtId)
         {
-            throw new NotImplementedException();
+            var soccerCourt = await _uow.SoccerCourts
+                .GetByIdAsync(soccerCourtId);
+
+            if (soccerCourt != null)
+            {
+                await _uow.SoccerCourts.DeleteAsync(soccerCourt);
+                return true;
+            }
+
+            return false;
         }
 
-        public Task<IReadOnlyCollection<SoccerCourtModel>> GetSoccerCourtsListAsync()
+        public async Task<SoccerCourtModel> GetSoccerCourtByIdAsync(Guid soccerCourtId)
         {
-            throw new NotImplementedException();
+            var soccerCourt = await _uow.SoccerCourts.GetByIdAsync(soccerCourtId);
+            return _mapper.Map<SoccerCourtModel>(soccerCourt);
         }
 
-        public Task<bool> UpdateTeamAsync(SoccerCourtModel soccerCourt)
+        public async Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsListAsync()
         {
-            throw new NotImplementedException();
+            var soccerCourts = await _uow.SoccerCourts.ListAllAsync();
+            return _mapper.Map<IReadOnlyList<SoccerCourtModel>>(soccerCourts);
+        }
+
+        public async Task<bool> UpdateSoccerCourtAsync(Guid soccerCourtId, SoccerCourtModel soccerCourtModel)
+        {
+            var soccerCourt = await _uow.SoccerCourts
+                .GetByIdAsync(soccerCourtId);
+
+            if (soccerCourt != null)
+            {
+                soccerCourt.Name = soccerCourtModel.Name ?? soccerCourt.Name;
+                soccerCourt.Image = soccerCourtModel.Image ?? soccerCourt.Image;
+                soccerCourt.Phone = soccerCourtModel.Phone ?? soccerCourt.Phone;
+                soccerCourt.Address = soccerCourtModel.Address ?? soccerCourt.Address;
+                soccerCourt.Cep = soccerCourtModel.Cep ?? soccerCourt.Cep;
+
+                await _uow.SoccerCourts.SaveAsync(soccerCourt);
+                return true;
+            }
+
+            return false;
         }
     }
 }

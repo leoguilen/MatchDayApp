@@ -7,10 +7,10 @@ namespace MatchDayApp.Application.Interfaces
 {
     public interface ISoccerCourtService
     {
-        Task<IReadOnlyCollection<SoccerCourtModel>> GetSoccerCourtsListAsync();
+        Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsListAsync();
         Task<SoccerCourtModel> GetSoccerCourtByIdAsync(Guid soccerCourtId);
         Task<bool> AddSoccerCourtAsync(SoccerCourtModel soccerCourt);
-        Task<bool> UpdateTeamAsync(SoccerCourtModel soccerCourt);
-        Task<bool> DeleteTeamAsync(Guid soccerCourtId);
+        Task<bool> UpdateSoccerCourtAsync(Guid soccerCourtId, SoccerCourtModel soccerCourt);
+        Task<bool> DeleteSoccerCourtAsync(Guid soccerCourtId);
     }
 }
