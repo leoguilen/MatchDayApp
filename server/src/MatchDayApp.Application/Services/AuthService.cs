@@ -19,9 +19,9 @@ namespace MatchDayApp.Application.Services
 
         public AuthService(IUnitOfWork uow, IMapper mapper, JwtOptions jwtOptions)
         {
-            _uow = uow;
-            _mapper = mapper;
-            _jwtOptions = jwtOptions;
+            _uow = uow ?? throw new System.ArgumentNullException(nameof(uow));
+            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
+            _jwtOptions = jwtOptions ?? throw new System.ArgumentNullException(nameof(jwtOptions));
         }
 
         public async Task<AuthenticationResult> LoginAsync(LoginModel login)

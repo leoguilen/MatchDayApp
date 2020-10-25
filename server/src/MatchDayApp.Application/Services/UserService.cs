@@ -1,4 +1,5 @@
-﻿using MatchDayApp.Application.Interfaces;
+﻿using AutoMapper;
+using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Application.Models;
 using System;
 using System.Collections.Generic;
@@ -8,29 +9,81 @@ namespace MatchDayApp.Application.Services
 {
     public class UserService : IUserService
     {
-        public Task<bool> DeleteUserAsync(Guid userId)
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
+
+        public UserService(IUnitOfWork uow, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _uow = uow ?? throw new ArgumentNullException(nameof(uow));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public Task<UserModel> GetUserByEmailAsync(string userEmail)
+        public async Task<bool> DeleteUserAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            var user = await _uow.Users
+                .GetByIdAsync(userId);
+
+            if (user != null)
+            {
+                user.Deleted = true;
+                await _uow.Users.SaveAsync(user);
+                return true;
+            }
+
+            return false;
         }
 
-        public Task<UserModel> GetUserByIdAsync(Guid userId)
+        public async Task<UserModel> GetUserByEmailAsync(string userEmail)
         {
-            throw new NotImplementedException();
+            var user = await _uow.Users
+                .GetByEmailAsync(userEmail);
+
+            if (user != null)
+            {
+                return _mapper.Map<UserModel>(user);
+            }
+
+            return null;
         }
 
-        public Task<IReadOnlyCollection<UserModel>> GetUsersListAsync()
+        public async Task<UserModel> GetUserByIdAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            var user = await _uow.Users
+                .GetByIdAsync(userId);
+
+            if (user != null)
+            {
+                return _mapper.Map<UserModel>(user);
+            }
+
+            return null;
         }
 
-        public Task<bool> UpdateUserAsync(UserModel user)
+        public async Task<IReadOnlyList<UserModel>> GetUsersListAsync()
         {
-            throw new NotImplementedException();
+            var users = await _uow.Users.ListAllAsync();
+            return _mapper.Map<IReadOnlyList<UserModel>>(users);
+        }
+
+        public async Task<bool> UpdateUserAsync(UserModel userModel)
+        {
+            var user = await _uow.Users
+                .GetByEmailAsync(userModel.Email);
+
+            if (user != null)
+            {
+                user.FirstName = userModel.FirstName ?? user.FirstName;
+                user.LastName = userModel.LastName ?? user.LastName;
+                user.Email = userModel.Email ?? user.Email;
+                user.Username = userModel.Username ?? user.Username;
+                user.UserType = userModel.UserType;
+                user.Avatar = userModel.Avatar ?? user.Avatar;
+
+                await _uow.Users.SaveAsync(user);
+                return true;
+            }
+
+            return false;
         }
     }
 }

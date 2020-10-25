@@ -7,7 +7,7 @@ namespace MatchDayApp.Application.Interfaces
 {
     public interface IUserService
     {
-        Task<IReadOnlyCollection<UserModel>> GetUsersListAsync();
+        Task<IReadOnlyList<UserModel>> GetUsersListAsync();
         Task<UserModel> GetUserByIdAsync(Guid userId);
         Task<UserModel> GetUserByEmailAsync(string userEmail);
         Task<bool> UpdateUserAsync(UserModel user);

@@ -8,7 +8,6 @@
     <Folder Include="Commands\ScheduleMatch\" />
     <Folder Include="Commands\SoccerCourt\" />
     <Folder Include="Commands\Team\" />
-    <Folder Include="Commands\User\" />
   </ItemGroup>
 
   <ItemGroup>

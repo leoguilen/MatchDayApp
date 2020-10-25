@@ -34,6 +34,7 @@ namespace MatchDayApp.UnitTest.Configuration
             serviceProvider.AddSingleton<IUnitOfWork, UnitOfWork>();
             serviceProvider.AddAutoMapper(Assembly.Load("MatchDayApp.Application"));
             serviceProvider.AddTransient<IAuthService, AuthService>();
+            serviceProvider.AddTransient<IUserService, UserService>();
 
             var jwtOptions = new JwtOptions
             {

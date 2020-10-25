@@ -16,7 +16,7 @@ namespace MatchDayApp.Application.Handlers
         
         public AuthenticationHandler(IAuthService authService)
         {
-            _authService = authService;
+            _authService = authService ?? throw new System.ArgumentNullException(nameof(authService));
         }
 
         public async Task<AuthenticationResult> Handle(LoginCommand request, CancellationToken cancellationToken)
