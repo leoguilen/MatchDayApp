@@ -9,7 +9,6 @@
     <Folder Include="Commands\SoccerCourt\" />
     <Folder Include="Commands\Team\" />
     <Folder Include="Commands\User\" />
-	<Folder Include="Events\" />
   </ItemGroup>
 
   <ItemGroup>

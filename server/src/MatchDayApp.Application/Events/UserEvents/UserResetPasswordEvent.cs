@@ -3,7 +3,7 @@ using System;
 
 namespace MatchDayApp.Application.Events.UserEvents
 {
-    public class UserRegisteredEvent : INotification
+    public class UserResetPasswordEvent : INotification
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

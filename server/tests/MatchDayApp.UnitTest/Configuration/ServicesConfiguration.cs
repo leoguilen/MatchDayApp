@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using MatchDayApp.Application.Commands.Auth;
 using MatchDayApp.Application.Interfaces;
+using MatchDayApp.Application.Services;
 using MatchDayApp.Domain.Configuration;
 using MatchDayApp.Infra.Data.Data;
 using MatchDayApp.Infra.Data.Repositories;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +33,7 @@ namespace MatchDayApp.UnitTest.Configuration
 
             serviceProvider.AddSingleton<IUnitOfWork, UnitOfWork>();
             serviceProvider.AddAutoMapper(Assembly.Load("MatchDayApp.Application"));
+            serviceProvider.AddTransient<IAuthService, AuthService>();
 
             var jwtOptions = new JwtOptions
             {
@@ -47,6 +51,8 @@ namespace MatchDayApp.UnitTest.Configuration
                 RequireExpirationTime = true,
                 ValidateLifetime = true
             });
+
+            serviceProvider.AddMediatR(Assembly.Load("MatchDayApp.Application"));
 
             return serviceProvider
                 .BuildServiceProvider();
