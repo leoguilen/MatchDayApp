@@ -11,6 +11,8 @@ namespace MatchDayApp.Application.Mapper
             CreateMap<User, UserModel>().ReverseMap();
             CreateMap<Team, TeamModel>().ReverseMap();
             CreateMap<SoccerCourt, SoccerCourtModel>().ReverseMap();
+            CreateMap<ScheduleMatch, ScheduleMatchModel>().ReverseMap()
+                .ForMember(sc => sc.Date, prop => prop.MapFrom(scm => scm.MatchDate));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MatchDayApp.Domain.Entities;
 using MatchDayApp.Domain.Repository;
+using MatchDayApp.Domain.Specification.Base;
 using MatchDayApp.Infra.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,7 +28,7 @@ namespace MatchDayApp.Infra.Data.Repositories
 
         public async Task<bool> UpdateMatchAsync(ScheduleMatch match)
         {
-            var cmdResult = _context.ScheduleMatches.Update(match);
+            var cmdResult = await Task.FromResult(_context.ScheduleMatches.Update(match));
             return cmdResult.State == EntityState.Modified;
         }
 
@@ -35,6 +36,16 @@ namespace MatchDayApp.Infra.Data.Repositories
         {
             return await _context.ScheduleMatches
                 .Where(predicate)
+                .Include(prop => prop.FirstTeam)
+                .Include(prop => prop.SecondTeam)
+                .Include(prop => prop.SoccerCourt)
+                .ToListAsync();
+        }
+
+        public async Task<IReadOnlyList<ScheduleMatch>> GetAsync(ISpecification<ScheduleMatch> spec)
+        {
+            return await _context.ScheduleMatches
+                .Where(spec.Criteria)
                 .Include(prop => prop.FirstTeam)
                 .Include(prop => prop.SecondTeam)
                 .Include(prop => prop.SoccerCourt)

@@ -7,7 +7,8 @@ namespace MatchDayApp.Application.Interfaces
 {
     public interface IScheduleMatchService
     {
-        Task<IReadOnlyCollection<ScheduleMatchModel>> GetScheduledMatchesListAsync();
+        Task<IReadOnlyList<ScheduleMatchModel>> GetScheduledMatchesListAsync();
+        Task<ScheduleMatchModel> GetScheduledMatchByIdAsync(Guid matchId);
         Task<IEnumerable<ScheduleMatchModel>> GetScheduledMatchsByTeamIdAsync(Guid teamId);
         Task<IEnumerable<ScheduleMatchModel>> GetScheduledMatchsBySoccerCourtIdAsync(Guid soccerCourtId);
         Task<bool> ScheduleMatchAsync(ScheduleMatchModel scheduleMatch);

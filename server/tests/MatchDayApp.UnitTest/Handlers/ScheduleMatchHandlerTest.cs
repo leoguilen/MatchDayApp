@@ -1,0 +1,161 @@
+﻿using Bogus;
+using FluentAssertions;
+using MatchDayApp.Application.Commands.ScheduleMatch;
+using MatchDayApp.Application.Models;
+using MatchDayApp.Application.Queries.ScheduleMatch;
+using MatchDayApp.Infra.Data.Data;
+using MatchDayApp.UnitTest.Configuration;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
+
+namespace MatchDayApp.UnitTest.Handlers
+{
+    [Trait("Handler", "ScheduleMatch")]
+    public class ScheduleMatchHandlerTest
+    {
+        private readonly IMediator _mediator;
+        private readonly MatchDayAppContext _memoryDb;
+        private readonly Guid _matchId;
+
+        public ScheduleMatchHandlerTest()
+        {
+            var cfg = ServicesConfiguration.Configure();
+
+            _memoryDb = cfg.GetRequiredService<MatchDayAppContext>()
+                .SeedFakeData();
+
+            _mediator = cfg.GetRequiredService<IMediator>();
+            _matchId = _memoryDb.ScheduleMatches.Last().Id;
+        }
+
+        [Fact]
+        public async Task Handle_ScheduleMatchHandler_GetAllMatches()
+        {
+            var getMatchesQuery = new GetMatchesQuery { };
+
+            var matchesResult = await _mediator.Send(getMatchesQuery);
+
+            matchesResult.Should().HaveCount(5);
+        }
+
+        [Fact]
+        public async Task Handle_ScheduleMatchHandler_GetMatchById()
+        {
+            var getMatchByIdQuery = new GetMatchByIdQuery
+            {
+                MatchId = _matchId
+            };
+
+            var matchResult = await _mediator.Send(getMatchByIdQuery);
+
+            matchResult.MatchDate.Should()
+                .Be(DateTime.Parse("18/10/2020 17:00:00"));
+        }
+
+        [Fact]
+        public async Task Handle_ScheduleMatchHandler_GetMatchesBySoccerCourtId()
+        {
+            var getMatchesBySoccerCourtIdQuery = new GetMatchesBySoccerCourtIdQuery
+            {
+                SoccerCourtId = _memoryDb.SoccerCourts.First().Id
+            };
+
+            var matchesResult = await _mediator.Send(getMatchesBySoccerCourtIdQuery);
+
+            matchesResult.Should().HaveCount(1);
+            matchesResult.First().MatchDate.Should()
+                .Be(DateTime.Parse("16/10/2020 20:00:00"));
+        }
+
+        [Fact]
+        public async Task Handle_ScheduleMatchHandler_GetMatchesByTeamId()
+        {
+            var getMatchesByTeamIdQuery = new GetMatchesByTeamIdQuery
+            {
+                TeamId = _memoryDb.Teams.ToList()[1].Id
+            };
+
+            var matchesResult = await _mediator.Send(getMatchesByTeamIdQuery);
+
+            matchesResult.Should().HaveCount(4);
+        }
+
+        [Fact]
+        public async Task Handle_ScheduleMatchHandler_ScheduledNewMatch()
+        {
+            var faker = new Faker("pt_BR");
+            var scheduleMatchCommand = new ScheduleMatchCommand
+            {
+                Match = new ScheduleMatchModel
+                {
+                    FirstTeam = new TeamModel
+                    {
+                        Name = faker.Company.CompanyName(),
+                        TotalPlayers = faker.Random.Int(12, 20),
+                        Image = faker.Image.PicsumUrl(),
+                        OwnerUserId = _memoryDb.Users.Last().Id
+                    },
+                    SecondTeam = new TeamModel
+                    {
+                        Name = faker.Company.CompanyName(),
+                        TotalPlayers = faker.Random.Int(12, 20),
+                        Image = faker.Image.PicsumUrl(),
+                        OwnerUserId = _memoryDb.Users.First().Id
+                    },
+                    SoccerCourt = new SoccerCourtModel
+                    {
+                        Name = faker.Company.CompanyName(),
+                        Image = faker.Image.PicsumUrl(),
+                        HourPrice = faker.Random.Decimal(90, 130),
+                        Phone = faker.Phone.PhoneNumber("(##) ####-####"),
+                        Address = faker.Address.FullAddress(),
+                        Cep = faker.Address.ZipCode("#####-###"),
+                        Latitude = faker.Address.Latitude(),
+                        Longitude = faker.Address.Longitude(),
+                        OwnerUserId = _memoryDb.Users.ToList()[1].Id
+                    },
+                    FirstTeamConfirmed = true,
+                    SecondTeamConfirmed = false,
+                    MatchTime = 1,
+                    MatchDate = faker.Date.Recent()
+                }
+            };
+
+            var cmdResult = await _mediator.Send(scheduleMatchCommand);
+
+            cmdResult.Should().BeTrue();
+            _memoryDb.ScheduleMatches.Should().HaveCount(6);
+        }
+
+        [Fact]
+        public async Task Handle_ScheduleMatchHandler_ConfirmedMatch()
+        {
+            var confirmMatchCommand = new ConfirmMatchCommand
+            {
+                TeamId = _memoryDb.Teams.Last().Id,
+                MatchId = _matchId
+            };
+
+            var cmdResult = await _mediator.Send(confirmMatchCommand);
+
+            cmdResult.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Handle_ScheduleMatchHandler_UncheckedMatch()
+        {
+            var uncheckMatchCommand = new UncheckMatchCommand
+            {
+                MatchId = _matchId
+            };
+
+            var cmdResult = await _mediator.Send(uncheckMatchCommand);
+
+            cmdResult.Should().BeTrue();
+        }
+    }
+}
