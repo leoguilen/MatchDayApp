@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.AspNetCore;
+using MatchDayApp.Application.Behaviours;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
 {
@@ -8,7 +12,10 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
         public static void AddDefaultApiDependency(this IServiceCollection services)
         {
             // Add Mvc
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddFluentValidation(opt => 
+                    opt.RegisterValidatorsFromAssemblyContaining(Assembly.Load("MatchDayApp.Contract").GetType()));
             services.AddMvc(opt => opt.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
@@ -22,6 +29,16 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
             {
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
+            });
+
+            services.AddHttpContextAccessor();
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
             });
         }
     }
