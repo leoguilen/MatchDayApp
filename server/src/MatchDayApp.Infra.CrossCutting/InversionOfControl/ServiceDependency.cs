@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Application.Services;
+using MatchDayApp.Infra.CrossCutting.Services;
+using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +14,7 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
     {
         public static void AddServiceDependency(this IServiceCollection services, IConfiguration configuration)
         {
+            // Application Services
             services.AddAutoMapper(Assembly.Load("MatchDayApp.Application"));
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IUserService, UserService>();
@@ -19,6 +22,13 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
             services.AddTransient<ISoccerCourtService, SoccerCourtService>();
             services.AddTransient<IScheduleMatchService, ScheduleMatchService>();
             services.AddMediatR(Assembly.Load("MatchDayApp.Application"));
+
+            // App Services
+            services.AddTransient<IAuthAppService, AuthAppService>();
+            services.AddTransient<IUserAppService, UserAppService>();
+            services.AddTransient<ITeamAppService, TeamAppService>();
+            services.AddTransient<ISoccerCourtAppService, SoccerCourtAppService>();
+            services.AddTransient<IScheduleMatchAppService, ScheduleMatchAppService>();
         }
     }
 }
