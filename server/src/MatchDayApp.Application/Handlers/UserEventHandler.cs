@@ -8,15 +8,8 @@ namespace MatchDayApp.Application.Handlers
     public class UserEventHandler :
         INotificationHandler<UserRegisteredEvent>,
         INotificationHandler<UserResetPasswordEvent>,
-        INotificationHandler<UserDeletedEvent>,
-        INotificationHandler<UserUpdatedEvent>
+        INotificationHandler<UserDeletedEvent>
     {
-        public Task Handle(UserUpdatedEvent notification, CancellationToken cancellationToken)
-        {
-            //Enviar notificação para usuário
-            return Task.CompletedTask;
-        }
-
         public Task Handle(UserDeletedEvent notification, CancellationToken cancellationToken)
         {
             //Enviar notificação para usuário
