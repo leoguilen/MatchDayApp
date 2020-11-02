@@ -221,5 +221,50 @@ namespace MatchDayApp.Domain.Resources {
                 return ResourceManager.GetString("MV010", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Endereço de email inválido.
+        /// </summary>
+        public static string MV011 {
+            get {
+                return ResourceManager.GetString("MV011", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Username não pode ser nulo ou vazio.
+        /// </summary>
+        public static string MV012 {
+            get {
+                return ResourceManager.GetString("MV012", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Senha não pode ser nula ou vazia.
+        /// </summary>
+        public static string MV013 {
+            get {
+                return ResourceManager.GetString("MV013", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Senha não corresponde a um padrão forte.
+        /// </summary>
+        public static string MV014 {
+            get {
+                return ResourceManager.GetString("MV014", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Confirmação da senha não é igual a senha criada.
+        /// </summary>
+        public static string MV015 {
+            get {
+                return ResourceManager.GetString("MV015", resourceCulture);
+            }
+        }
     }
 }

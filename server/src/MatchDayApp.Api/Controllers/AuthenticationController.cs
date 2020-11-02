@@ -54,5 +54,61 @@ namespace MatchDayApp.Api.Controllers
                 User = result.User
             });
         }
+
+        /// <summary>
+        /// Login user in the system
+        /// </summary>
+        /// <response code="200">user login validated in the system</response>
+        /// <response code="400">An error occurred when try login user in the system</response>
+        [HttpPost(ApiRoutes.Authentication.Login)]
+        [ProducesResponseType(typeof(AuthSuccessResponse), 200)]
+        [ProducesResponseType(typeof(AuthFailedResponse), 400)]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            var result = await _authService.LoginAsync(request);
+
+            if (!result.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Message = result.Message,
+                    Errors = result.Errors
+                });
+            }
+
+            return Ok(new AuthSuccessResponse
+            {
+                Message = result.Message,
+                Token = result.Token,
+                User = result.User
+            });
+        }
+
+        /// <summary>
+        /// Reset user password in the system 
+        /// </summary>
+        /// <response code="200">User password reseted succefully in the system</response>
+        /// <response code="400">An error occurred when try reset user password in the system</response>
+        [HttpPost(ApiRoutes.Authentication.ResetPassword)]
+        [ProducesResponseType(typeof(AuthSuccessResponse), 200)]
+        [ProducesResponseType(typeof(AuthFailedResponse), 400)]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+        {
+            var result = await _authService.ResetPasswordAsync(request);
+
+            if (!result.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Message = result.Message,
+                    Errors = result.Errors
+                });
+            }
+
+            return Ok(new AuthSuccessResponse
+            {
+                Message = result.Message
+            });
+        }
     }
 }

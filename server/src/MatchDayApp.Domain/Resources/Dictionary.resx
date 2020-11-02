@@ -189,4 +189,24 @@
     <value>Ultimo nome não é válido</value>
     <comment>Mensagem de validação de registro com ultimo nome que contenha caracteres especiais ou números</comment>
   </data>
+  <data name="MV011" xml:space="preserve">
+    <value>Endereço de email inválido</value>
+    <comment>Mensagem de validação de registro com email inválido</comment>
+  </data>
+  <data name="MV012" xml:space="preserve">
+    <value>Username não pode ser nulo ou vazio</value>
+    <comment>Mensagem de validação de registro com username não preenchido</comment>
+  </data>
+  <data name="MV013" xml:space="preserve">
+    <value>Senha não pode ser nula ou vazia</value>
+    <comment>Mensagem de validação de registro com senha não preenchida</comment>
+  </data>
+  <data name="MV014" xml:space="preserve">
+    <value>Senha não corresponde a um padrão forte</value>
+    <comment>Mensagem de validação de registro com senha fraca</comment>
+  </data>
+  <data name="MV015" xml:space="preserve">
+    <value>Confirmação da senha não é igual a senha criada</value>
+    <comment>Mensagem de validação de registro com confirmação de senha diferente da senha criada</comment>
+  </data>
 </root>
