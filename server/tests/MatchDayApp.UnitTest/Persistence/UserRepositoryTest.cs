@@ -184,8 +184,8 @@ namespace MatchDayApp.UnitTest.Persistence
         {
             var fakeUsers = _fakeUser.Generate(5);
 
-            fakeUsers.ForEach(u => u.UserTeam = new UserTeam 
-                { UserId = u.Id, TeamId = Guid.NewGuid(), Accepted = true });
+            fakeUsers.ForEach(u => u.UserTeam = new UserTeam
+            { UserId = u.Id, TeamId = Guid.NewGuid(), Accepted = true });
 
             var result = await _userRepository
                 .AddRangeAsync(fakeUsers);

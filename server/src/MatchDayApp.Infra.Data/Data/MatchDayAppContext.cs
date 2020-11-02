@@ -6,12 +6,12 @@ namespace MatchDayApp.Infra.Data.Data
 {
     public class MatchDayAppContext : DbContext
     {
-        public MatchDayAppContext(DbContextOptions<MatchDayAppContext> options) : base(options) 
+        public MatchDayAppContext(DbContextOptions<MatchDayAppContext> options) : base(options)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        public MatchDayAppContext() {}
+        public MatchDayAppContext() { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserTeam> UserTeams { get; set; }

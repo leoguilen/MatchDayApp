@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace MatchDayApp.Domain.Specification.Base
 {
     public interface ISpecification<T>
     {
-        Expression<Func<T, bool>> Criteria { get; set;}
+        Expression<Func<T, bool>> Criteria { get; set; }
 
         List<Expression<Func<T, object>>> Includes { get; }
 

@@ -10,7 +10,7 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
         public static void AddSqlServerDependency(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<MatchDayAppContext>(opt =>
-                opt.UseSqlServer(configuration.GetConnectionString("MatchDayDB"), opt => 
+                opt.UseSqlServer(configuration.GetConnectionString("MatchDayDB"), opt =>
                 {
                     opt.CommandTimeout(180);
                     opt.EnableRetryOnFailure(5);

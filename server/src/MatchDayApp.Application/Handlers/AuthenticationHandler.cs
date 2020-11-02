@@ -13,7 +13,7 @@ namespace MatchDayApp.Application.Handlers
         IRequestHandler<ResetPasswordCommand, AuthenticationResult>
     {
         private readonly IAuthService _authService;
-        
+
         public AuthenticationHandler(IAuthService authService)
         {
             _authService = authService ?? throw new System.ArgumentNullException(nameof(authService));

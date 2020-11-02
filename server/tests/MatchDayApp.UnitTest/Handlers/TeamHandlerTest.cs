@@ -67,7 +67,7 @@ namespace MatchDayApp.UnitTest.Handlers
                 {
                     Name = _faker.Company.CompanyName(),
                     Image = _faker.Image.PicsumUrl(),
-                    TotalPlayers = _faker.Random.Int(10,20),
+                    TotalPlayers = _faker.Random.Int(10, 20),
                     OwnerUserId = _memoryDb.Users.ToList()[1].Id
                 }
             };

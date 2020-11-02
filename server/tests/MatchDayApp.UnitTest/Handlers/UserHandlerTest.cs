@@ -46,7 +46,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_UserHandler_GetUserById()
         {
-            var getUserByIdQuery = new GetUserDetailsByIdQuery 
+            var getUserByIdQuery = new GetUserDetailsByIdQuery
             {
                 Id = _userId
             };

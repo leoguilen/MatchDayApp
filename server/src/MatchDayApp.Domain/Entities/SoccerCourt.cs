@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using MatchDayApp.Domain.Entities.Base;
+﻿using MatchDayApp.Domain.Entities.Base;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MatchDayApp.Domain.Entities
 {

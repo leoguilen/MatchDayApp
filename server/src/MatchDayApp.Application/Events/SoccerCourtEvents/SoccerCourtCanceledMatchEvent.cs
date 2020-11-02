@@ -1,5 +1,4 @@
-﻿using MatchDayApp.Application.Models;
-using MediatR;
+﻿using MediatR;
 using System;
 
 namespace MatchDayApp.Application.Events.SoccerCourtEvents

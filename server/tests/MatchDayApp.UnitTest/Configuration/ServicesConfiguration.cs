@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MatchDayApp.Application.Commands.Auth;
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Application.Services;
 using MatchDayApp.Domain.Configuration;
