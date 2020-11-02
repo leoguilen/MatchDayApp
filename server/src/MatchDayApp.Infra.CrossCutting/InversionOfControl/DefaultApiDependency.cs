@@ -1,10 +1,12 @@
 ﻿using FluentValidation.AspNetCore;
 using MatchDayApp.Application.Behaviours;
+using MatchDayApp.Application.Commands.Auth.Validations;
+using MatchDayApp.Application.Middlewares;
 using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
 {
@@ -12,13 +14,11 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
     {
         public static void AddDefaultApiDependency(this IServiceCollection services)
         {
-            // Add Mvc
-            services
-                .AddControllers()
+            services.AddControllers()
                 .AddFluentValidation(opt =>
-                    opt.RegisterValidatorsFromAssemblyContaining(Assembly.Load("MatchDayApp.Domain").GetType()));
-            services.AddMvc(opt => opt.EnableEndpointRouting = false)
-                .SetCompatibilityVersion(CompatibilityVersion.Latest);
+                    opt.RegisterValidatorsFromAssemblyContaining<RegisterCommandValidator>());
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             // Add versionamento da API
             services.AddApiVersioning(options =>
@@ -32,8 +32,7 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
                 options.SubstituteApiVersionInUrl = true;
             });
 
-            services.AddHttpContextAccessor();
-
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 
@@ -58,6 +57,10 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
                     };
                 };
             });
+        }
+        public static void UseCustomExceptionHandler(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
         }
     }
 }

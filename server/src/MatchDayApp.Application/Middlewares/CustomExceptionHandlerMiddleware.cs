@@ -1,8 +1,7 @@
-﻿using MatchDayApp.Application.Exceptions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -42,9 +41,13 @@ namespace MatchDayApp.Application.Middlewares
 
             switch (exception)
             {
-                case ValidationException validationException:
+                case FluentValidation.ValidationException validationException:
                     code = HttpStatusCode.BadRequest;
-                    result = JsonSerializer.Serialize(validationException.Failures);
+                    result = JsonSerializer.Serialize(new 
+                    {
+                        Errors = validationException
+                            .Errors.Select(e => e.ErrorMessage)
+                    });
                     break;
             }
 
@@ -53,18 +56,14 @@ namespace MatchDayApp.Application.Middlewares
 
             if (result == string.Empty)
             {
-                result = JsonSerializer.Serialize(new { error = exception.Message });
+                result = JsonSerializer.Serialize(new
+                {
+                    error = exception.Message,
+                    stacktrace = exception.StackTrace
+                });
             }
 
             return context.Response.WriteAsync(result);
-        }
-    }
-
-    public static class CustomExceptionHandlerMiddlewareExtensions
-    {
-        public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<CustomExceptionHandlerMiddleware>();
         }
     }
 }

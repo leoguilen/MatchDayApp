@@ -165,4 +165,28 @@
     <value>Username já existente</value>
     <comment>Mensagem de validação de registro com username que já existe</comment>
   </data>
+  <data name="MV005" xml:space="preserve">
+    <value>Primeiro nome não pode ser nulo ou vazio</value>
+    <comment>Mensagem de validação de registro com primeiro nome não preenchido</comment>
+  </data>
+  <data name="MV006" xml:space="preserve">
+    <value>Primeiro nome deve conter mais de 4 caracteres</value>
+    <comment>Mensagem de validação de registro com primeiro nome menor que 4 caracteres</comment>
+  </data>
+  <data name="MV007" xml:space="preserve">
+    <value>Ultimo nome não pode ser nulo ou vazio</value>
+    <comment>Mensagem de validação de registro com ultimo nome não preenchido</comment>
+  </data>
+  <data name="MV008" xml:space="preserve">
+    <value>Ultimo nome deve conter mais de 4 caracteres</value>
+    <comment>Mensagem de validação de registro com ultimo nome menor que 4 caracteres</comment>
+  </data>
+  <data name="MV009" xml:space="preserve">
+    <value>Primeiro nome não é válido</value>
+    <comment>Mensagem de validação de registro com primeiro nome que contenha caracteres especiais ou números </comment>
+  </data>
+  <data name="MV010" xml:space="preserve">
+    <value>Ultimo nome não é válido</value>
+    <comment>Mensagem de validação de registro com ultimo nome que contenha caracteres especiais ou números</comment>
+  </data>
 </root>

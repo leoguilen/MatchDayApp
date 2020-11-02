@@ -15,7 +15,7 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
         public static void AddServiceDependency(this IServiceCollection services, IConfiguration configuration)
         {
             // Application Services
-            services.AddAutoMapper(Assembly.Load("MatchDayApp.Application"));
+            services.AddAutoMapper(new[] { Assembly.Load("MatchDayApp.Application"), Assembly.Load("MatchDayApp.Infra.CrossCutting") });
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITeamService, TeamService>();

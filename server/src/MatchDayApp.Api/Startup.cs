@@ -35,8 +35,8 @@ namespace MatchDayApp.Api
             }
 
             app.UseRouting();
-
             app.UseAuthorization();
+            app.UseCustomExceptionHandler();
             app.UseSwaggerDependency(Configuration, provider);
 
             app.UseEndpoints(endpoints =>

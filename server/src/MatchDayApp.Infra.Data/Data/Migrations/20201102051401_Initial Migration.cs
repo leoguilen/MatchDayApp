@@ -18,7 +18,7 @@ namespace MatchDayApp.Infra.Data.Data.Migrations
                     Username = table.Column<string>(maxLength: 50, nullable: false),
                     Email = table.Column<string>(maxLength: 100, nullable: false),
                     ConfirmedEmail = table.Column<bool>(nullable: false),
-                    Password = table.Column<string>(maxLength: 15, nullable: false),
+                    Password = table.Column<string>(nullable: false),
                     Salt = table.Column<string>(maxLength: 15, nullable: false),
                     UserType = table.Column<int>(nullable: false),
                     Avatar = table.Column<string>(nullable: true),

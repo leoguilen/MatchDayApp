@@ -1,4 +1,5 @@
 ﻿using MatchDayApp.Domain.Configuration;
+using MatchDayApp.Infra.CrossCutting.SwaggerExamples.Request;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
@@ -54,14 +55,14 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
                 });
                 opt.AddSecurityRequirement(security);
 
-                var xmlFile = $"{Assembly.Load("MatchDayApp.Application").GetName().Name}.xml";
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
                 opt.IncludeXmlComments(xmlPath);
             });
 
             // Criar os exemplos que foram criados na pasta SwaggerExamples na documentação
-            services.AddSwaggerExamplesFromAssemblyOf(Assembly.Load("MatchDayApp.Application").GetType());
+            services.AddSwaggerExamplesFromAssemblyOf<UserRegisterRequestExample>();
         }
         public static void UseSwaggerDependency(this IApplicationBuilder app, IConfiguration configuration, IApiVersionDescriptionProvider provider)
         {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MatchDayApp.Domain.Contract.V1.Response
+namespace MatchDayApp.Infra.CrossCutting.Contract.V1.Response
 {
     public class Response<T>
     {

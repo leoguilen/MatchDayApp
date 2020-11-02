@@ -31,8 +31,7 @@ namespace MatchDayApp.Infra.Data.Data.Mapping
                 .HasMaxLength(100);
 
             builder.Property(prop => prop.Password)
-                .IsRequired()
-                .HasMaxLength(15);
+                .IsRequired();
 
             builder.Property(prop => prop.Salt)
                 .IsRequired()

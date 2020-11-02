@@ -1,6 +1,6 @@
-﻿namespace MatchDayApp.Domain.Contract.V1.Request.Auth
+﻿namespace MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth
 {
-    public class AuthRequest
+    public class LoginRequest
     {
         public string Email { get; set; }
         public string Password { get; set; }

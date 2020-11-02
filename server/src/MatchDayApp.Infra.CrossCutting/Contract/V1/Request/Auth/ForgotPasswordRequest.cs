@@ -1,4 +1,4 @@
-﻿namespace MatchDayApp.Domain.Contract.V1.Request.Auth
+﻿namespace MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth
 {
     public class ForgotPasswordRequest
     {

@@ -1,7 +1,9 @@
-﻿using MatchDayApp.Application.Commands.Auth;
+﻿using AutoMapper;
+using MatchDayApp.Application.Commands.Auth;
 using MatchDayApp.Application.Events.UserEvents;
 using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Models.Auth;
+using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth;
 using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MediatR;
 using System.Threading.Tasks;
@@ -11,17 +13,20 @@ namespace MatchDayApp.Infra.CrossCutting.Services
     public class AuthAppService : IAuthAppService
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public AuthAppService(IMediator mediator)
+        public AuthAppService(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator ?? throw new System.ArgumentNullException(nameof(mediator));
+            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<AuthenticationResult> LoginAsync(LoginModel login)
+        public async Task<AuthenticationResult> LoginAsync(LoginRequest login)
         {
             var loginCommand = new LoginCommand
             {
-                Login = login
+                Login = _mapper
+                    .Map<LoginModel>(login)
             };
 
             var authResult = await _mediator.Send(loginCommand);
@@ -29,11 +34,12 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return authResult;
         }
 
-        public async Task<AuthenticationResult> RegisterAsync(RegisterModel register)
+        public async Task<AuthenticationResult> RegisterAsync(RegisterRequest register)
         {
             var registerCommand = new RegisterCommand
             {
-                Register = register
+                Register = _mapper
+                    .Map<RegisterModel>(register)
             };
 
             var authResult = await _mediator.Send(registerCommand);
@@ -50,11 +56,12 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return authResult;
         }
 
-        public async Task<AuthenticationResult> ResetPasswordAsync(ResetPasswordModel resetPassword)
+        public async Task<AuthenticationResult> ResetPasswordAsync(ResetPasswordRequest resetPassword)
         {
             var resetPassCommand = new ResetPasswordCommand
             {
-                ResetPassword = resetPassword
+                ResetPassword = _mapper
+                    .Map<ResetPasswordModel>(resetPassword)
             };
 
             var authResult = await _mediator.Send(resetPassCommand);
