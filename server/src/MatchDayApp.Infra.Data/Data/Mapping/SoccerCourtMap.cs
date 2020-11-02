@@ -23,7 +23,8 @@ namespace MatchDayApp.Infra.Data.Data.Mapping
                 .HasMaxLength(150);
 
             builder.Property(prop => prop.HourPrice)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnType("float");
         }
     }
 }

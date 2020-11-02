@@ -16,7 +16,7 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
             services
                 .AddControllers()
                 .AddFluentValidation(opt =>
-                    opt.RegisterValidatorsFromAssemblyContaining(Assembly.Load("MatchDayApp.Contract").GetType()));
+                    opt.RegisterValidatorsFromAssemblyContaining(Assembly.Load("MatchDayApp.Domain").GetType()));
             services.AddMvc(opt => opt.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Latest);
 

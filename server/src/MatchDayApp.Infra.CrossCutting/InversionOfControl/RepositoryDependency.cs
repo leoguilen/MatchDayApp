@@ -10,11 +10,11 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
     {
         public static void AddSqlServerRepositoryDependency(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddSingleton<ITeamRepository, TeamRepository>();
-            services.AddSingleton<ISoccerCourtRepository, SoccerCourtRepository>();
-            services.AddSingleton<IScheduleMatchRepository, ScheduleMatchRepository>();
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ITeamRepository, TeamRepository>();
+            services.AddTransient<ISoccerCourtRepository, SoccerCourtRepository>();
+            services.AddTransient<IScheduleMatchRepository, ScheduleMatchRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
     }
 }
