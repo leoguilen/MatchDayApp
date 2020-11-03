@@ -12,5 +12,14 @@
             public const string Login = Base + "/auth/login";
             public const string ResetPassword = Base + "/auth/reset";
         }
+
+        public static class User
+        {
+            public const string GetAll = Base + "/user";
+            public const string GetById = Base + "/user/{id}";
+            public const string GetByEmail = Base + "/user/{email}";
+            public const string Update = Base + "/user/{id}";
+            public const string Delete = Base + "/user/{id}";
+        }
     }
 }
