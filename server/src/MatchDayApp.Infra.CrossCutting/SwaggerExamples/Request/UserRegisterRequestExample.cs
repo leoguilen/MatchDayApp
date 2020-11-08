@@ -14,8 +14,8 @@ namespace MatchDayApp.Infra.CrossCutting.SwaggerExamples.Request
                 LastName = "Silva",
                 UserName = "mateus.silva",
                 Email = "mateussilva@email.com",
-                Password = "mateus123",
-                ConfirmPassword = "mateus123",
+                Password = "Mateus@123",
+                ConfirmPassword = "Mateus@123",
                 UserType = UserType.Player,
                 Avatar = "avatar.png"
             };

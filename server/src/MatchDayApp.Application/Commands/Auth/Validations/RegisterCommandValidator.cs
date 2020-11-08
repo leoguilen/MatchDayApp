@@ -12,7 +12,8 @@ namespace MatchDayApp.Application.Commands.Auth.Validations
             RuleFor(prop => prop.Register.FirstName)
                 .NotEmpty().WithMessage(Dictionary.MV005);
             RuleFor(prop => prop.Register.FirstName)
-                .MinimumLength(4).WithMessage(Dictionary.MV006);
+                .MinimumLength(4).WithMessage(Dictionary.MV006)
+                .When(x => !string.IsNullOrEmpty(x.Register.FirstName));
             RuleFor(prop => prop.Register.FirstName)
                 .Matches(@"^[a-zA-Z]*$").WithMessage(Dictionary.MV009);
 
@@ -20,7 +21,8 @@ namespace MatchDayApp.Application.Commands.Auth.Validations
             RuleFor(prop => prop.Register.LastName)
                 .NotEmpty().WithMessage(Dictionary.MV007);
             RuleFor(prop => prop.Register.LastName)
-                .MinimumLength(4).WithMessage(Dictionary.MV008);
+                .MinimumLength(4).WithMessage(Dictionary.MV008)
+                .When(x => !string.IsNullOrEmpty(x.Register.LastName));
             RuleFor(prop => prop.Register.LastName)
                 .Matches(@"^[a-zA-Z]*$").WithMessage(Dictionary.MV010);
 
