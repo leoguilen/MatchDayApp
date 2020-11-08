@@ -1,0 +1,27 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+    - name: Restore
+      run: dotnet restore .//server//
+    - name: Build
+      run: dotnet build .//server// --configuration Release --no-restore
+    - name: Unit Test
+      run: dotnet test .//server//tests//MatchDayApp.UnitTest// --no-restore --verbosity normal
+    - name: Integration Test
+      run: dotnet test .//server//tests//MatchDayApp.IntegrationTest// --no-restore --verbosity normal
