@@ -4,7 +4,6 @@ using MatchDayApp.Application.Services;
 using MatchDayApp.Infra.CrossCutting.Services;
 using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -12,7 +11,7 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
 {
     public static class ServiceDependency
     {
-        public static void AddServiceDependency(this IServiceCollection services, IConfiguration configuration)
+        public static void AddServiceDependency(this IServiceCollection services)
         {
             // Application Services
             services.AddAutoMapper(new[] { Assembly.Load("MatchDayApp.Application"), Assembly.Load("MatchDayApp.Infra.CrossCutting") });

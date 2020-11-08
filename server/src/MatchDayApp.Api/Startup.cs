@@ -23,8 +23,8 @@ namespace MatchDayApp.Api
             services.AddSqlServerDependency(Configuration);
             services.AddJwtDependency(Configuration);
             services.AddSwaggerDependency(Configuration);
-            services.AddSqlServerRepositoryDependency(Configuration);
-            services.AddServiceDependency(Configuration);
+            services.AddSqlServerRepositoryDependency();
+            services.AddServiceDependency();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
