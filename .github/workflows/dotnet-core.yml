@@ -24,4 +24,4 @@ jobs:
     - name: Unit Test
       run: dotnet test .//server//tests//MatchDayApp.UnitTest// --no-restore --verbosity normal
     - name: Integration Test
-      run: dotnet test .//server//tests//MatchDayApp.IntegrationTest// --no-restore --verbosity normal
+      run: dotnet test .//server//tests//MatchDayApp.IntegrationTest// --no-restore --verbosity minimal
