@@ -1,0 +1,7 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/matchday-app/v16/TestStore/0
+/.vs/matchday-app/v16
+/.vs

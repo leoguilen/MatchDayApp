@@ -39,12 +39,14 @@ namespace MatchDayApp.Application.Commands.Auth.Validations
                 .NotEmpty().WithMessage(Dictionary.MV013);
             RuleFor(prop => prop.Register.Password)
                 .Must(pwd => Regex.IsMatch(pwd, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$"))
-                .WithMessage(Dictionary.MV014);
+                .WithMessage(Dictionary.MV014)
+                .When(x => !string.IsNullOrEmpty(x.Register.Password));
 
             // Confirm Password
             RuleFor(prop => prop.Register.ConfirmPassword)
                 .Equal(prop => prop.Register.Password)
-                .WithMessage(Dictionary.MV015);
+                .WithMessage(Dictionary.MV015)
+                .When(x => !string.IsNullOrEmpty(x.Register.Password));
         }
     }
 }
