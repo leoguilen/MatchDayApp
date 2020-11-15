@@ -10,7 +10,7 @@ namespace MatchDayApp.Infra.CrossCutting.SwaggerExamples.Request
             return new LoginRequest
             {
                 Email = "mateussilva@email.com",
-                Password = "mateus123"
+                Password = "Mateus@123"
             };
         }
     }

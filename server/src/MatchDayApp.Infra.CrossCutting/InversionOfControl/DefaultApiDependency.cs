@@ -2,6 +2,8 @@
 using MatchDayApp.Application.Behaviours;
 using MatchDayApp.Application.Commands.Auth.Validations;
 using MatchDayApp.Application.Middlewares;
+using MatchDayApp.Infra.CrossCutting.Services;
+using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -56,6 +58,15 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
                         ContentTypes = { "application/problem+json" }
                     };
                 };
+            });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IUriService>(provider =>
+            {
+                var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+                var request = accessor.HttpContext.Request;
+                var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent(), "/");
+                return new UriService(absoluteUri);
             });
         }
         public static void UseCustomExceptionHandler(this IApplicationBuilder app)

@@ -2,10 +2,12 @@
 using MatchDayApp.Application.Events.UserEvents;
 using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Queries.User;
+using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Query;
 using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Infra.CrossCutting.Services
@@ -60,13 +62,18 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return user;
         }
 
-        public async Task<IReadOnlyList<UserModel>> GetUsersListAsync()
+        public async Task<IReadOnlyList<UserModel>> GetUsersListAsync(PaginationQuery pagination = null)
         {
             var getUsersQuery = new GetUsersQuery { };
 
             var users = await _mediator.Send(getUsersQuery);
 
-            return users;
+            var skip = (pagination.PageNumber - 1) * pagination.PageSize;
+
+            return users
+                .Skip(skip)
+                .Take(pagination.PageSize)
+                .ToList();
         }
 
         public async Task<bool> UpdateUserAsync(UserModel user)
