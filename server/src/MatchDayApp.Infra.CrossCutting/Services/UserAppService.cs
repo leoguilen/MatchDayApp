@@ -1,8 +1,10 @@
-﻿using MatchDayApp.Application.Commands.User;
+﻿using AutoMapper;
+using MatchDayApp.Application.Commands.User;
 using MatchDayApp.Application.Events.UserEvents;
 using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Queries.User;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Query;
+using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.User;
 using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MediatR;
 using System;
@@ -15,10 +17,12 @@ namespace MatchDayApp.Infra.CrossCutting.Services
     public class UserAppService : IUserAppService
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public UserAppService(IMediator mediator)
+        public UserAppService(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<bool> DeleteUserAsync(Guid userId)
@@ -76,11 +80,12 @@ namespace MatchDayApp.Infra.CrossCutting.Services
                 .ToList();
         }
 
-        public async Task<bool> UpdateUserAsync(UserModel user)
+        public async Task<bool> UpdateUserAsync(UpdateUserRequest request)
         {
             var updateUserCommand = new UpdateUserCommand
             {
-                UpdateUser = user
+                UpdateUser = _mapper
+                    .Map<UserModel>(request)
             };
 
             var result = await _mediator.Send(updateUserCommand);

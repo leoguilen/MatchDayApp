@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Models.Auth;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth;
+using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.User;
 
 namespace MatchDayApp.Infra.CrossCutting.Mapper
 {
@@ -11,6 +13,7 @@ namespace MatchDayApp.Infra.CrossCutting.Mapper
             CreateMap<LoginRequest, LoginModel>();
             CreateMap<RegisterRequest, RegisterModel>();
             CreateMap<ResetPasswordRequest, ResetPasswordModel>();
+            CreateMap<UpdateUserRequest, UserModel>();
         }
     }
 }
