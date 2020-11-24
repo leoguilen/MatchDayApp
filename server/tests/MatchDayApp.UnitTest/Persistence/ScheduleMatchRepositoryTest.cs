@@ -165,7 +165,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 SecondTeamConfirmed = false,
                 SoccerCourtId = _memoryDb.SoccerCourts.First().Id,
                 TotalHours = 1,
-                Date = DateTime.Parse("25/10/2020 19:30:00"),
+                Date = new DateTime(2020,10,15,19,30,0),
                 MatchStatus = MatchStatus.WaitingForConfirmation
             };
 
@@ -178,7 +178,7 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(6)]
         public async Task UpdateMatchAsync_ScheduleMatch_UpdateExitingMatch()
         {
-            _matchTest.Date = DateTime.Parse("26/10/2020 18:30:00");
+            _matchTest.Date = new DateTime(2020,10,26,18,30,0);
             _matchTest.MatchStatus = MatchStatus.Canceled;
 
             var result = await _matchRepository
