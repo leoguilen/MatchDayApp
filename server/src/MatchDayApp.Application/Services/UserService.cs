@@ -65,10 +65,10 @@ namespace MatchDayApp.Application.Services
             return _mapper.Map<IReadOnlyList<UserModel>>(users);
         }
 
-        public async Task<bool> UpdateUserAsync(UserModel userModel)
+        public async Task<bool> UpdateUserAsync(Guid userId, UserModel userModel)
         {
             var user = await _uow.Users
-                .GetByEmailAsync(userModel.Email);
+                .GetByIdAsync(userId);
 
             if (user != null)
             {

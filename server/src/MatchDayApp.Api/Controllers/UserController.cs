@@ -69,34 +69,13 @@ namespace MatchDayApp.Api.Controllers
         /// <param name="userId">User identification in the system</param>
         /// <response code="200">Return user by id</response>
         /// <response code="404">Not found user</response>
-        [HttpGet(ApiRoutes.User.GetById)]
+        [HttpGet(ApiRoutes.User.Get)]
         [ProducesResponseType(typeof(Response<UserResponse>), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetById([FromRoute] Guid userId)
+        public async Task<IActionResult> Get([FromRoute] Guid id)
         {
             var user = await _userService
-                .GetUserByIdAsync(userId);
-
-            if (user is null)
-                return NotFound();
-
-            return Ok(new Response<UserResponse>(_mapper
-                .Map<UserResponse>(user)));
-        }
-
-        /// <summary>
-        /// Return user by email
-        /// </summary>
-        /// <param name="userEmail">User email</param>
-        /// <response code="200">Return user by email</response>
-        /// <response code="404">Not found user</response>
-        [HttpGet(ApiRoutes.User.GetByEmail)]
-        [ProducesResponseType(typeof(Response<UserResponse>), 200)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> GetByEmail([FromRoute] string userEmail)
-        {
-            var user = await _userService
-                .GetUserByEmailAsync(userEmail);
+                .GetUserByIdAsync(id);
 
             if (user is null)
                 return NotFound();
@@ -111,13 +90,13 @@ namespace MatchDayApp.Api.Controllers
         /// <response code="200">Update user informations</response>
         /// <response code="404">Not found user</response>
         /// <response code="400">An error occurred when try update user</response>
-        [HttpGet(ApiRoutes.User.Update)]
+        [HttpPut(ApiRoutes.User.Update)]
         [ProducesResponseType(typeof(Response<UserResponse>), 200)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Update([FromBody] UpdateUserRequest request)
+        public async Task<IActionResult> Update([FromRoute] Guid userId, [FromBody] UpdateUserRequest request)
         {
             var result = await _userService
-                .UpdateUserAsync(request);
+                .UpdateUserAsync(userId, request);
 
             if (!result)
                 return BadRequest(new Response<object>
@@ -126,7 +105,7 @@ namespace MatchDayApp.Api.Controllers
                     Succeeded = false
                 });
 
-            return Ok(new Response<object> 
+            return Ok(new Response<object>
             {
                 Message = "Usuário atualizado com sucesso",
                 Succeeded = true
@@ -138,7 +117,7 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="200">Delete user in the system</response>
         /// <response code="404">Not found user</response>
-        [HttpGet(ApiRoutes.User.Delete)]
+        [HttpDelete(ApiRoutes.User.Delete)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> Delete([FromRoute] Guid userId)

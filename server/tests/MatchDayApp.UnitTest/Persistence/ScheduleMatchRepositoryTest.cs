@@ -59,7 +59,7 @@ namespace MatchDayApp.UnitTest.Persistence
                         match1.SecondTeam.Name.Should().Be("Team 1");
                         match1.SecondTeamConfirmed.Should().BeTrue();
                         match1.SoccerCourt.Name.Should().Be("Soccer Court 1");
-                        match1.Date.Should().Be(DateTime.Parse("20/10/2020 21:00:00"));
+                        match1.Date.Should().Be(new DateTime(2020,10,20,21,0,0));
                         match1.MatchStatus.Should().Be(1);
                     },
                     match2 =>
@@ -69,7 +69,7 @@ namespace MatchDayApp.UnitTest.Persistence
                         match2.SecondTeam.Name.Should().Be("Team 3");
                         match2.SecondTeamConfirmed.Should().BeFalse();
                         match2.SoccerCourt.Name.Should().Be("Soccer Court 2");
-                        match2.Date.Should().Be(DateTime.Parse("19/10/2020 18:00:00"));
+                        match2.Date.Should().Be(new DateTime(2020,10,19,18,0,0));
                         match2.MatchStatus.Should().Be(3);
                     },
                     match3 =>
@@ -79,7 +79,7 @@ namespace MatchDayApp.UnitTest.Persistence
                         match3.SecondTeam.Name.Should().Be("Team 1");
                         match3.SecondTeamConfirmed.Should().BeTrue();
                         match3.SoccerCourt.Name.Should().Be("Soccer Court 2");
-                        match3.Date.Should().Be(DateTime.Parse("21/10/2020 19:00:00"));
+                        match3.Date.Should().Be(new DateTime(2020,10,21,19,0,0));
                         match3.MatchStatus.Should().Be(1);
                     },
                     match4 =>
@@ -89,7 +89,7 @@ namespace MatchDayApp.UnitTest.Persistence
                         match4.SecondTeam.Name.Should().Be("Team 2");
                         match4.SecondTeamConfirmed.Should().BeTrue();
                         match4.SoccerCourt.Name.Should().Be("Soccer Court 3");
-                        match4.Date.Should().Be(DateTime.Parse("16/10/2020 20:00:00"));
+                        match4.Date.Should().Be(new DateTime(2020,10,16,20,0,0));
                         match4.MatchStatus.Should().Be(4);
                     },
                     match5 =>
@@ -99,7 +99,7 @@ namespace MatchDayApp.UnitTest.Persistence
                         match5.SecondTeam.Name.Should().Be("Team 2");
                         match5.SecondTeamConfirmed.Should().BeTrue();
                         match5.SoccerCourt.Name.Should().Be("Soccer Court 1");
-                        match5.Date.Should().Be(DateTime.Parse("18/10/2020 17:00:00"));
+                        match5.Date.Should().Be(new DateTime(2020,10,18,17,0,0));
                         match5.MatchStatus.Should().Be(2);
                     });
         }
@@ -117,7 +117,7 @@ namespace MatchDayApp.UnitTest.Persistence
             match.SecondTeamConfirmed.Should().BeTrue();
             match.SoccerCourt.Name.Should().Be("Soccer Court 1");
             match.TotalHours.Should().Be(1);
-            match.Date.Should().Be(DateTime.Parse("20/10/2020 21:00:00"));
+            match.Date.Should().Be(new DateTime(2020,10,20,21,0,0));
             match.MatchStatus.Should().Be(MatchStatus.Confirmed);
         }
 
@@ -139,7 +139,7 @@ namespace MatchDayApp.UnitTest.Persistence
                     match1.SecondTeam.Name.Should().Be("Team 1");
                     match1.SecondTeamConfirmed.Should().BeTrue();
                     match1.SoccerCourt.Name.Should().Be("Soccer Court 1");
-                    match1.Date.Should().Be(DateTime.Parse("20/10/2020 21:00:00"));
+                    match1.Date.Should().Be(new DateTime(2020,10,20,21,0,0));
                     match1.MatchStatus.Should().Be(1);
                 },
                 match2 =>
@@ -149,7 +149,7 @@ namespace MatchDayApp.UnitTest.Persistence
                     match2.SecondTeam.Name.Should().Be("Team 2");
                     match2.SecondTeamConfirmed.Should().BeTrue();
                     match2.SoccerCourt.Name.Should().Be("Soccer Court 1");
-                    match2.Date.Should().Be(DateTime.Parse("18/10/2020 17:00:00"));
+                    match2.Date.Should().Be(new DateTime(2020,10,18,17,0,0));
                     match2.MatchStatus.Should().Be(2);
                 });
         }
@@ -185,7 +185,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 .UpdateMatchAsync(_matchTest);
 
             result.Should().BeTrue();
-            _matchTest.Date.Should().Be(DateTime.Parse("26/10/2020 18:30:00"));
+            _matchTest.Date.Should().Be(new DateTime(2020,10,26,18,30,0));
             _matchTest.MatchStatus.Should().Be(MatchStatus.Canceled);
         }
     }

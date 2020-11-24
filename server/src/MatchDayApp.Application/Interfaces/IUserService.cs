@@ -10,7 +10,7 @@ namespace MatchDayApp.Application.Interfaces
         Task<IReadOnlyList<UserModel>> GetUsersListAsync();
         Task<UserModel> GetUserByIdAsync(Guid userId);
         Task<UserModel> GetUserByEmailAsync(string userEmail);
-        Task<bool> UpdateUserAsync(UserModel user);
+        Task<bool> UpdateUserAsync(Guid userId, UserModel user);
         Task<bool> DeleteUserAsync(Guid userId);
     }
 }

@@ -84,19 +84,20 @@ namespace MatchDayApp.UnitTest.Services
         {
             var newFirstname = new Faker().Person.FirstName;
             var newLastname = new Faker().Person.LastName;
+            var userId = _memoryDb.Users.ToList()[2].Id;
 
             var user = await _userService
-                .GetUserByEmailAsync("test2@email.com");
+                .GetUserByIdAsync(userId);
             user.FirstName = newFirstname;
             user.LastName = newLastname;
 
             var cmdResult = await _userService
-                .UpdateUserAsync(user);
+                .UpdateUserAsync(userId, user);
 
             cmdResult.Should().BeTrue();
 
             var updatedUser = await _userService
-                .GetUserByEmailAsync("test2@email.com");
+                .GetUserByIdAsync(userId);
 
             updatedUser.FirstName.Should().Be(newFirstname);
             updatedUser.LastName.Should().Be(newLastname);

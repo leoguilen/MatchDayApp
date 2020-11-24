@@ -74,6 +74,7 @@ namespace MatchDayApp.UnitTest.Handlers
         {
             var updateUserCommand = new UpdateUserCommand
             {
+                UserId = _memoryDb.Users.Last().Id,
                 UpdateUser = new UserModel
                 {
                     FirstName = new Faker().Person.FirstName,

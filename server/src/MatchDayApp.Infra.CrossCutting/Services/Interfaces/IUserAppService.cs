@@ -12,7 +12,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services.Interfaces
         Task<IReadOnlyList<UserModel>> GetUsersListAsync(PaginationQuery pagination = null);
         Task<UserModel> GetUserByIdAsync(Guid userId);
         Task<UserModel> GetUserByEmailAsync(string userEmail);
-        Task<bool> UpdateUserAsync(UpdateUserRequest request);
+        Task<bool> UpdateUserAsync(Guid userId, UpdateUserRequest request);
         Task<bool> DeleteUserAsync(Guid userId);
     }
 }

@@ -40,7 +40,7 @@ namespace MatchDayApp.Application.Handlers
 
         public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            return await _userService.UpdateUserAsync(request.UpdateUser);
+            return await _userService.UpdateUserAsync(request.UserId, request.UpdateUser);
         }
 
         public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)

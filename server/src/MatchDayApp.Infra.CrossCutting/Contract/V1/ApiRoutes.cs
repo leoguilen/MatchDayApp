@@ -16,8 +16,7 @@
         public static class User
         {
             public const string GetAll = Base + "/user";
-            public const string GetById = Base + "/user/{id}";
-            public const string GetByEmail = Base + "/user/{email}";
+            public const string Get = Base + "/user/{id}";
             public const string Update = Base + "/user/{id}";
             public const string Delete = Base + "/user/{id}";
         }

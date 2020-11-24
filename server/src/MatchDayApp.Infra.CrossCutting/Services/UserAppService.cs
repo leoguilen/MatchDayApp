@@ -80,10 +80,11 @@ namespace MatchDayApp.Infra.CrossCutting.Services
                 .ToList();
         }
 
-        public async Task<bool> UpdateUserAsync(UpdateUserRequest request)
+        public async Task<bool> UpdateUserAsync(Guid userId, UpdateUserRequest request)
         {
             var updateUserCommand = new UpdateUserCommand
             {
+                UserId = userId,
                 UpdateUser = _mapper
                     .Map<UserModel>(request)
             };
