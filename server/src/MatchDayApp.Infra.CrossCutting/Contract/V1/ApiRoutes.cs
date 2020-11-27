@@ -20,5 +20,14 @@
             public const string Update = Base + "/user/{id}";
             public const string Delete = Base + "/user/{id}";
         }
+
+        public static class Team
+        {
+            public const string GetAll = Base + "/team";
+            public const string Get = Base + "/team/{id}";
+            public const string Create = Base + "/team";
+            public const string Update = Base + "/team/{id}";
+            public const string Delete = Base + "/team/{id}";
+        }
     }
 }
