@@ -75,12 +75,13 @@ namespace MatchDayApp.Infra.CrossCutting.Services
                 .ToList(); ;
         }
 
-        public async Task<bool> UpdateTeamAsync(Guid teamId, TeamModel teamModel)
+        public async Task<bool> UpdateTeamAsync(Guid teamId, UpdateTeamRequest team)
         {
             var updateTeamCommand = new UpdateTeamCommand
             {
                 Id = teamId,
-                Team = teamModel
+                Team = _mapper
+                    .Map<TeamModel>(team)
             };
 
             var result = await _mediator.Send(updateTeamCommand);

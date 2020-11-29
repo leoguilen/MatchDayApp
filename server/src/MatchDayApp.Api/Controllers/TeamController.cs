@@ -113,5 +113,64 @@ namespace MatchDayApp.Api.Controllers
                 Succeeded = true
             });
         }
+
+        /// <summary>
+        /// Update team
+        /// </summary>
+        /// <response code="200">Updated team</response>
+        /// <response code="400">An error when update team</response>
+        /// <response code="404">Not found team</response>
+        [HttpPut(ApiRoutes.Team.Update)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Update([FromRoute] Guid teamId, [FromBody] UpdateTeamRequest request)
+        {
+            var result = await _teamService
+                .UpdateTeamAsync(teamId, request);
+
+            if (!result)
+            {
+                return BadRequest(new Response<object>
+                {
+                    Message = "Ocorreu um erro ao atualizar time",
+                    Succeeded = false
+                });
+            }
+
+            return Ok(new Response<object>
+            {
+                Message = "Time atualizado com sucesso",
+                Succeeded = true
+            });
+        }
+
+        /// <summary>
+        /// Delete team
+        /// </summary>
+        /// <response code="204">Deleted team</response>
+        /// <response code="404">Not found team</response>
+        [HttpDelete(ApiRoutes.Team.Update)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Delete([FromRoute] Guid teamId)
+        {
+            var result = await _teamService
+                .DeleteTeamAsync(teamId);
+
+            if (!result)
+            {
+                return BadRequest(new Response<object>
+                {
+                    Message = "Ocorreu um erro ao deletar time",
+                    Succeeded = false
+                });
+            }
+
+            return Ok(new Response<object>
+            {
+                Message = "Time deletado com sucesso",
+                Succeeded = true
+            });
+        }
     }
 }

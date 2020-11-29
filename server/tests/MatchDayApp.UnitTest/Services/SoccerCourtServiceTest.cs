@@ -71,6 +71,17 @@ namespace MatchDayApp.UnitTest.Services
         }
 
         [Fact]
+        public async Task GetSoccerCourtsByGeoLocalization_SoccerCourtService_GetSoccerCourtsByGeoLocalization()
+        {
+            (double lat, double lon) = (-23.1087742, -46.5546822);
+
+            var soccerCourts = await _soccerCourtService
+                .GetSoccerCourtsByGeoLocalizationAsync(lat,lon);
+
+            soccerCourts.Should().HaveCount(2);
+        }
+
+        [Fact]
         public async Task UpdateSoccerCourtAsync_SoccerCourtService_UpdatedSoccerCourtInSystem()
         {
             var newSoccerCourtName = new Faker().Company.CompanyName();

@@ -9,6 +9,7 @@ namespace MatchDayApp.Application.Interfaces
     {
         Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsListAsync();
         Task<SoccerCourtModel> GetSoccerCourtByIdAsync(Guid soccerCourtId);
+        Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsByGeoLocalizationAsync(double lat, double lon);
         Task<bool> AddSoccerCourtAsync(SoccerCourtModel soccerCourt);
         Task<bool> UpdateSoccerCourtAsync(Guid soccerCourtId, SoccerCourtModel soccerCourt);
         Task<bool> DeleteSoccerCourtAsync(Guid soccerCourtId);

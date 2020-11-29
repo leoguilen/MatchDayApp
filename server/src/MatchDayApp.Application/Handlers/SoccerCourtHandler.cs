@@ -14,7 +14,8 @@ namespace MatchDayApp.Application.Handlers
         IRequestHandler<DeleteSoccerCourtCommand, bool>,
         IRequestHandler<UpdateSoccerCourtCommand, bool>,
         IRequestHandler<GetSoccerCourtDetailsByIdQuery, SoccerCourtModel>,
-        IRequestHandler<GetSoccerCourtsQuery, IReadOnlyList<SoccerCourtModel>>
+        IRequestHandler<GetSoccerCourtsQuery, IReadOnlyList<SoccerCourtModel>>,
+        IRequestHandler<GetSoccerCourtsByGeoLocalizationQuery, IReadOnlyList<SoccerCourtModel>>
     {
         private readonly ISoccerCourtService _soccerCourtService;
 
@@ -46,6 +47,11 @@ namespace MatchDayApp.Application.Handlers
         public async Task<IReadOnlyList<SoccerCourtModel>> Handle(GetSoccerCourtsQuery request, CancellationToken cancellationToken)
         {
             return await _soccerCourtService.GetSoccerCourtsListAsync();
+        }
+
+        public async Task<IReadOnlyList<SoccerCourtModel>> Handle(GetSoccerCourtsByGeoLocalizationQuery request, CancellationToken cancellationToken)
+        {
+            return await _soccerCourtService.GetSoccerCourtsByGeoLocalizationAsync(request.Lat, request.Long);
         }
     }
 }

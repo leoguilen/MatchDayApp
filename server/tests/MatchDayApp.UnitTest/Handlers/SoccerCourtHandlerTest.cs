@@ -59,6 +59,20 @@ namespace MatchDayApp.UnitTest.Handlers
         }
 
         [Fact]
+        public async Task Handle_SoccerCourtHandler_GetSoccerCourtsByGeoLocalization()
+        {
+            var getSoccerCourtsByGeoLocalizationQuery = new GetSoccerCourtsByGeoLocalizationQuery
+            {
+                Lat = -23.1087742,
+                Long = -46.5546822
+            };
+
+            var soccerCourtResult = await _mediator.Send(getSoccerCourtsByGeoLocalizationQuery);
+
+            soccerCourtResult.Should().HaveCount(2);
+        }
+
+        [Fact]
         public async Task Handle_SoccerCourtHandler_AddedSoccerCourt()
         {
             var addSoccerCourtCommand = new AddSoccerCourtCommand

@@ -12,7 +12,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services.Interfaces
         Task<IReadOnlyList<TeamModel>> GetTeamsListAsync(PaginationQuery pagination = null);
         Task<TeamModel> GetTeamByIdAsync(Guid teamId);
         Task<bool> AddTeamAsync(CreateTeamRequest team);
-        Task<bool> UpdateTeamAsync(Guid teamId, TeamModel teamModel);
+        Task<bool> UpdateTeamAsync(Guid teamId, UpdateTeamRequest team);
         Task<bool> DeleteTeamAsync(Guid teamId);
     }
 }

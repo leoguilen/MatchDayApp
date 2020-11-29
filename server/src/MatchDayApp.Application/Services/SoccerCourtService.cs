@@ -2,6 +2,7 @@
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Application.Models;
 using MatchDayApp.Domain.Entities;
+using MatchDayApp.Domain.Specification.SoccerCourtSpec;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,13 @@ namespace MatchDayApp.Application.Services
         {
             var soccerCourt = await _uow.SoccerCourts.GetByIdAsync(soccerCourtId);
             return _mapper.Map<SoccerCourtModel>(soccerCourt);
+        }
+
+        public async Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsByGeoLocalizationAsync(double lat, double lon)
+        {
+            var spec = new SoccerCourtNearbyToUserSpecification(lat,lon);
+            var soccerCourts = await _uow.SoccerCourts.GetAsync(spec);
+            return _mapper.Map<IReadOnlyList<SoccerCourtModel>>(soccerCourts);
         }
 
         public async Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsListAsync()
