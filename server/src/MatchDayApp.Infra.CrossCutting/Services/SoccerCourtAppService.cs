@@ -1,10 +1,13 @@
 ﻿using MatchDayApp.Application.Commands.SoccerCourt;
 using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Queries.SoccerCourt;
+using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Query;
+using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.SoccerCourt;
 using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Infra.CrossCutting.Services
@@ -54,13 +57,31 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return soccerCourt;
         }
 
-        public async Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsListAsync()
+        public async Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsByGeoLocalizationAsync(GetSoccerCourtsByGeoRequest request)
+        {
+            var getSoccerCourtsByGeoQuery = new GetSoccerCourtsByGeoLocalizationQuery
+            {
+                Lat = request.Lat,
+                Long = request.Long
+            };
+
+            var soccerCourts = await _mediator.Send(getSoccerCourtsByGeoQuery);
+
+            return soccerCourts;
+        }
+
+        public async Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsListAsync(PaginationQuery pagination = null)
         {
             var getSoccerCourtsQuery = new GetSoccerCourtsQuery { };
 
             var soccerCourts = await _mediator.Send(getSoccerCourtsQuery);
 
-            return soccerCourts;
+            var skip = (pagination.PageNumber - 1) * pagination.PageSize;
+            
+            return soccerCourts
+                .Skip(skip)
+                .Take(pagination.PageSize)
+                .ToList();
         }
 
         public async Task<bool> UpdateSoccerCourtAsync(Guid soccerCourtId, SoccerCourtModel soccerCourt)

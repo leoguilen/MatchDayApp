@@ -72,7 +72,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return teams
                 .Skip(skip)
                 .Take(pagination.PageSize)
-                .ToList(); ;
+                .ToList();
         }
 
         public async Task<bool> UpdateTeamAsync(Guid teamId, UpdateTeamRequest team)
