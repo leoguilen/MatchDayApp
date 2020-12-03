@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Api.Controllers
@@ -44,7 +45,7 @@ namespace MatchDayApp.Api.Controllers
         /// <param name="pagination">Pagination options</param>
         /// <response code="200">Returns all users in the system</response>
         [HttpGet(ApiRoutes.User.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<UserResponse>), 200)]
+        [ProducesResponseType(typeof(PagedResponse<UserResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll([FromQuery] PaginationQuery pagination)
         {
             var users = await _userService
@@ -70,8 +71,8 @@ namespace MatchDayApp.Api.Controllers
         /// <response code="200">Return user by id</response>
         /// <response code="404">Not found user</response>
         [HttpGet(ApiRoutes.User.Get)]
-        [ProducesResponseType(typeof(Response<UserResponse>), 200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(Response<UserResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
             var user = await _userService
@@ -91,8 +92,8 @@ namespace MatchDayApp.Api.Controllers
         /// <response code="404">Not found user</response>
         /// <response code="400">An error occurred when try update user</response>
         [HttpPut(ApiRoutes.User.Update)]
-        [ProducesResponseType(typeof(Response<UserResponse>), 200)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(Response<UserResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Update([FromRoute] Guid userId, [FromBody] UpdateUserRequest request)
         {
             var result = await _userService
@@ -118,8 +119,8 @@ namespace MatchDayApp.Api.Controllers
         /// <response code="200">Delete user in the system</response>
         /// <response code="404">Not found user</response>
         [HttpDelete(ApiRoutes.User.Delete)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Delete([FromRoute] Guid userId)
         {
             var result = await _userService

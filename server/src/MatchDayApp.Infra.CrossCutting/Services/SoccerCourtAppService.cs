@@ -1,4 +1,5 @@
-﻿using MatchDayApp.Application.Commands.SoccerCourt;
+﻿using AutoMapper;
+using MatchDayApp.Application.Commands.SoccerCourt;
 using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Queries.SoccerCourt;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Query;
@@ -15,17 +16,20 @@ namespace MatchDayApp.Infra.CrossCutting.Services
     public class SoccerCourtAppService : ISoccerCourtAppService
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public SoccerCourtAppService(IMediator mediator)
+        public SoccerCourtAppService(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<bool> AddSoccerCourtAsync(SoccerCourtModel soccerCourt)
+        public async Task<bool> AddSoccerCourtAsync(CreateSoccerCourtRequest request)
         {
             var addSoccerCourtCommand = new AddSoccerCourtCommand
             {
-                SoccerCourt = soccerCourt
+                SoccerCourt = _mapper
+                    .Map<SoccerCourtModel>(request)
             };
 
             var result = await _mediator.Send(addSoccerCourtCommand);
@@ -84,12 +88,13 @@ namespace MatchDayApp.Infra.CrossCutting.Services
                 .ToList();
         }
 
-        public async Task<bool> UpdateSoccerCourtAsync(Guid soccerCourtId, SoccerCourtModel soccerCourt)
+        public async Task<bool> UpdateSoccerCourtAsync(Guid soccerCourtId, UpdateSoccerCourtRequest request)
         {
             var updateSoccerCourtCommand = new UpdateSoccerCourtCommand
             {
                 Id = soccerCourtId,
-                SoccerCourt = soccerCourt
+                SoccerCourt = _mapper
+                    .Map<SoccerCourtModel>(request)
             };
 
             var result = await _mediator.Send(updateSoccerCourtCommand);

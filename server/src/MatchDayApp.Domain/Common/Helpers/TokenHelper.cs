@@ -19,16 +19,17 @@ namespace MatchDayApp.Domain.Common.Helpers
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim("Id", user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("Username", user.Username),
-                new Claim("Id", user.Id.ToString())
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username)
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
+                TokenType = JwtConstants.TokenType,
                 Expires = DateTime.UtcNow.Add(jwtOptions.TokenLifetime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

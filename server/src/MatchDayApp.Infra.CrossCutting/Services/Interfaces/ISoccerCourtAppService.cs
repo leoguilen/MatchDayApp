@@ -12,8 +12,8 @@ namespace MatchDayApp.Infra.CrossCutting.Services.Interfaces
         Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsListAsync(PaginationQuery pagination = null);
         Task<SoccerCourtModel> GetSoccerCourtByIdAsync(Guid soccerCourtId);
         Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsByGeoLocalizationAsync(GetSoccerCourtsByGeoRequest request);
-        Task<bool> AddSoccerCourtAsync(SoccerCourtModel soccerCourt);
-        Task<bool> UpdateSoccerCourtAsync(Guid soccerCourtId, SoccerCourtModel soccerCourt);
+        Task<bool> AddSoccerCourtAsync(CreateSoccerCourtRequest request);
+        Task<bool> UpdateSoccerCourtAsync(Guid soccerCourtId, UpdateSoccerCourtRequest request);
         Task<bool> DeleteSoccerCourtAsync(Guid soccerCourtId);
     }
 }

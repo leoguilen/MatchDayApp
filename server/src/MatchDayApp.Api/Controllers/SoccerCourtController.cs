@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Api.Controllers
@@ -44,7 +45,7 @@ namespace MatchDayApp.Api.Controllers
         /// <param name="pagination">Pagination options</param>
         /// <response code="200">Returns all soccer courts in the system</response>
         [HttpGet(ApiRoutes.SoccerCourt.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<SoccerCourtResponse>), 200)]
+        [ProducesResponseType(typeof(PagedResponse<SoccerCourtResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll([FromQuery] PaginationQuery pagination)
         {
             var sc = await _scService
@@ -67,12 +68,12 @@ namespace MatchDayApp.Api.Controllers
         /// <summary>
         /// Return soccer court by id
         /// </summary>
-        /// <param name="teamId">Soccer court identification in the system</param>
+        /// <param name="scId">Soccer court identification in the system</param>
         /// <response code="200">Return soccer court by id</response>
         /// <response code="404">Not found soccer court</response>
         [HttpGet(ApiRoutes.SoccerCourt.Get)]
         [ProducesResponseType(typeof(Response<SoccerCourtResponse>), 200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid scId)
         {
             var sc = await _scService
@@ -88,12 +89,12 @@ namespace MatchDayApp.Api.Controllers
         /// <summary>
         /// Return soccer court by geolocalization
         /// </summary>
-        /// <param name="teamId">User Coordenates</param>
+        /// <param name="request">User Coordenates</param>
         /// <response code="200">Return soccer court nearby coordenates</response>
         /// <response code="404">Not found soccer court</response>
         [HttpPost(ApiRoutes.SoccerCourt.GetByGeo)]
         [ProducesResponseType(typeof(Response<List<SoccerCourtResponse>>), 200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetByGeo([FromBody] GetSoccerCourtsByGeoRequest request)
         {
             var sc = await _scService
@@ -104,6 +105,90 @@ namespace MatchDayApp.Api.Controllers
 
             return Ok(new Response<List<SoccerCourtResponse>>(_mapper
                 .Map<List<SoccerCourtResponse>>(sc)));
+        }
+
+        /// <summary>
+        /// Create soccer court
+        /// </summary>
+        /// <response code="201">Created soccer court</response>
+        /// <response code="400">An error when create soccer court</response>
+        [HttpPost(ApiRoutes.SoccerCourt.Create)]
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Create([FromBody] CreateSoccerCourtRequest request)
+        {
+            var result = await _scService
+                .AddSoccerCourtAsync(request);
+
+            if (!result)
+            {
+                return BadRequest(new Response<object>
+                {
+                    Message = "Ocorreu um erro ao adicionar quadra",
+                    Succeeded = false
+                });
+            }
+
+            return Created(string.Empty, new Response<object>
+            {
+                Message = "Quadra adicionada com sucesso",
+                Succeeded = true
+            });
+        }
+
+        /// <summary>
+        /// Update soccer court
+        /// </summary>
+        /// <response code="200">Updated soccer court</response>
+        /// <response code="400">An error when update soccer court</response>
+        /// <response code="404">Not found soccer court</response>
+        [HttpPut(ApiRoutes.SoccerCourt.Update)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Update([FromRoute] Guid scId, [FromBody] UpdateSoccerCourtRequest request)
+        {
+            var result = await _scService
+                .UpdateSoccerCourtAsync(scId, request);
+
+            if (!result)
+            {
+                return BadRequest(new Response<object>
+                {
+                    Message = "Ocorreu um erro ao atualizar quadra",
+                    Succeeded = false
+                });
+            }
+
+            return Ok(new Response<object>
+            {
+                Message = "Quadra atualizado com sucesso",
+                Succeeded = true
+            });
+        }
+
+        /// <summary>
+        /// Delete soccer court
+        /// </summary>
+        /// <response code="204">Deleted soccer court</response>
+        /// <response code="404">Not found soccer court</response>
+        [HttpDelete(ApiRoutes.SoccerCourt.Delete)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Delete([FromRoute] Guid scId)
+        {
+            var result = await _scService
+                .DeleteSoccerCourtAsync(scId);
+
+            if (!result)
+            {
+                return BadRequest(new Response<object>
+                {
+                    Message = "Ocorreu um erro ao deletar quadra",
+                    Succeeded = false
+                });
+            }
+
+            return NoContent();
         }
     }
 }

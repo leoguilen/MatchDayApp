@@ -5,6 +5,7 @@ using MatchDayApp.Infra.CrossCutting.V1;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Api.Controllers
@@ -32,8 +33,8 @@ namespace MatchDayApp.Api.Controllers
         /// <response code="200">Register a new user in the system</response>
         /// <response code="400">An error occurred when try register a new user in the system</response>
         [HttpPost(ApiRoutes.Authentication.Register)]
-        [ProducesResponseType(typeof(AuthSuccessResponse), 200)]
-        [ProducesResponseType(typeof(AuthFailedResponse), 400)]
+        [ProducesResponseType(typeof(AuthSuccessResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AuthFailedResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var result = await _authService.RegisterAsync(request);
@@ -61,8 +62,8 @@ namespace MatchDayApp.Api.Controllers
         /// <response code="200">user login validated in the system</response>
         /// <response code="400">An error occurred when try login user in the system</response>
         [HttpPost(ApiRoutes.Authentication.Login)]
-        [ProducesResponseType(typeof(AuthSuccessResponse), 200)]
-        [ProducesResponseType(typeof(AuthFailedResponse), 400)]
+        [ProducesResponseType(typeof(AuthSuccessResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AuthFailedResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await _authService.LoginAsync(request);
@@ -90,8 +91,8 @@ namespace MatchDayApp.Api.Controllers
         /// <response code="200">User password reseted succefully in the system</response>
         /// <response code="400">An error occurred when try reset user password in the system</response>
         [HttpPost(ApiRoutes.Authentication.ResetPassword)]
-        [ProducesResponseType(typeof(AuthSuccessResponse), 200)]
-        [ProducesResponseType(typeof(AuthFailedResponse), 400)]
+        [ProducesResponseType(typeof(AuthSuccessResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AuthFailedResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
         {
             var result = await _authService.ResetPasswordAsync(request);
