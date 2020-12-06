@@ -14,8 +14,8 @@ namespace MatchDayApp.Api.Controllers
     /// Endpoint responsible for authentication services
     /// </summary>
     [ApiController]
-    [ApiVersion("1.0")]
     [AllowAnonymous]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     public class AuthenticationController : ControllerBase
     {

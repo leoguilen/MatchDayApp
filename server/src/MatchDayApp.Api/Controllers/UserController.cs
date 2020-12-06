@@ -94,10 +94,10 @@ namespace MatchDayApp.Api.Controllers
         [HttpPut(ApiRoutes.User.Update)]
         [ProducesResponseType(typeof(Response<UserResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Update([FromRoute] Guid userId, [FromBody] UpdateUserRequest request)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateUserRequest request)
         {
             var result = await _userService
-                .UpdateUserAsync(userId, request);
+                .UpdateUserAsync(id, request);
 
             if (!result)
                 return BadRequest(new Response<object>
@@ -121,10 +121,10 @@ namespace MatchDayApp.Api.Controllers
         [HttpDelete(ApiRoutes.User.Delete)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> Delete([FromRoute] Guid userId)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var result = await _userService
-                .DeleteUserAsync(userId);
+                .DeleteUserAsync(id);
 
             if (!result)
                 return NotFound();

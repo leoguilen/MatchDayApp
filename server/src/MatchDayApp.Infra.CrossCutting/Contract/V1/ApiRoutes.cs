@@ -34,7 +34,6 @@
         {
             public const string GetAll = Base + "/soccercourt";
             public const string Get = Base + "/soccercourt/{id}";
-            public const string GetByGeo = Base + "/soccercourt";
             public const string Create = Base + "/soccercourt";
             public const string Update = Base + "/soccercourt/{id}";
             public const string Delete = Base + "/soccercourt/{id}";

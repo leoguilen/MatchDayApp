@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace MatchDayApp.Infra.CrossCutting.Contract.V1.Request.SoccerCourt
 {
@@ -12,6 +13,8 @@ namespace MatchDayApp.Infra.CrossCutting.Contract.V1.Request.SoccerCourt
         public string Cep { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        
+        [JsonIgnore]
         public Guid OwnerUserId { get; set; }
     }
 }

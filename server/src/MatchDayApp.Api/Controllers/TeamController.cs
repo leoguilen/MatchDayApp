@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MatchDayApp.Api.Extensions;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Query;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Team;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Response;
@@ -74,10 +75,10 @@ namespace MatchDayApp.Api.Controllers
         [HttpGet(ApiRoutes.Team.Get)]
         [ProducesResponseType(typeof(Response<TeamResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> Get([FromRoute] Guid teamId)
+        public async Task<IActionResult> Get([FromRoute] Guid id)
         {
             var team = await _teamService
-                .GetTeamByIdAsync(teamId);
+                .GetTeamByIdAsync(id);
 
             if (team is null)
                 return NotFound();
@@ -96,6 +97,9 @@ namespace MatchDayApp.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateTeamRequest request)
         {
+            request.OwnerUserId = Guid
+                .Parse(HttpContext.GetUserId());
+
             var result = await _teamService
                 .AddTeamAsync(request);
 
@@ -124,10 +128,10 @@ namespace MatchDayApp.Api.Controllers
         [HttpPut(ApiRoutes.Team.Update)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Update([FromRoute] Guid teamId, [FromBody] UpdateTeamRequest request)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateTeamRequest request)
         {
             var result = await _teamService
-                .UpdateTeamAsync(teamId, request);
+                .UpdateTeamAsync(id, request);
 
             if (!result)
             {
@@ -153,10 +157,10 @@ namespace MatchDayApp.Api.Controllers
         [HttpDelete(ApiRoutes.Team.Delete)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Delete([FromRoute] Guid teamId)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var result = await _teamService
-                .DeleteTeamAsync(teamId);
+                .DeleteTeamAsync(id);
 
             if (!result)
             {

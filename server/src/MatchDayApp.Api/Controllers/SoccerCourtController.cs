@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MatchDayApp.Api.Extensions;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Query;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.SoccerCourt;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Response;
@@ -74,37 +75,16 @@ namespace MatchDayApp.Api.Controllers
         [HttpGet(ApiRoutes.SoccerCourt.Get)]
         [ProducesResponseType(typeof(Response<SoccerCourtResponse>), 200)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> Get([FromRoute] Guid scId)
+        public async Task<IActionResult> Get([FromRoute] Guid id)
         {
             var sc = await _scService
-                .GetSoccerCourtByIdAsync(scId);
+                .GetSoccerCourtByIdAsync(id);
             
             if (sc is null)
                 return NotFound();
 
             return Ok(new Response<SoccerCourtResponse>(_mapper
                 .Map<SoccerCourtResponse>(sc)));
-        }
-
-        /// <summary>
-        /// Return soccer court by geolocalization
-        /// </summary>
-        /// <param name="request">User Coordenates</param>
-        /// <response code="200">Return soccer court nearby coordenates</response>
-        /// <response code="404">Not found soccer court</response>
-        [HttpPost(ApiRoutes.SoccerCourt.GetByGeo)]
-        [ProducesResponseType(typeof(Response<List<SoccerCourtResponse>>), 200)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetByGeo([FromBody] GetSoccerCourtsByGeoRequest request)
-        {
-            var sc = await _scService
-                .GetSoccerCourtsByGeoLocalizationAsync(request);
-
-            if (sc is null)
-                return NotFound();
-
-            return Ok(new Response<List<SoccerCourtResponse>>(_mapper
-                .Map<List<SoccerCourtResponse>>(sc)));
         }
 
         /// <summary>
@@ -117,6 +97,9 @@ namespace MatchDayApp.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateSoccerCourtRequest request)
         {
+            request.OwnerUserId = Guid
+                .Parse(HttpContext.GetUserId());
+
             var result = await _scService
                 .AddSoccerCourtAsync(request);
 
@@ -145,10 +128,10 @@ namespace MatchDayApp.Api.Controllers
         [HttpPut(ApiRoutes.SoccerCourt.Update)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Update([FromRoute] Guid scId, [FromBody] UpdateSoccerCourtRequest request)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateSoccerCourtRequest request)
         {
             var result = await _scService
-                .UpdateSoccerCourtAsync(scId, request);
+                .UpdateSoccerCourtAsync(id, request);
 
             if (!result)
             {
@@ -174,10 +157,10 @@ namespace MatchDayApp.Api.Controllers
         [HttpDelete(ApiRoutes.SoccerCourt.Delete)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Delete([FromRoute] Guid scId)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var result = await _scService
-                .DeleteSoccerCourtAsync(scId);
+                .DeleteSoccerCourtAsync(id);
 
             if (!result)
             {

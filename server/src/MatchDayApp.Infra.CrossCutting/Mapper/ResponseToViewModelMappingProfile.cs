@@ -8,7 +8,9 @@ namespace MatchDayApp.Infra.CrossCutting.Mapper
     {
         public ResponseToViewModelMappingProfile()
         {
-            CreateMap<UserModel, UserResponse>();
+            CreateMap<UserModel, UserResponse>().ReverseMap();
+            CreateMap<TeamModel, TeamResponse>().ReverseMap();
+            CreateMap<SoccerCourtModel, SoccerCourtResponse>().ReverseMap();
         }
     }
 }
