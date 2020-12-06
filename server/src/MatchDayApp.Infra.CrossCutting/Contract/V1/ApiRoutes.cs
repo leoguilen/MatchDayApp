@@ -38,5 +38,14 @@
             public const string Update = Base + "/soccercourt/{id}";
             public const string Delete = Base + "/soccercourt/{id}";
         }
+
+        public static class ScheduleMatch
+        {
+            public const string GetAll = Base + "/schedulematch";
+            public const string Get = Base + "/schedulematch/{id}";
+            public const string ScheduledMatch = Base + "/schedulematch";
+            public const string ConfirmMatch = Base + "/schedulematch/confirm";
+            public const string UncheckMatch = Base + "/schedulematch/uncheck";
+        }
     }
 }

@@ -3,6 +3,7 @@ using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Application.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Application.Services
@@ -38,7 +39,7 @@ namespace MatchDayApp.Application.Services
             var user = await _uow.Users
                 .GetByEmailAsync(userEmail);
 
-            if (user != null)
+            if (user != null && user.Deleted is false)
             {
                 return _mapper.Map<UserModel>(user);
             }
@@ -51,7 +52,7 @@ namespace MatchDayApp.Application.Services
             var user = await _uow.Users
                 .GetByIdAsync(userId);
 
-            if (user != null)
+            if (user != null && user.Deleted is false)
             {
                 return _mapper.Map<UserModel>(user);
             }
@@ -62,7 +63,8 @@ namespace MatchDayApp.Application.Services
         public async Task<IReadOnlyList<UserModel>> GetUsersListAsync()
         {
             var users = await _uow.Users.ListAllAsync();
-            return _mapper.Map<IReadOnlyList<UserModel>>(users);
+            return _mapper.Map<IReadOnlyList<UserModel>>(
+                users.Where(us => us.Deleted is false));
         }
 
         public async Task<bool> UpdateUserAsync(Guid userId, UserModel userModel)

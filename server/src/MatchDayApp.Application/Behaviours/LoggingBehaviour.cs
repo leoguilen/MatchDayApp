@@ -32,6 +32,7 @@ namespace MatchDayApp.Application.Behaviours
 
             //Response
             _logger.LogInformation($"Handled {typeof(TResponse).Name}");
+
             return response;
         }
     }

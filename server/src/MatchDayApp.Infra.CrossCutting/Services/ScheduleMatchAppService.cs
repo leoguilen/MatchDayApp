@@ -1,12 +1,16 @@
-﻿using MatchDayApp.Application.Commands.ScheduleMatch;
+﻿using AutoMapper;
+using MatchDayApp.Application.Commands.ScheduleMatch;
 using MatchDayApp.Application.Events.SoccerCourtEvents;
 using MatchDayApp.Application.Events.TeamEvents;
 using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Queries.ScheduleMatch;
+using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Query;
+using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.ScheduleMatch;
 using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Infra.CrossCutting.Services
@@ -14,18 +18,22 @@ namespace MatchDayApp.Infra.CrossCutting.Services
     public class ScheduleMatchAppService : IScheduleMatchAppService
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public ScheduleMatchAppService(IMediator mediator)
+        public ScheduleMatchAppService(IMediator mediator, IMapper mapper)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mediator = mediator 
+                ?? throw new ArgumentNullException(nameof(mediator));
+            _mapper = mapper 
+                ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<bool> ConfirmMatchAsync(Guid teamId, Guid scheduleMatchId)
+        public async Task<bool> ConfirmMatchAsync(ConfirmMatchRequest request)
         {
             var confirmMatchCommand = new ConfirmMatchCommand
             {
-                TeamId = teamId,
-                MatchId = scheduleMatchId
+                TeamId = request.TeamId,
+                MatchId = request.MatchId
             };
 
             var result = await _mediator.Send(confirmMatchCommand);
@@ -42,13 +50,28 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return match;
         }
 
-        public async Task<IReadOnlyList<ScheduleMatchModel>> GetScheduledMatchesListAsync()
+        public async Task<IReadOnlyList<ScheduleMatchModel>> GetScheduledMatchesListAsync(PaginationQuery pagination = null, MatchFilterQuery filter = null)
         {
             var getMatchesQuery = new GetMatchesQuery { };
 
             var matches = await _mediator.Send(getMatchesQuery);
 
-            return matches;
+            var skip = (pagination.PageNumber - 1) * pagination.PageSize;
+
+            if (!(filter is null))
+            {
+                return matches
+                    .Where(m => m.SoccerCourt.Id == filter.SoccerCourtId)
+                    .Where(m => m.FirstTeam.Id == filter.TeamId || m.SecondTeam.Id == filter.TeamId)
+                    .Skip(skip)
+                    .Take(pagination.PageSize)
+                    .ToList();
+            }
+
+            return matches
+                    .Skip(skip)
+                    .Take(pagination.PageSize)
+                    .ToList();
         }
 
         public async Task<IEnumerable<ScheduleMatchModel>> GetScheduledMatchsBySoccerCourtIdAsync(Guid soccerCourtId)
@@ -75,11 +98,14 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return matches;
         }
 
-        public async Task<bool> ScheduleMatchAsync(ScheduleMatchModel scheduleMatch)
+        public async Task<bool> ScheduleMatchAsync(ScheduleMatchRequest request)
         {
+            var matchModel = _mapper
+                    .Map<ScheduleMatchModel>(request);
+
             var scheduleMatchCommand = new ScheduleMatchCommand
             {
-                Match = scheduleMatch
+                Match = matchModel
             };
 
             var result = await _mediator.Send(scheduleMatchCommand);
@@ -87,8 +113,8 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             if (!result)
                 return result;
 
-            await _mediator.Publish(new TeamScheduledMatchEvent { Match = scheduleMatch });
-            await _mediator.Publish(new SoccerCourtScheduledMatchEvent { Match = scheduleMatch });
+            await _mediator.Publish(new TeamScheduledMatchEvent { Match = matchModel });
+            await _mediator.Publish(new SoccerCourtScheduledMatchEvent { Match = matchModel });
 
             return result;
         }
