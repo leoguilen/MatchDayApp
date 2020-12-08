@@ -40,7 +40,7 @@ namespace MatchDayApp.UnitTest.Handlers
 
             var usersResult = await _mediator.Send(getUsersQuery);
 
-            usersResult.Should().HaveCount(3);
+            usersResult.Should().HaveCount(2);
         }
 
         [Fact]

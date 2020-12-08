@@ -13,5 +13,14 @@ namespace MatchDayApp.Api.Extensions
             return httpContext.User.Claims
                 .Single(x => x.Type == "Id").Value;
         }
+
+        public static string GetUserType(this HttpContext httpContext)
+        {
+            if (httpContext.User == null)
+                return string.Empty;
+
+            return httpContext.User.Claims
+                .Single(x => x.Type == "UserType").Value;
+        }
     }
 }

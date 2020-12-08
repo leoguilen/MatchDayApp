@@ -55,9 +55,7 @@ namespace MatchDayApp.Api.Controllers
                 .Map<IReadOnlyList<ScheduleMatchResponse>>(matches);
 
             if (pagination == null || pagination.PageNumber < 1 || pagination.PageSize < 1)
-            {
                 return Ok(new PagedResponse<ScheduleMatchResponse>(matchesResponse));
-            }
 
             var paginationResponse = PaginationHelpers
                 .CreatePaginatedResponse(_uriService, pagination, matchesResponse.ToList());

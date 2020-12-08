@@ -34,9 +34,6 @@ namespace MatchDayApp.Application.Middlewares
         private Task HandleExceptionAsync(HttpContext context, Exception exception, ILogger<CustomExceptionHandlerMiddleware> logger)
         {
             var code = HttpStatusCode.InternalServerError;
-
-            logger.LogError(exception.Message);
-
             var result = string.Empty;
 
             switch (exception)
@@ -61,7 +58,11 @@ namespace MatchDayApp.Application.Middlewares
                     error = exception.Message,
                     stacktrace = exception.StackTrace
                 });
+
+                logger.LogError(result);
             }
+
+            logger.LogError(result);
 
             return context.Response.WriteAsync(result);
         }

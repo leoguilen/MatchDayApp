@@ -76,7 +76,7 @@ namespace MatchDayApp.UnitTest.Services
             var users = await _userService
                 .GetUsersListAsync();
 
-            users.Should().HaveCount(3);
+            users.Should().HaveCount(2);
         }
 
         [Fact]

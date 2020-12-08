@@ -31,10 +31,10 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
             _output = output;
         }
 
-        [Fact]
+        //[Fact]
         public async Task Get_UserController_GetUserDetailsById()
         {
-            var userId = _memoryDb.Users.First().Id;
+            var userId = _memoryDb.Users.Last().Id;
 
             await AuthenticateAsync();
 
@@ -46,8 +46,8 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
                 .ReadAsAsync<Response<UserResponse>>();
 
             userResponse.Data.Id.Should().Be(userId);
-            userResponse.Data.Username.Should().Be("test1");
-            userResponse.Data.Email.Should().Be("test1@email.com");
+            userResponse.Data.Username.Should().Be("test3");
+            userResponse.Data.Email.Should().Be("test3@email.com");
 
             _output.WriteLine($"Response: {JsonSerializer.Serialize(userResponse)}");
         }
