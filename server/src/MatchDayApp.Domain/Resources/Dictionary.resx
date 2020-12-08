@@ -209,4 +209,16 @@
     <value>Confirmação da senha não é igual a senha criada</value>
     <comment>Mensagem de validação de registro com confirmação de senha diferente da senha criada</comment>
   </data>
+  <data name="MV016" xml:space="preserve">
+    <value>Nome do time não pode ser nulo ou vazio</value>
+    <comment>Mensagem de validação de inserção de time com nome não preenchido</comment>
+  </data>
+  <data name="MV017" xml:space="preserve">
+    <value>Nome do time deve conter mais de 4 caracteres</value>
+    <comment>Mensagem de validação de inserção de time com nome menor que 4 caracteres</comment>
+  </data>
+  <data name="MV018" xml:space="preserve">
+    <value>Nome do time inválido</value>
+    <comment>Mensagem de validação de inserção de time com nome inválido</comment>
+  </data>
 </root>

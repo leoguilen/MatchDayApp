@@ -266,5 +266,32 @@ namespace MatchDayApp.Domain.Resources {
                 return ResourceManager.GetString("MV015", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome do time não pode ser nulo ou vazio.
+        /// </summary>
+        public static string MV016 {
+            get {
+                return ResourceManager.GetString("MV016", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome do time deve conter mais de 4 caracteres.
+        /// </summary>
+        public static string MV017 {
+            get {
+                return ResourceManager.GetString("MV017", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome do time inválido.
+        /// </summary>
+        public static string MV018 {
+            get {
+                return ResourceManager.GetString("MV018", resourceCulture);
+            }
+        }
     }
 }
