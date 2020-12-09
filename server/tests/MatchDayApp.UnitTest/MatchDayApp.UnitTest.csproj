@@ -11,6 +11,7 @@
     <PackageReference Include="Bogus" Version="31.0.3" />
     <PackageReference Include="ExpectedObjects" Version="2.3.5" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="MailKit" Version="2.10.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
@@ -31,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\MatchDayApp.Domain\MatchDayApp.Domain.csproj" />
     <ProjectReference Include="..\..\src\MatchDayApp.Infra.Data\MatchDayApp.Infra.Data.csproj" />
+    <ProjectReference Include="..\..\src\MatchDayApp.Infra.Message\MatchDayApp.Infra.Message.csproj" />
   </ItemGroup>
 
 </Project>

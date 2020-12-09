@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Reflection;
@@ -44,6 +45,16 @@ namespace MatchDayApp.UnitTest.Configuration
                 TokenLifetime = TimeSpan.FromMinutes(5)
             };
 
+            var smtpSetting = new SmtpSettings
+            {
+                SmtpAddress = "smtp.gmail.com",
+                SmtpPort = 465,
+                UseSsl = true,
+                SmtpUsername = "desenvolvimento.dev1@gmail.com",
+                SmtpPassword = "Dev@2020"
+            };
+
+            serviceProvider.AddSingleton(smtpSetting);
             serviceProvider.AddSingleton(jwtOptions);
             serviceProvider.AddSingleton(new TokenValidationParameters
             {
@@ -54,6 +65,11 @@ namespace MatchDayApp.UnitTest.Configuration
                 RequireExpirationTime = true,
                 ValidateLifetime = true
             });
+
+            var loggerFactory = new LoggerFactory();
+
+            serviceProvider.AddSingleton(typeof(ILogger),
+                loggerFactory.CreateLogger("Testing"));
 
             serviceProvider.AddMediatR(Assembly.Load("MatchDayApp.Application"));
 

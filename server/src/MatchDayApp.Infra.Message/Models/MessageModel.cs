@@ -1,4 +1,4 @@
-﻿namespace MatchDayApp.Application.Models
+﻿namespace MatchDayApp.Infra.Message.Models
 {
     public class MessageModel
     {
