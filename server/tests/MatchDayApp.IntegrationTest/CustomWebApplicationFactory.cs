@@ -46,6 +46,16 @@ namespace MatchDayApp.IntegrationTest
                         TokenLifetime = TimeSpan.FromMinutes(5)
                     };
 
+                    var smtpSetting = new SmtpSettings
+                    {
+                        SmtpAddress = "smtp.gmail.com",
+                        SmtpPort = 465,
+                        UseSsl = true,
+                        SmtpUsername = "desenvolvimento.dev1@gmail.com",
+                        SmtpPassword = "Dev@2020"
+                    };
+
+                    services.AddSingleton(smtpSetting);
                     services.AddSingleton(jwtOptions);
                     services.AddSingleton(new TokenValidationParameters
                     {
