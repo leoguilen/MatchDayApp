@@ -54,6 +54,14 @@ namespace MatchDayApp.UnitTest.Configuration
                 SmtpPassword = "Dev@2020"
             };
 
+            var twilioSettings = new TwilioSettings
+            {
+                TwilioAccountSID = "ACee2e2e7da6a0b0324b9ee07edd0ce97c",
+                TwilioAuthToken = "00185e58ac4a15e42bf3eb6483b9a5f7",
+                TwilioPhoneNumber = "+19514388489"
+            };
+
+            serviceProvider.AddSingleton(twilioSettings);
             serviceProvider.AddSingleton(smtpSetting);
             serviceProvider.AddSingleton(jwtOptions);
             serviceProvider.AddSingleton(new TokenValidationParameters

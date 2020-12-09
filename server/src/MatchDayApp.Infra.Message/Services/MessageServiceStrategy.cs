@@ -10,6 +10,7 @@ namespace MatchDayApp.Infra.Message.Services
     {
         private readonly ILogger _logger;
         private readonly SmtpSettings _smtpSettings;
+        private readonly TwilioSettings _twilioSettings;
 
         private IMessageService _messageService;
 
@@ -26,7 +27,7 @@ namespace MatchDayApp.Infra.Message.Services
             _messageService = messageType switch
             {
                 "email" => new EmailService(_smtpSettings, _logger),
-                "sms" => new SmsService(),
+                "sms" => new SmsService(_twilioSettings, _logger),
                 "whatsapp" => new WhatsappService(),
                 _ => throw new System.NotImplementedException()
             };

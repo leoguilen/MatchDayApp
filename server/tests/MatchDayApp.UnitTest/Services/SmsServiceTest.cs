@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using FluentAssertions;
 using MatchDayApp.Domain.Configuration;
-using MatchDayApp.Infra.Message.Common.Helpers;
 using MatchDayApp.Infra.Message.Models;
 using MatchDayApp.Infra.Message.Services;
 using MatchDayApp.UnitTest.Configuration;
@@ -13,34 +12,36 @@ using Xunit;
 namespace MatchDayApp.UnitTest.Services
 {
     [Trait("Services", "SendMessage")]
-    public class EmailServiceTest
+    public class SmsServiceTest
     {
-        private readonly EmailService _emailService;
-        private const string _emailTest = "desenvolvimento.dev1@gmail.com";
+        // Formato válido para números = +551155256325
+        private const string _phoneNumberTest = "+5511981411956";
+        private readonly SmsService _smsService;
+        private readonly TwilioSettings _twilioSettings;
 
-        public EmailServiceTest()
+        public SmsServiceTest()
         {
             var configServices = ServicesConfiguration.Configure();
             var logger = configServices.GetRequiredService<ILogger>();
-            var smtpSettings = configServices.GetRequiredService<SmtpSettings>();
+            _twilioSettings = configServices.GetRequiredService<TwilioSettings>();
 
-            _emailService = new EmailService(smtpSettings, logger);
+            _smsService = new SmsService(_twilioSettings, logger);
         }
 
         [Fact]
-        public async Task SendMessageAsync_EmailService_SendEmailToUser()
+        public async Task SendMessageAsync_SmsService_SendSmsToUser()
         {
             var faker = new Faker("pt_BR");
 
             var messageModel = new MessageModel
             {
-                From = _emailTest,
-                To = _emailTest,
+                From = _twilioSettings.TwilioPhoneNumber,
+                To = _phoneNumberTest,
                 Subject = faker.Lorem.Sentence(),
-                Body = TemplateHelper.GetWelcomeTemplateToString(),
+                Body = faker.Lorem.Paragraph(),
             };
 
-            var result = await _emailService
+            var result = await _smsService
                 .SendMessageAsync(messageModel);
 
             result.Should().BeTrue();
