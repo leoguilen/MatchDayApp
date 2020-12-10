@@ -17,17 +17,11 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
     public class LoginTest : ControllerTest
     {
         private readonly string _requestUri = ApiRoutes.Authentication.Login;
-
-        private readonly ITestOutputHelper _output;
         private readonly LoginRequest _loginRequest;
-        private readonly Faker _faker;
-
+        
         public LoginTest(CustomWebApplicationFactory factory,
-            ITestOutputHelper output) : base(factory)
+            ITestOutputHelper output) : base(factory, output)
         {
-            _output = output;
-            _faker = new Faker("pt_BR");
-
             _loginRequest = new LoginRequest
             {
                 Email = "test2@email.com",
@@ -38,7 +32,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
         [Fact]
         public async Task Login_AuthenticationController_FailedResponseIfEmailIsInvalid()
         {
-            _loginRequest.Email = _faker.Person.Email;
+            _loginRequest.Email = Faker.Person.Email;
 
             var response = await HttpClientTest
                 .PostAsJsonAsync(_requestUri, _loginRequest);
@@ -53,14 +47,14 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
                 .HaveCount(1).And
                 .BeEquivalentTo(new[] { Dictionary.MV001 });
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
         public async Task Login_AuthenticationController_FailedResponseIfPasswordIsInvalid()
         {
-            _loginRequest.Password = _faker.Internet.Password();
+            _loginRequest.Password = Faker.Internet.Password();
 
             var response = await HttpClientTest
                 .PostAsJsonAsync(_requestUri, _loginRequest);
@@ -75,7 +69,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
                 .HaveCount(1).And
                 .BeEquivalentTo(new[] { Dictionary.MV002 });
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -101,7 +95,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
                 .HaveCount(1).And
                 .BeEquivalentTo(new[] { Dictionary.MV001 });
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -118,7 +112,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
             authResponse.Token.Should().NotBeNullOrEmpty();
             authResponse.User.Email.Should().Be(_loginRequest.Email);
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
     }

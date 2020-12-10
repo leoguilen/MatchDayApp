@@ -17,17 +17,11 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
     public class ResetPasswordTest : ControllerTest
     {
         private readonly string _requestUri = ApiRoutes.Authentication.ResetPassword;
-
-        private readonly ITestOutputHelper _output;
         private readonly ResetPasswordRequest _resetPassRequest;
-        private readonly Faker _faker;
-
+        
         public ResetPasswordTest(CustomWebApplicationFactory factory,
-            ITestOutputHelper output) : base(factory)
+            ITestOutputHelper output) : base(factory, output)
         {
-            _output = output;
-            _faker = new Faker("pt_BR");
-
             _resetPassRequest = new ResetPasswordRequest
             {
                 Email = "test2@email.com",
@@ -41,7 +35,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
         [Fact]
         public async Task ResetPassword_AuthenticationController_FailedResponseIfEmailIsInvalid()
         {
-            _resetPassRequest.Email = _faker.Random.String2(15, 20);
+            _resetPassRequest.Email = Faker.Random.String2(15, 20);
 
             var response = await HttpClientTest
                 .PostAsJsonAsync(_requestUri, _resetPassRequest);
@@ -54,7 +48,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
                 .HaveCount(1).And
                 .BeEquivalentTo(new[] { Dictionary.MV011 });
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -80,14 +74,14 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
                 .HaveCount(1).And
                 .BeEquivalentTo(new[] { Dictionary.MV013 });
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
         public async Task ResetPassword_AuthenticationController_FailedResponseIfPasswordIsNotMatchStrongPattern()
         {
-            var invalidPassword = _faker.Internet.Password();
+            var invalidPassword = Faker.Internet.Password();
             _resetPassRequest.Password = invalidPassword;
             _resetPassRequest.ConfirmPassword = invalidPassword;
 
@@ -102,7 +96,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
                 .HaveCount(1).And
                 .BeEquivalentTo(new[] { Dictionary.MV014 });
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -113,7 +107,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
         [Fact]
         public async Task ResetPassword_AuthenticationController_FailedResponseIfConfirmPasswordIsNotEqualPassword()
         {
-            _resetPassRequest.ConfirmPassword = _faker.Internet.Password();
+            _resetPassRequest.ConfirmPassword = Faker.Internet.Password();
 
             var response = await HttpClientTest
                 .PostAsJsonAsync(_requestUri, _resetPassRequest);
@@ -126,7 +120,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
                 .HaveCount(1).And
                 .BeEquivalentTo(new[] { Dictionary.MV015 });
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -135,7 +129,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
         [Fact]
         public async Task ResetPassword_AuthenticationController_FailedResponseIfEmailNotExists()
         {
-            _resetPassRequest.Email = _faker.Person.Email;
+            _resetPassRequest.Email = Faker.Person.Email;
 
             var response = await HttpClientTest
                 .PostAsJsonAsync(_requestUri, _resetPassRequest);
@@ -147,7 +141,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
             authResponse.Message.Should()
                 .Be(Dictionary.ME001);
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -166,7 +160,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
             authResponse.Message.Should()
                 .Be(Dictionary.ME001);
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -183,7 +177,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
             authResponse.Message.Should()
                 .Be(Dictionary.MS002);
 
-            _output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
     }

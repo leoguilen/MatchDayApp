@@ -16,14 +16,11 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
     {
         private readonly string _requestUri = ApiRoutes.User.GetAll;
 
-        private readonly ITestOutputHelper _output;
         private readonly PaginationQuery _pagination;
 
         public GetUsersTest(CustomWebApplicationFactory factory,
-            ITestOutputHelper output) : base(factory)
+            ITestOutputHelper output) : base(factory, output)
         {
-            _output = output;
-
             _pagination = new PaginationQuery
             {
                 PageNumber = 1,
@@ -31,7 +28,7 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
             };
         }
 
-        //[Fact]
+        [Fact]
         public async Task GetAll_UserController_GetAllUsers()
         {
             await AuthenticateAsync();
@@ -60,7 +57,7 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
                     user3.Email.Should().Be("test3@email.com");
                 });
 
-            _output.WriteLine($"Response: {JsonSerializer.Serialize(userResponse)}");
+            Output.WriteLine($"Response: {JsonSerializer.Serialize(userResponse)}");
         }
     }
 }

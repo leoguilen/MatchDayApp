@@ -17,18 +17,14 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
     public class GetUserDetailsTest : ControllerTest
     {
         private readonly string _requestUri = ApiRoutes.User.Get;
-
-        private readonly ITestOutputHelper _output;
         private readonly MatchDayAppContext _memoryDb;
 
         public GetUserDetailsTest(CustomWebApplicationFactory factory,
-            ITestOutputHelper output) : base(factory)
+            ITestOutputHelper output) : base(factory, output)
         {
             _memoryDb = factory.Services
                 .GetRequiredService<MatchDayAppContext>()
                 .SeedFakeData();
-
-            _output = output;
         }
 
         //[Fact]
@@ -49,7 +45,7 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
             userResponse.Data.Username.Should().Be("test3");
             userResponse.Data.Email.Should().Be("test3@email.com");
 
-            _output.WriteLine($"Response: {JsonSerializer.Serialize(userResponse)}");
+            Output.WriteLine($"Response: {JsonSerializer.Serialize(userResponse)}");
         }
     }
 }

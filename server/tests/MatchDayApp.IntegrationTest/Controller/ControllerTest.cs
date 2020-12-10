@@ -1,19 +1,24 @@
-﻿using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth;
+﻿using Bogus;
+using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Response.Auth;
 using MatchDayApp.Infra.CrossCutting.V1;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace MatchDayApp.IntegrationTest.Controller
 {
     public class ControllerTest : IClassFixture<CustomWebApplicationFactory>
     {
         protected readonly HttpClient HttpClientTest;
+        protected readonly ITestOutputHelper Output;
+        protected readonly Faker Faker = new Faker("pt_BR"); 
 
-        public ControllerTest(CustomWebApplicationFactory factory)
+        public ControllerTest(CustomWebApplicationFactory factory, ITestOutputHelper output)
         {
+            Output = output;
             HttpClientTest = factory.CreateClient();
         }
 
