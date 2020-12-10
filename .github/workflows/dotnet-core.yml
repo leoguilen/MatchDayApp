@@ -25,3 +25,10 @@ jobs:
       run: dotnet test .//server//tests//MatchDayApp.UnitTest// --no-restore --verbosity normal
     - name: Integration Test
       run: dotnet test .//server//tests//MatchDayApp.IntegrationTest// --no-restore --verbosity minimal
+    - name: Publish
+      run: dotnet publish .//server//src//MatchDayApp.Api// --configuration Release --framework netcoreapp3.1 --no-restore -v normal -o output/
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.1
+      with:
+        name: artifact
+        path: .//server//src//MatchDayApp.Api//output//
