@@ -14,21 +14,23 @@ namespace MatchDayApp.Infra.Message.Services
 
         private IMessageService _messageService;
 
-        public MessageServiceStrategy(SmtpSettings smtpSettings, ILogger logger)
+        public MessageServiceStrategy(SmtpSettings smtpSettings, TwilioSettings twilioSettings, ILogger logger)
         {
             _smtpSettings = smtpSettings
                 ?? throw new System.ArgumentNullException(nameof(smtpSettings));
+            _twilioSettings = twilioSettings
+                ?? throw new System.ArgumentNullException(nameof(twilioSettings));
             _logger = logger
                 ?? throw new System.ArgumentNullException(nameof(logger));
         }
 
-        public IMessageService SetStrategy(string messageType)
+        public IMessageService SetStrategy(MessageType messageType)
         {
             _messageService = messageType switch
             {
-                "email" => new EmailService(_smtpSettings, _logger),
-                "sms" => new SmsService(_twilioSettings, _logger),
-                "whatsapp" => new WhatsappService(_twilioSettings, _logger),
+                MessageType.Email => new EmailService(_smtpSettings, _logger),
+                MessageType.Sms => new SmsService(_twilioSettings, _logger),
+                MessageType.Whatsapp => new WhatsappService(_twilioSettings, _logger),
                 _ => throw new System.NotImplementedException()
             };
 

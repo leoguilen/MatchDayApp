@@ -44,6 +44,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 .RuleFor(u => u.FirstName, f => f.Person.FirstName)
                 .RuleFor(u => u.LastName, f => f.Person.LastName)
                 .RuleFor(u => u.Email, f => f.Person.Email)
+                .RuleFor(u => u.PhoneNumber, f => f.Person.Phone)
                 .RuleFor(u => u.Username, f => f.UniqueIndex + f.Person.UserName)
                 .RuleFor(u => u.Password, f => SecurePasswordHasher.GenerateHash(f.Internet.Password(), salt))
                 .RuleFor(u => u.Salt, salt)
@@ -55,6 +56,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 LastName = "One",
                 Username = "test1",
                 Email = "test1@email.com",
+                PhoneNumber = "+551155256325",
                 UserType = UserType.SoccerCourtOwner,
             };
         }

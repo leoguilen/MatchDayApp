@@ -1,5 +1,11 @@
 ﻿using MatchDayApp.Application.Events.UserEvents;
+using MatchDayApp.Domain.Configuration;
+using MatchDayApp.Infra.Message.Common.Helpers;
+using MatchDayApp.Infra.Message.Models;
+using MatchDayApp.Infra.Message.Services;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,6 +16,21 @@ namespace MatchDayApp.Application.Handlers
         INotificationHandler<UserResetPasswordEvent>,
         INotificationHandler<UserDeletedEvent>
     {
+        private readonly SmtpSettings _smtpSettings;
+        private readonly TwilioSettings _twilioSettings;
+        private readonly MessageServiceStrategy _messageStrategy;
+
+        public UserEventHandler(SmtpSettings smtpSettings, TwilioSettings twilioSettings, ILogger logger)
+        {
+            _smtpSettings = smtpSettings
+                ?? throw new ArgumentNullException(nameof(smtpSettings));
+            _twilioSettings = twilioSettings
+                ?? throw new ArgumentNullException(nameof(twilioSettings));
+
+            _messageStrategy = new MessageServiceStrategy(
+                smtpSettings, twilioSettings, logger);
+        }
+
         public Task Handle(UserDeletedEvent notification, CancellationToken cancellationToken)
         {
             //Enviar notificação para usuário
@@ -22,10 +43,42 @@ namespace MatchDayApp.Application.Handlers
             return Task.CompletedTask;
         }
 
-        public Task Handle(UserRegisteredEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(UserRegisteredEvent notification, CancellationToken cancellationToken)
         {
-            //Enviar notificação para usuário
-            return Task.CompletedTask;
+            // Enviando email
+            await _messageStrategy.SetStrategy(MessageType.Email)
+                .SendMessageAsync(new MessageModel
+                {
+                    From = _smtpSettings.SmtpUsername,
+                    To = notification.Email,
+                    Subject = "[MatchDayApp] | SEJA BEM VINDO",
+                    Body = TemplateHelper.GetWelcomeTemplateToString()
+                        .Replace("{UsuarioNome}", notification.Name)
+                });
+
+            // Enviando Sms
+            await _messageStrategy.SetStrategy(MessageType.Sms)
+                .SendMessageAsync(new MessageModel
+                {
+                    From = _twilioSettings.TwilioPhoneNumber,
+                    To = notification.PhoneNumber,
+                    Subject = "[MatchDayApp] | SEJA BEM VINDO",
+                    Body = $"Olá {notification.Name}, seja bem vindo ao MatchDayApp!!\n" +
+                           "Essa mensagem é para confirmar o seu registro no nosso sistema" +
+                           " e desejar boas vindas!"
+                });
+
+            // Enviando Whatsapp
+            await _messageStrategy.SetStrategy(MessageType.Whatsapp)
+                .SendMessageAsync(new MessageModel
+                {
+                    From = _twilioSettings.TwilioWhatsappNumber,
+                    To = notification.PhoneNumber,
+                    Subject = "[MatchDayApp] | SEJA BEM VINDO",
+                    Body = $"Olá {notification.Name}, seja bem vindo ao MatchDayApp!!\n" +
+                           "Essa mensagem é para confirmar o seu registro no nosso sistema" +
+                           " e desejar boas vindas!"
+                });
         }
     }
 }

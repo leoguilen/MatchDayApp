@@ -1,6 +1,7 @@
 ﻿using MatchDayApp.Api;
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Domain.Common.Helpers;
+using MatchDayApp.Domain.Configuration;
 using MatchDayApp.Domain.Entities;
 using MatchDayApp.Domain.Entities.Enum;
 using MatchDayApp.Infra.CrossCutting.InversionOfControl;
@@ -11,9 +12,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace MatchDayApp.IntegrationTest
 {
@@ -41,7 +44,20 @@ namespace MatchDayApp.IntegrationTest
                         .GetRequiredService<MatchDayAppContext>();
                     providerDbContext.SeedFakeData();
 
-                    services.AddJwtDependency(configuration);
+                    var jwtOptions = new JwtOptions();
+                    configuration.Bind(nameof(JwtOptions), jwtOptions);
+
+                    services.AddSingleton(jwtOptions);
+                    services.AddSingleton(new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        RequireExpirationTime = true,
+                        ValidateLifetime = true
+                    });
+
                     services.AddSqlServerRepositoryDependency();
                     services.AddServiceDependency(configuration);
                     services.AddSingleton<IUnitOfWork>(new UnitOfWork(providerDbContext));
@@ -66,6 +82,7 @@ namespace MatchDayApp.IntegrationTest
                     Username = "test1",
                     Email = "test1@email.com",
                     ConfirmedEmail = true,
+                    PhoneNumber = "+551155256325",
                     Password = SecurePasswordHasher.GenerateHash("test123", salt),
                     Salt = salt,
                     UserType = UserType.SoccerCourtOwner,
@@ -78,6 +95,7 @@ namespace MatchDayApp.IntegrationTest
                     Username = "test2",
                     Email = "test2@email.com",
                     ConfirmedEmail = true,
+                    PhoneNumber = "+551112345525",
                     Password = SecurePasswordHasher.GenerateHash("test321", salt),
                     Salt = salt,
                     UserType = UserType.TeamOwner
@@ -90,6 +108,7 @@ namespace MatchDayApp.IntegrationTest
                     Username = "test3",
                     Email = "test3@email.com",
                     ConfirmedEmail = true,
+                    PhoneNumber = "+551198765525",
                     Password = SecurePasswordHasher.GenerateHash("test231", salt),
                     Salt = salt,
                     UserType = UserType.SoccerCourtOwner

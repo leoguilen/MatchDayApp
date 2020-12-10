@@ -77,6 +77,7 @@ namespace MatchDayApp.Application.Services
                 user.FirstName = userModel.FirstName ?? user.FirstName;
                 user.LastName = userModel.LastName ?? user.LastName;
                 user.Email = userModel.Email ?? user.Email;
+                user.PhoneNumber = userModel.PhoneNumber ?? user.PhoneNumber;
                 user.Username = userModel.Username ?? user.Username;
                 user.UserType = userModel.UserType;
                 user.Avatar = userModel.Avatar ?? user.Avatar;

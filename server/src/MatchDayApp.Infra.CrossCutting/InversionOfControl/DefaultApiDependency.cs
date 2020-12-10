@@ -23,12 +23,16 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
                     opt.RegisterValidatorsFromAssemblyContaining<RegisterCommandValidator>());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
-            services.AddLogging(options =>
+            
+            var loggerFactory = LoggerFactory.Create(options => 
             {
                 options.AddConfiguration(configuration.GetSection("Logging"));
                 options.AddConsole();
                 options.AddDebug();
-            });
+                options.AddEventLog();
+            }).CreateLogger("MatchDayAppLogger");
+
+            services.AddSingleton<ILogger>(loggerFactory);
 
             // Add versionamento da API
             services.AddApiVersioning(options =>

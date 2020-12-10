@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MatchDayApp.Domain\MatchDayApp.Domain.csproj" />
+    <ProjectReference Include="..\MatchDayApp.Infra.Message\MatchDayApp.Infra.Message.csproj" />
   </ItemGroup>
 
 </Project>

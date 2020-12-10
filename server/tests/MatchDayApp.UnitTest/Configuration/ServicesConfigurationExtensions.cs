@@ -26,6 +26,7 @@ namespace MatchDayApp.UnitTest.Configuration
                     Username = "test1",
                     Email = "test1@email.com",
                     ConfirmedEmail = true,
+                    PhoneNumber = "+551155256325",
                     Password = SecurePasswordHasher.GenerateHash("test123", salt),
                     Salt = salt,
                     UserType = UserType.SoccerCourtOwner,
@@ -38,6 +39,7 @@ namespace MatchDayApp.UnitTest.Configuration
                     Username = "test2",
                     Email = "test2@email.com",
                     ConfirmedEmail = true,
+                    PhoneNumber = "+551112345525",
                     Password = SecurePasswordHasher.GenerateHash("test321", salt),
                     Salt = salt,
                     UserType = UserType.TeamOwner
@@ -50,6 +52,7 @@ namespace MatchDayApp.UnitTest.Configuration
                     Username = "test3",
                     Email = "test3@email.com",
                     ConfirmedEmail = true,
+                    PhoneNumber = "+551198765525",
                     Password = SecurePasswordHasher.GenerateHash("test231", salt),
                     Salt = salt,
                     UserType = UserType.SoccerCourtOwner

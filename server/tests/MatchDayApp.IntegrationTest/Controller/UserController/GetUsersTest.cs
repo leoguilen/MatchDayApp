@@ -43,21 +43,14 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
             userResponse.Data.Should().SatisfyRespectively(
                 user1 =>
                 {
-                    user1.Username.Should().Be("test1");
-                    user1.Email.Should().Be("test1@email.com");
+                    user1.Username.Should().Be("test2");
+                    user1.Email.Should().Be("test2@email.com");
                 },
                 user2 =>
                 {
-                    user2.Username.Should().Be("test2");
-                    user2.Email.Should().Be("test2@email.com");
-                },
-                user3 =>
-                {
-                    user3.Username.Should().Be("test3");
-                    user3.Email.Should().Be("test3@email.com");
+                    user2.Username.Should().Be("test3");
+                    user2.Email.Should().Be("test3@email.com");
                 });
-
-            Output.WriteLine($"Response: {JsonSerializer.Serialize(userResponse)}");
         }
     }
 }
