@@ -1,7 +1,6 @@
 ﻿using MatchDayApp.Api;
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Domain.Common.Helpers;
-using MatchDayApp.Domain.Configuration;
 using MatchDayApp.Domain.Entities;
 using MatchDayApp.Domain.Entities.Enum;
 using MatchDayApp.Infra.CrossCutting.InversionOfControl;
@@ -10,12 +9,11 @@ using MatchDayApp.Infra.Data.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MatchDayApp.IntegrationTest
 {
@@ -24,9 +22,12 @@ namespace MatchDayApp.IntegrationTest
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder
-                .UseEnvironment("Test")
+                .UseEnvironment("Development")
                 .ConfigureServices(services =>
                 {
+                    var configuration = services.BuildServiceProvider()
+                        .GetRequiredService<IConfiguration>();
+
                     var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
                         typeof(DbContextOptions<MatchDayAppContext>));
@@ -40,35 +41,9 @@ namespace MatchDayApp.IntegrationTest
                         .GetRequiredService<MatchDayAppContext>();
                     providerDbContext.SeedFakeData();
 
-                    var jwtOptions = new JwtOptions
-                    {
-                        Secret = "9ce891b219b6fb5b0088e3e05e05baf5",
-                        TokenLifetime = TimeSpan.FromMinutes(5)
-                    };
-
-                    var smtpSetting = new SmtpSettings
-                    {
-                        SmtpAddress = "smtp.gmail.com",
-                        SmtpPort = 465,
-                        UseSsl = true,
-                        SmtpUsername = "desenvolvimento.dev1@gmail.com",
-                        SmtpPassword = "Dev@2020"
-                    };
-
-                    services.AddSingleton(smtpSetting);
-                    services.AddSingleton(jwtOptions);
-                    services.AddSingleton(new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret)),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        RequireExpirationTime = true,
-                        ValidateLifetime = true
-                    });
-
+                    services.AddJwtDependency(configuration);
                     services.AddSqlServerRepositoryDependency();
-                    services.AddServiceDependency();
+                    services.AddServiceDependency(configuration);
                     services.AddSingleton<IUnitOfWork>(new UnitOfWork(providerDbContext));
                 });
         }

@@ -19,6 +19,7 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
                     opt.CommandTimeout(180);
                     opt.EnableRetryOnFailure(5);
                     opt.MigrationsAssembly("MatchDayApp.Infra.Data");
+                    opt.EnableRetryOnFailure(2);
                 }));
 
                 return;

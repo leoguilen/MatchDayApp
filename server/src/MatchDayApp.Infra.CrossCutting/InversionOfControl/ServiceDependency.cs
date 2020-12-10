@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Application.Services;
+using MatchDayApp.Domain.Configuration;
 using MatchDayApp.Infra.CrossCutting.Services;
 using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -11,8 +13,16 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
 {
     public static class ServiceDependency
     {
-        public static void AddServiceDependency(this IServiceCollection services)
+        public static void AddServiceDependency(this IServiceCollection services, IConfiguration configuration)
         {
+            var smtpSetting = new SmtpSettings();
+            configuration.Bind(nameof(SmtpSettings), smtpSetting);
+            services.AddSingleton(smtpSetting);
+
+            var twilioSettings = new TwilioSettings();
+            configuration.Bind(nameof(TwilioSettings), twilioSettings);
+            services.AddSingleton(twilioSettings);
+
             // Application Services
             services.AddAutoMapper(new[] { Assembly.Load("MatchDayApp.Application"), Assembly.Load("MatchDayApp.Infra.CrossCutting") });
             services.AddTransient<IAuthService, AuthService>();

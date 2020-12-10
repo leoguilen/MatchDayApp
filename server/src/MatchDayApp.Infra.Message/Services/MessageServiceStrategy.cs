@@ -28,7 +28,7 @@ namespace MatchDayApp.Infra.Message.Services
             {
                 "email" => new EmailService(_smtpSettings, _logger),
                 "sms" => new SmsService(_twilioSettings, _logger),
-                "whatsapp" => new WhatsappService(),
+                "whatsapp" => new WhatsappService(_twilioSettings, _logger),
                 _ => throw new System.NotImplementedException()
             };
 

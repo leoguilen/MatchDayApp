@@ -8,19 +8,27 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
 {
     public static class DefaultApiDependency
     {
-        public static void AddDefaultApiDependency(this IServiceCollection services)
+        public static void AddDefaultApiDependency(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllers()
                 .AddFluentValidation(opt =>
                     opt.RegisterValidatorsFromAssemblyContaining<RegisterCommandValidator>());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddLogging(options =>
+            {
+                options.AddConfiguration(configuration.GetSection("Logging"));
+                options.AddConsole();
+                options.AddDebug();
+            });
 
             // Add versionamento da API
             services.AddApiVersioning(options =>
