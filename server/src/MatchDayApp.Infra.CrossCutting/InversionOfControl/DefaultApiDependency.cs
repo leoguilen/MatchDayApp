@@ -23,8 +23,8 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
                     opt.RegisterValidatorsFromAssemblyContaining<RegisterCommandValidator>());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
-            
-            var loggerFactory = LoggerFactory.Create(options => 
+
+            var loggerFactory = LoggerFactory.Create(options =>
             {
                 options.AddConfiguration(configuration.GetSection("Logging"));
                 options.AddConsole();

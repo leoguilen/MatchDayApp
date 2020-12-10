@@ -76,7 +76,7 @@ namespace MatchDayApp.UnitTest.Services
             (double lat, double lon) = (-23.1087742, -46.5546822);
 
             var soccerCourts = await _soccerCourtService
-                .GetSoccerCourtsByGeoLocalizationAsync(lat,lon);
+                .GetSoccerCourtsByGeoLocalizationAsync(lat, lon);
 
             soccerCourts.Should().HaveCount(2);
         }

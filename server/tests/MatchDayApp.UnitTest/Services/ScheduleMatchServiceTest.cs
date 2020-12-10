@@ -57,7 +57,7 @@ namespace MatchDayApp.UnitTest.Services
             match.SecondTeam.Name.Should().Be("Team 1");
             match.SoccerCourt.Name.Should().Be("Soccer Court 1");
             match.MatchTime.Should().Be(1);
-            match.MatchDate.Should().Be(new DateTime(2020,10,20,21,0,0));
+            match.MatchDate.Should().Be(new DateTime(2020, 10, 20, 21, 0, 0));
             match.MatchStatus.Should().Be(MatchStatus.Confirmed);
         }
 
@@ -77,7 +77,7 @@ namespace MatchDayApp.UnitTest.Services
                         match1.SecondTeam.Name.Should().Be("Team 2");
                         match1.SoccerCourt.Name.Should().Be("Soccer Court 3");
                         match1.MatchTime.Should().Be(1);
-                        match1.MatchDate.Should().Be(new DateTime(2020,10,16,20,0,0));
+                        match1.MatchDate.Should().Be(new DateTime(2020, 10, 16, 20, 0, 0));
                         match1.MatchStatus.Should().Be(MatchStatus.Finished);
                     });
         }
@@ -98,7 +98,7 @@ namespace MatchDayApp.UnitTest.Services
                         match1.SecondTeam.Name.Should().Be("Team 1");
                         match1.SoccerCourt.Name.Should().Be("Soccer Court 1");
                         match1.MatchTime.Should().Be(1);
-                        match1.MatchDate.Should().Be(new DateTime(2020,10,20,21,0,0));
+                        match1.MatchDate.Should().Be(new DateTime(2020, 10, 20, 21, 0, 0));
                         match1.MatchStatus.Should().Be(MatchStatus.Confirmed);
                     },
                     match2 =>
@@ -107,7 +107,7 @@ namespace MatchDayApp.UnitTest.Services
                         match2.SecondTeam.Name.Should().Be("Team 3");
                         match2.SoccerCourt.Name.Should().Be("Soccer Court 2");
                         match2.MatchTime.Should().Be(1);
-                        match2.MatchDate.Should().Be(new DateTime(2020,10,19,18,0,0));
+                        match2.MatchDate.Should().Be(new DateTime(2020, 10, 19, 18, 0, 0));
                         match2.MatchStatus.Should().Be(MatchStatus.WaitingForConfirmation);
                     },
                     match3 =>
@@ -116,7 +116,7 @@ namespace MatchDayApp.UnitTest.Services
                         match3.SecondTeam.Name.Should().Be("Team 2");
                         match3.SoccerCourt.Name.Should().Be("Soccer Court 3");
                         match3.MatchTime.Should().Be(1);
-                        match3.MatchDate.Should().Be(new DateTime(2020,10,16,20,0,0));
+                        match3.MatchDate.Should().Be(new DateTime(2020, 10, 16, 20, 0, 0));
                         match3.MatchStatus.Should().Be(MatchStatus.Finished);
                     });
         }

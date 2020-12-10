@@ -79,7 +79,7 @@ namespace MatchDayApp.Api.Controllers
         {
             var sc = await _scService
                 .GetSoccerCourtByIdAsync(id);
-            
+
             if (sc is null)
                 return NotFound();
 

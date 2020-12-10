@@ -22,9 +22,9 @@ namespace MatchDayApp.Infra.CrossCutting.Services
 
         public ScheduleMatchAppService(IMediator mediator, IMapper mapper)
         {
-            _mediator = mediator 
+            _mediator = mediator
                 ?? throw new ArgumentNullException(nameof(mediator));
-            _mapper = mapper 
+            _mapper = mapper
                 ?? throw new ArgumentNullException(nameof(mapper));
         }
 

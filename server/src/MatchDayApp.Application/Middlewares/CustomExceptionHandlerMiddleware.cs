@@ -40,7 +40,7 @@ namespace MatchDayApp.Application.Middlewares
             {
                 case FluentValidation.ValidationException validationException:
                     code = HttpStatusCode.BadRequest;
-                    result = JsonSerializer.Serialize(new 
+                    result = JsonSerializer.Serialize(new
                     {
                         Errors = validationException
                             .Errors.Select(e => e.ErrorMessage)

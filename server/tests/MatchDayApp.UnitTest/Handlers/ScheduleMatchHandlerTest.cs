@@ -53,7 +53,7 @@ namespace MatchDayApp.UnitTest.Handlers
             var matchResult = await _mediator.Send(getMatchByIdQuery);
 
             matchResult.MatchDate.Should()
-                .Be(new DateTime(2020,10,18,17,0,0));
+                .Be(new DateTime(2020, 10, 18, 17, 0, 0));
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace MatchDayApp.UnitTest.Handlers
 
             matchesResult.Should().HaveCount(1);
             matchesResult.First().MatchDate.Should()
-                .Be(new DateTime(2020,10,16,20,0,0));
+                .Be(new DateTime(2020, 10, 16, 20, 0, 0));
         }
 
         [Fact]

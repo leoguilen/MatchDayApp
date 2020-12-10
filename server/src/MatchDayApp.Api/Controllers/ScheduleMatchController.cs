@@ -76,7 +76,7 @@ namespace MatchDayApp.Api.Controllers
         {
             var match = await _matchService
                 .GetScheduledMatchByIdAsync(id);
-                
+
             if (match is null)
                 return NotFound();
 

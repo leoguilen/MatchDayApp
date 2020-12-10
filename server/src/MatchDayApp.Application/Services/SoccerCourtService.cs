@@ -53,7 +53,7 @@ namespace MatchDayApp.Application.Services
 
         public async Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsByGeoLocalizationAsync(double lat, double lon)
         {
-            var spec = new SoccerCourtNearbyToUserSpecification(lat,lon);
+            var spec = new SoccerCourtNearbyToUserSpecification(lat, lon);
             var soccerCourts = await _uow.SoccerCourts.GetAsync(spec);
             return _mapper.Map<IReadOnlyList<SoccerCourtModel>>(soccerCourts);
         }

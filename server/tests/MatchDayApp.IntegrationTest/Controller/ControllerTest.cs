@@ -14,7 +14,7 @@ namespace MatchDayApp.IntegrationTest.Controller
     {
         protected readonly HttpClient HttpClientTest;
         protected readonly ITestOutputHelper Output;
-        protected readonly Faker Faker = new Faker("pt_BR"); 
+        protected readonly Faker Faker = new Faker("pt_BR");
 
         public ControllerTest(CustomWebApplicationFactory factory, ITestOutputHelper output)
         {

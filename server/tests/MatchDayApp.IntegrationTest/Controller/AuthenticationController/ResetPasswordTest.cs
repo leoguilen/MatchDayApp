@@ -18,7 +18,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
     {
         private readonly string _requestUri = ApiRoutes.Authentication.ResetPassword;
         private readonly ResetPasswordRequest _resetPassRequest;
-        
+
         public ResetPasswordTest(CustomWebApplicationFactory factory,
             ITestOutputHelper output) : base(factory, output)
         {

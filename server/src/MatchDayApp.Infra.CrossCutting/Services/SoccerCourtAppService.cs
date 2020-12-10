@@ -81,7 +81,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             var soccerCourts = await _mediator.Send(getSoccerCourtsQuery);
 
             var skip = (pagination.PageNumber - 1) * pagination.PageSize;
-            
+
             return soccerCourts
                 .Skip(skip)
                 .Take(pagination.PageSize)

@@ -19,7 +19,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
     {
         private readonly string _requestUri = ApiRoutes.Authentication.Register;
         private readonly RegisterRequest _registerRequest;
-        
+
         public RegisterTest(CustomWebApplicationFactory factory,
             ITestOutputHelper output) : base(factory, output)
         {

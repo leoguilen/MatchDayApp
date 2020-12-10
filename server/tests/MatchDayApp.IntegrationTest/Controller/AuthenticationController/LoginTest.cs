@@ -18,7 +18,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
     {
         private readonly string _requestUri = ApiRoutes.Authentication.Login;
         private readonly LoginRequest _loginRequest;
-        
+
         public LoginTest(CustomWebApplicationFactory factory,
             ITestOutputHelper output) : base(factory, output)
         {
