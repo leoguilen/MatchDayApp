@@ -22,7 +22,7 @@ namespace MatchDayApp.Api
                 {
                     var env = hostingContext.HostingEnvironment;
 
-                    if (env.IsDevelopment())
+                    if (env.IsDevelopment() || env.IsEnvironment("Test"))
                     {
                         var appAssembly = Assembly.Load(new AssemblyName(env.ApplicationName));
                         if (appAssembly != null)
