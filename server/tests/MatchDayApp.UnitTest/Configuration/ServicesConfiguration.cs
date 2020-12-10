@@ -58,7 +58,8 @@ namespace MatchDayApp.UnitTest.Configuration
             {
                 TwilioAccountSID = "ACee2e2e7da6a0b0324b9ee07edd0ce97c",
                 TwilioAuthToken = "00185e58ac4a15e42bf3eb6483b9a5f7",
-                TwilioPhoneNumber = "+19514388489"
+                TwilioPhoneNumber = "+19514388489",
+                TwilioWhatsappNumber = "+14155238886"
             };
 
             serviceProvider.AddSingleton(twilioSettings);
