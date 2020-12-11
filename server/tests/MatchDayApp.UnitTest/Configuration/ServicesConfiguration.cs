@@ -52,11 +52,13 @@ namespace MatchDayApp.UnitTest.Configuration
             builder.Bind(nameof(TwilioSettings), twilioSettings);
             serviceProvider.AddSingleton(twilioSettings);
 
-            var jwtOptions = new JwtOptions();
-            builder.Bind(nameof(JwtOptions), jwtOptions);
-            jwtOptions.TokenLifetime = TimeSpan.FromHours(2);
+            var jwtOptions = new JwtOptions 
+            {
+                Secret = "54JQox4zDdTQubRDUTZpUtUhgFuO8ETR",
+                TokenLifetime = TimeSpan.FromHours(2)
+            };
+            
             serviceProvider.AddSingleton(jwtOptions);
-
             serviceProvider.AddSingleton(new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
