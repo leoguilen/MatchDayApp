@@ -31,4 +31,4 @@ jobs:
       uses: actions/upload-artifact@v2.2.1
       with:
         name: artifact
-        path: .//server//src//MatchDayApp.Api//output//
+        path: /home/runner/work/matchday-app/matchday-app/output/
