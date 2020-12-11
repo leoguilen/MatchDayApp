@@ -23,8 +23,8 @@ jobs:
       run: dotnet build .//server// --configuration Release --no-restore
     - name: Unit Test
       run: dotnet test .//server//tests//MatchDayApp.UnitTest// --no-restore --verbosity minimal
-    - name: Integration Test
-      run: dotnet test .//server//tests//MatchDayApp.IntegrationTest// --no-restore --verbosity minimal
+#     - name: Integration Test
+#       run: dotnet test .//server//tests//MatchDayApp.IntegrationTest// --no-restore --verbosity minimal
     - name: Publish
       run: dotnet publish .//server//src//MatchDayApp.Api// --configuration Release --framework netcoreapp3.1 --no-restore -v minimal -o output/
     - name: Upload a Build Artifact
