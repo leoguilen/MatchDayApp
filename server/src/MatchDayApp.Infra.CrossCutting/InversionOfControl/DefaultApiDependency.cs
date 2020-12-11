@@ -29,7 +29,6 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
                 options.AddConfiguration(configuration.GetSection("Logging"));
                 options.AddConsole();
                 options.AddDebug();
-                options.AddEventLog();
             }).CreateLogger("MatchDayAppLogger");
 
             services.AddSingleton<ILogger>(loggerFactory);

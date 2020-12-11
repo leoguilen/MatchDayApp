@@ -1,12 +1,18 @@
-﻿using MatchDayApp.Api;
+﻿using AutoMapper;
+using MatchDayApp.Api;
 using MatchDayApp.Application.Interfaces;
+using MatchDayApp.Application.Services;
 using MatchDayApp.Domain.Common.Helpers;
 using MatchDayApp.Domain.Configuration;
 using MatchDayApp.Domain.Entities;
 using MatchDayApp.Domain.Entities.Enum;
+using MatchDayApp.Domain.Repository;
 using MatchDayApp.Infra.CrossCutting.InversionOfControl;
+using MatchDayApp.Infra.CrossCutting.Services;
+using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MatchDayApp.Infra.Data.Data;
 using MatchDayApp.Infra.Data.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +22,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace MatchDayApp.IntegrationTest
@@ -44,9 +51,16 @@ namespace MatchDayApp.IntegrationTest
                         .GetRequiredService<MatchDayAppContext>();
                     providerDbContext.SeedFakeData();
 
+                    var smtpSetting = new SmtpSettings();
+                    configuration.Bind(nameof(SmtpSettings), smtpSetting);
+                    services.AddSingleton(smtpSetting);
+
+                    var twilioSettings = new TwilioSettings();
+                    configuration.Bind(nameof(TwilioSettings), twilioSettings);
+                    services.AddSingleton(twilioSettings);
+
                     var jwtOptions = new JwtOptions();
                     configuration.Bind(nameof(JwtOptions), jwtOptions);
-
                     services.AddSingleton(jwtOptions);
                     services.AddSingleton(new TokenValidationParameters
                     {
