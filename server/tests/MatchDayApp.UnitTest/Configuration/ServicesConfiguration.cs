@@ -7,7 +7,6 @@ using MatchDayApp.Infra.Data.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -40,24 +39,31 @@ namespace MatchDayApp.UnitTest.Configuration
             serviceProvider.AddTransient<ISoccerCourtService, SoccerCourtService>();
             serviceProvider.AddTransient<IScheduleMatchService, ScheduleMatchService>();
 
-            var builder = new ConfigurationBuilder()
-                .AddUserSecrets("c809d130-6225-4c9f-91c0-1e2a516a72ae")
-                .Build();
-
-            var smtpSetting = new SmtpSettings();
-            builder.Bind(nameof(SmtpSettings), smtpSetting);
-            serviceProvider.AddSingleton(smtpSetting);
-
-            var twilioSettings = new TwilioSettings();
-            builder.Bind(nameof(TwilioSettings), twilioSettings);
-            serviceProvider.AddSingleton(twilioSettings);
-
-            var jwtOptions = new JwtOptions 
+            var jwtOptions = new JwtOptions
             {
-                Secret = "54JQox4zDdTQubRDUTZpUtUhgFuO8ETR",
-                TokenLifetime = TimeSpan.FromHours(2)
+                Secret = "9ce891b219b6fb5b0088e3e05e05baf5",
+                TokenLifetime = TimeSpan.FromMinutes(5)
             };
-            
+
+            var smtpSetting = new SmtpSettings
+            {
+                SmtpAddress = "smtp.gmail.com",
+                SmtpPort = 465,
+                UseSsl = true,
+                SmtpUsername = "desenvolvimento.dev1@gmail.com",
+                SmtpPassword = "Dev@2020"
+            };
+
+            var twilioSettings = new TwilioSettings
+            {
+                TwilioAccountSID = "ACee2e2e7da6a0b0324b9ee07edd0ce97c",
+                TwilioAuthToken = "00185e58ac4a15e42bf3eb6483b9a5f7",
+                TwilioPhoneNumber = "+19514388489",
+                TwilioWhatsappNumber = "+14155238886"
+            };
+
+            serviceProvider.AddSingleton(twilioSettings);
+            serviceProvider.AddSingleton(smtpSetting);
             serviceProvider.AddSingleton(jwtOptions);
             serviceProvider.AddSingleton(new TokenValidationParameters
             {
