@@ -9,6 +9,7 @@ namespace MatchDayApp.Infra.CrossCutting.Contract.V1.Response
         public string LastName { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
+        public string PhoneNumber { get; set; }
         public int UserType { get; set; }
         public string Avatar { get; set; }
     }
