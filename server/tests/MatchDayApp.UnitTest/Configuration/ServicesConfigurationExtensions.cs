@@ -71,7 +71,7 @@ namespace MatchDayApp.UnitTest.Configuration
                 Id = Guid.NewGuid(),
                 UserId = users.Last().Id,
                 RequestedAt = DateTime.Now,
-                ConfirmKey = Guid.NewGuid()
+                ConfirmKey = Guid.Parse("C9267B0B-54A1-4971-9ED7-173008905696")
             };
 
             testContext.UserConfirmEmails.AddRange(confirmEmail);

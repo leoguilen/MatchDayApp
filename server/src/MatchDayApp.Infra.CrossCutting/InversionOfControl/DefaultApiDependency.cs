@@ -8,9 +8,11 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.IO.Compression;
 
 namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
 {
@@ -43,6 +45,17 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
             {
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
+            });
+
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Optimal;
+            });
+
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add(typeof(GzipCompressionProvider));
             });
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
@@ -80,9 +93,11 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
                 return new UriService(absoluteUri);
             });
         }
-        public static void UseCustomExceptionHandler(this IApplicationBuilder app)
+
+        public static void UseDefaultDependency(this IApplicationBuilder app)
         {
             app.UseMiddleware<CustomExceptionHandlerMiddleware>();
+            app.UseResponseCompression();
         }
     }
 }
