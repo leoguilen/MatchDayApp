@@ -1,4 +1,5 @@
 ﻿using MatchDayApp.Domain.Configuration;
+using MatchDayApp.Infra.Message.Common.Helpers;
 using MatchDayApp.Infra.Message.Interfaces;
 using MatchDayApp.Infra.Message.Models;
 using Microsoft.Extensions.Logging;
@@ -32,14 +33,14 @@ namespace MatchDayApp.Infra.Message.Services
 
                 var msgResource = await MessageResource.CreateAsync(
                     from: new PhoneNumber(_twilioSettings.TwilioPhoneNumber),
-                    to: new PhoneNumber(message.To),
+                    to: new PhoneNumber(TwilioHelper.FormatPhoneNumber(message.To)),
                     addressRetention: MessageResource.AddressRetentionEnum.Retain,
                     body: message.Body);
 
                 if (msgResource.Status == MessageResource.StatusEnum.Failed)
                     throw new Exception($"{msgResource.ErrorCode} - {msgResource.ErrorMessage}");
 
-                _logger.LogInformation($"Mensagem enviada para {msgResource.To} em {msgResource.DateSent}");
+                _logger.LogInformation($"Mensagem sms enviada com sucesso");
                 return true;
             }
             catch (Exception ex)

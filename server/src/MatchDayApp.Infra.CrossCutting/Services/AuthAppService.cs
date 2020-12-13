@@ -50,7 +50,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             await _mediator.Publish(new UserRegisteredEvent
             {
                 Name = $"{register.FirstName} {register.LastName}",
-                PhoneNumber = "+5511981411956",
+                PhoneNumber = register.PhoneNumber,
                 Email = register.Email
             });
 

@@ -49,14 +49,9 @@ namespace MatchDayApp.Infra.Message.Services
                     _smtpSettings.SmtpPassword);
 
                 await client.SendAsync(msg);
-
-                client.MessageSent += (sender, e) =>
-                {
-                    _logger.LogInformation($"{e.Message}\n\n{e.Response}");
-                };
-
                 await client.DisconnectAsync(true);
 
+                _logger.LogInformation("Email enviado com sucesso");
                 return true;
             }
             catch (Exception ex)

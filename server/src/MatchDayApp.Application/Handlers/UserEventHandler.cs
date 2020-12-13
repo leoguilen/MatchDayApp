@@ -1,6 +1,5 @@
 ﻿using MatchDayApp.Application.Events.UserEvents;
 using MatchDayApp.Domain.Configuration;
-using MatchDayApp.Infra.Message.Common.Helpers;
 using MatchDayApp.Infra.Message.Models;
 using MatchDayApp.Infra.Message.Services;
 using MediatR;
@@ -52,8 +51,7 @@ namespace MatchDayApp.Application.Handlers
                     From = _smtpSettings.SmtpUsername,
                     To = notification.Email,
                     Subject = "[MatchDayApp] | SEJA BEM VINDO",
-                    Body = TemplateHelper.GetWelcomeTemplateToString()
-                        .Replace("{UsuarioNome}", notification.Name)
+                    Body = $"Olá {notification.Name}, seja bem vindo!"
                 });
 
             // Enviando Sms

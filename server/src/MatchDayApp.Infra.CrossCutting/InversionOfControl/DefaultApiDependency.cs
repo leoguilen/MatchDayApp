@@ -31,7 +31,7 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
                 options.AddDebug();
             }).CreateLogger("MatchDayAppLogger");
 
-            services.AddSingleton<ILogger>(loggerFactory);
+            services.AddSingleton(loggerFactory);
 
             // Add versionamento da API
             services.AddApiVersioning(options =>

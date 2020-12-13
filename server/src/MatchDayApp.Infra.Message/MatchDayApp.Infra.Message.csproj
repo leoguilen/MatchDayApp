@@ -14,10 +14,4 @@
     <ProjectReference Include="..\MatchDayApp.Domain\MatchDayApp.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="_Templates\welcome_template.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
