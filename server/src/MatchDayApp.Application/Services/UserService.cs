@@ -19,6 +19,12 @@ namespace MatchDayApp.Application.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        public async Task<bool> AddRequestConfirmEmailAsync(Guid userId)
+        {
+            return await _uow.Users
+                .AddRequestConfirmEmailAsync(userId);
+        }
+
         public async Task<bool> DeleteUserAsync(Guid userId)
         {
             var user = await _uow.Users

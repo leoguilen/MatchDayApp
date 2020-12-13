@@ -249,5 +249,16 @@ namespace MatchDayApp.UnitTest.Persistence
 
             user.Should().BeNull();
         }
+
+        [Fact, Order(14)]
+        public async Task AddRequestConfirmEmailAsync_User_InsertRequestToUserConfirmRegisteredEmail()
+        {
+            var userId = _userTest.Id;
+
+            var result = await _userRepository
+                .AddRequestConfirmEmailAsync(userId);
+
+            result.Should().BeTrue();
+        }
     }
 }

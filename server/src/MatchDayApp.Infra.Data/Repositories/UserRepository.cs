@@ -11,7 +11,10 @@ namespace MatchDayApp.Infra.Data.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(MatchDayAppContext context) : base(context) { }
+        private readonly MatchDayAppContext _context;
+
+        public UserRepository(MatchDayAppContext context)
+            : base(context) => _context = context;
 
         public override async Task<IReadOnlyList<User>> ListAllAsync()
         {
@@ -32,6 +35,22 @@ namespace MatchDayApp.Infra.Data.Repositories
             return await Entities
                 .Include(u => u.UserTeam.Team)
                 .SingleOrDefaultAsync(u => u.Email.Contains(email));
+        }
+
+        public async Task<bool> AddRequestConfirmEmailAsync(Guid userId)
+        {
+            var userConfirmEmail = new UserConfirmEmail
+            {
+                Id = Guid.NewGuid(),
+                RequestedAt = DateTime.Now,
+                UserId = userId,
+                ConfirmKey = Guid.NewGuid()
+            };
+
+            var result = await _context.ConfirmEmails
+                .AddAsync(userConfirmEmail);
+
+            return result.State == EntityState.Added;
         }
     }
 }

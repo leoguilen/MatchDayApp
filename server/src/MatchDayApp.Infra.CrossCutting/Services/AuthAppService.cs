@@ -49,6 +49,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
 
             await _mediator.Publish(new UserRegisteredEvent
             {
+                UserId = authResult.User.Id,
                 Name = $"{register.FirstName} {register.LastName}",
                 PhoneNumber = register.PhoneNumber,
                 Email = register.Email

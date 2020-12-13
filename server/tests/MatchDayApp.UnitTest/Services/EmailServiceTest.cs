@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using FluentAssertions;
 using MatchDayApp.Domain.Configuration;
-using MatchDayApp.Infra.Message.Common.Helpers;
 using MatchDayApp.Infra.Message.Models;
 using MatchDayApp.Infra.Message.Services;
 using MatchDayApp.UnitTest.Configuration;
@@ -37,7 +36,7 @@ namespace MatchDayApp.UnitTest.Services
                 From = _emailTest,
                 To = _emailTest,
                 Subject = faker.Lorem.Sentence(),
-                Body = TemplateHelper.GetWelcomeTemplateToString(),
+                Body = $"Olá {faker.Person.FullName}, seja bem vindo!",
             };
 
             var result = await _emailService

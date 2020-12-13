@@ -4,14 +4,16 @@ using MatchDayApp.Infra.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MatchDayApp.Infra.Data.Data.Migrations
 {
     [DbContext(typeof(MatchDayAppContext))]
-    partial class MatchDayAppContextModelSnapshot : ModelSnapshot
+    [Migration("20201213213020_Added_Table_UserConfirmEmail")]
+    partial class Added_Table_UserConfirmEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
