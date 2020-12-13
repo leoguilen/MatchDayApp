@@ -6,6 +6,7 @@ using MatchDayApp.Domain.Common.Helpers;
 using MatchDayApp.Domain.Configuration;
 using MatchDayApp.Domain.Entities;
 using MatchDayApp.Domain.Resources;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,9 +20,45 @@ namespace MatchDayApp.Application.Services
 
         public AuthService(IUnitOfWork uow, IMapper mapper, JwtOptions jwtOptions)
         {
-            _uow = uow ?? throw new System.ArgumentNullException(nameof(uow));
-            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
-            _jwtOptions = jwtOptions ?? throw new System.ArgumentNullException(nameof(jwtOptions));
+            _uow = uow ?? throw new ArgumentNullException(nameof(uow));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _jwtOptions = jwtOptions ?? throw new ArgumentNullException(nameof(jwtOptions));
+        }
+
+        public async Task<bool> AddConfirmEmailRequestAsync(Guid userId)
+        {
+            return await _uow.UserConfirmEmails
+                .AddRequestAsync(userId);
+        }
+
+        public async Task<AuthenticationResult> ConfirmEmailAsync(ConfirmEmailModel confirmEmail)
+        {
+            var request = await _uow.UserConfirmEmails
+                .GetRequestByKeyAsync(confirmEmail.ConfirmKey);
+
+            if (request is null)
+            {
+                return new AuthenticationResult
+                {
+                    Message = Dictionary.ME006,
+                    Success = false
+                };
+            }
+
+            _uow.UserConfirmEmails
+                .UpdateRequest(request);
+
+            var user = await _uow.Users
+                .GetByIdAsync(request.UserId);
+
+            user.ConfirmedEmail = true;
+            await _uow.Users.SaveAsync(user);
+
+            return new AuthenticationResult
+            {
+                Message = Dictionary.MS004,
+                Success = true,
+            };
         }
 
         public async Task<AuthenticationResult> LoginAsync(LoginModel login)

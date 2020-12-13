@@ -111,5 +111,33 @@ namespace MatchDayApp.Api.Controllers
                 Message = result.Message
             });
         }
+
+        /// <summary>
+        /// Confirm user email in the system
+        /// </summary>
+        /// <response code="200">Confirmed email with succefully</response>
+        /// <response code="400">An error occurred when try confirm user email in the system</response>
+        [HttpGet(ApiRoutes.Authentication.ConfirmEmail)]
+        [ProducesResponseType(typeof(AuthSuccessResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AuthFailedResponse), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] Guid key)
+        {
+            var result = await _authService
+                .ConfirmEmailAsync(key);
+
+            if (!result.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Message = result.Message,
+                    Errors = result.Errors
+                });
+            }
+
+            return Ok(new AuthSuccessResponse
+            {
+                Message = result.Message
+            });
+        }
     }
 }

@@ -12,6 +12,5 @@ namespace MatchDayApp.Application.Interfaces
         Task<UserModel> GetUserByEmailAsync(string userEmail);
         Task<bool> UpdateUserAsync(Guid userId, UserModel user);
         Task<bool> DeleteUserAsync(Guid userId);
-        Task<bool> AddRequestConfirmEmailAsync(Guid userId);
     }
 }

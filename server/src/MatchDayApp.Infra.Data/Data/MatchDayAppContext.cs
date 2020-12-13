@@ -18,7 +18,7 @@ namespace MatchDayApp.Infra.Data.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<SoccerCourt> SoccerCourts { get; set; }
         public DbSet<ScheduleMatch> ScheduleMatches { get; set; }
-        public DbSet<UserConfirmEmail> ConfirmEmails { get; set; }
+        public DbSet<UserConfirmEmail> UserConfirmEmails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

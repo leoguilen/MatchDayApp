@@ -137,6 +137,10 @@
     <value>Falha no registro de usuário</value>
     <comment>Mensagem de erro no registro de um novo usuário na aplicação</comment>
   </data>
+  <data name="ME006" xml:space="preserve">
+    <value>Requisição inválida</value>
+    <comment>Mensagem de erro ao buscar solicitação de confirmação de email</comment>
+  </data>
   <data name="MS001" xml:space="preserve">
     <value>Login efetuado com sucesso</value>
     <comment>Mensagem de sucesso na autenticação do usuário na aplicação</comment>
@@ -148,6 +152,10 @@
   <data name="MS003" xml:space="preserve">
     <value>Registrado com sucesso</value>
     <comment>Mensagem de sucesso no registro de usuário na aplicação</comment>
+  </data>
+  <data name="MS004" xml:space="preserve">
+    <value>Email confirmado com sucesso</value>
+    <comment>Mensagem de sucesso na confirmação de email</comment>
   </data>
   <data name="MV001" xml:space="preserve">
     <value>Email inválido</value>

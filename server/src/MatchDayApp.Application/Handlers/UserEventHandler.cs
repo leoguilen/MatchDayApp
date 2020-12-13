@@ -19,12 +19,12 @@ namespace MatchDayApp.Application.Handlers
         private readonly SmtpSettings _smtpSettings;
         private readonly TwilioSettings _twilioSettings;
         private readonly MessageServiceStrategy _messageStrategy;
-        private readonly IUserService _userService;
+        private readonly IAuthService _authService;
 
-        public UserEventHandler(IUserService userService, SmtpSettings smtpSettings, TwilioSettings twilioSettings, ILogger logger)
+        public UserEventHandler(IAuthService authService, SmtpSettings smtpSettings, TwilioSettings twilioSettings, ILogger logger)
         {
-            _userService = userService 
-                ?? throw new ArgumentNullException(nameof(userService));
+            _authService = authService
+                ?? throw new ArgumentNullException(nameof(authService));
             _smtpSettings = smtpSettings
                 ?? throw new ArgumentNullException(nameof(smtpSettings));
             _twilioSettings = twilioSettings
@@ -48,45 +48,42 @@ namespace MatchDayApp.Application.Handlers
 
         public async Task Handle(UserRegisteredEvent notification, CancellationToken cancellationToken)
         {
-            var request = await _userService
-                .AddRequestConfirmEmailAsync(notification.UserId);
+            var addRequest = await _authService
+                .AddConfirmEmailRequestAsync(notification.UserId);
 
-            if(request)
-            {
-                // Enviando email
-                await _messageStrategy.SetStrategy(MessageType.Email)
-                    .SendMessageAsync(new MessageModel
-                    {
-                        From = _smtpSettings.SmtpUsername,
-                        To = notification.Email,
-                        Subject = "[MatchDayApp] | SEJA BEM VINDO",
-                        Body = $"Olá {notification.Name}, seja bem vindo!"
-                    });
+            // Enviando email
+            await _messageStrategy.SetStrategy(MessageType.Email)
+                .SendMessageAsync(new MessageModel
+                {
+                    From = _smtpSettings.SmtpUsername,
+                    To = notification.Email,
+                    Subject = "[MatchDayApp] | SEJA BEM VINDO",
+                    Body = $"Olá {notification.Name}, seja bem vindo!"
+                });
 
-                // Enviando Sms
-                await _messageStrategy.SetStrategy(MessageType.Sms)
-                    .SendMessageAsync(new MessageModel
-                    {
-                        From = _twilioSettings.TwilioPhoneNumber,
-                        To = notification.PhoneNumber,
-                        Subject = "[MatchDayApp] | SEJA BEM VINDO",
-                        Body = $"Olá {notification.Name}, seja bem vindo ao MatchDayApp!!\n" +
-                               "Essa mensagem é para confirmar o seu registro no nosso sistema" +
-                               " e desejar boas vindas!"
-                    });
+            // Enviando Sms
+            await _messageStrategy.SetStrategy(MessageType.Sms)
+                .SendMessageAsync(new MessageModel
+                {
+                    From = _twilioSettings.TwilioPhoneNumber,
+                    To = notification.PhoneNumber,
+                    Subject = "[MatchDayApp] | SEJA BEM VINDO",
+                    Body = $"Olá {notification.Name}, seja bem vindo ao MatchDayApp!!\n" +
+                           "Essa mensagem é para confirmar o seu registro no nosso sistema" +
+                           " e desejar boas vindas!"
+                });
 
-                // Enviando Whatsapp
-                await _messageStrategy.SetStrategy(MessageType.Whatsapp)
-                    .SendMessageAsync(new MessageModel
-                    {
-                        From = _twilioSettings.TwilioWhatsappNumber,
-                        To = notification.PhoneNumber,
-                        Subject = "[MatchDayApp] | SEJA BEM VINDO",
-                        Body = $"Olá {notification.Name}, seja bem vindo ao MatchDayApp!!\n" +
-                               "Essa mensagem é para confirmar o seu registro no nosso sistema" +
-                               " e desejar boas vindas!"
-                    });
-            }
+            // Enviando Whatsapp
+            await _messageStrategy.SetStrategy(MessageType.Whatsapp)
+                .SendMessageAsync(new MessageModel
+                {
+                    From = _twilioSettings.TwilioWhatsappNumber,
+                    To = notification.PhoneNumber,
+                    Subject = "[MatchDayApp] | SEJA BEM VINDO",
+                    Body = $"Olá {notification.Name}, seja bem vindo ao MatchDayApp!!\n" +
+                           "Essa mensagem é para confirmar o seu registro no nosso sistema" +
+                           " e desejar boas vindas!"
+                });
         }
     }
 }

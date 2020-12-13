@@ -6,6 +6,7 @@ using MatchDayApp.Application.Models.Auth;
 using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth;
 using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using MediatR;
+using System;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Infra.CrossCutting.Services
@@ -19,6 +20,18 @@ namespace MatchDayApp.Infra.CrossCutting.Services
         {
             _mediator = mediator ?? throw new System.ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
+        }
+
+        public async Task<AuthenticationResult> ConfirmEmailAsync(Guid key)
+        {
+            var confirmEmailCommand = new ConfirmEmailCommand
+            {
+                ConfirmEmail = new ConfirmEmailModel { ConfirmKey = key }
+            };
+
+            var authResult = await _mediator.Send(confirmEmailCommand);
+
+            return authResult;
         }
 
         public async Task<AuthenticationResult> LoginAsync(LoginRequest login)

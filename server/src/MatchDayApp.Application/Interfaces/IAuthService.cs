@@ -10,5 +10,7 @@ namespace MatchDayApp.Application.Interfaces
         Task<AuthenticationResult> LoginAsync(LoginModel login);
         Task<AuthenticationResult> RegisterAsync(RegisterModel register);
         Task<AuthenticationResult> ResetPasswordAsync(ResetPasswordModel resetPassword);
+        Task<AuthenticationResult> ConfirmEmailAsync(ConfirmEmailModel confirmEmail);
+        Task<bool> AddConfirmEmailRequestAsync(Guid userId);
     }
 }

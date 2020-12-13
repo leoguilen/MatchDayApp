@@ -11,6 +11,7 @@
             public const string Register = Base + "/auth/register";
             public const string Login = Base + "/auth/login";
             public const string ResetPassword = Base + "/auth/reset";
+            public const string ConfirmEmail = Base + "/auth/confirmEmail";
         }
 
         public static class User

@@ -10,7 +10,8 @@ namespace MatchDayApp.Application.Handlers
     public class AuthenticationHandler :
         IRequestHandler<LoginCommand, AuthenticationResult>,
         IRequestHandler<RegisterCommand, AuthenticationResult>,
-        IRequestHandler<ResetPasswordCommand, AuthenticationResult>
+        IRequestHandler<ResetPasswordCommand, AuthenticationResult>,
+        IRequestHandler<ConfirmEmailCommand, AuthenticationResult>
     {
         private readonly IAuthService _authService;
 
@@ -32,6 +33,11 @@ namespace MatchDayApp.Application.Handlers
         public async Task<AuthenticationResult> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
         {
             return await _authService.ResetPasswordAsync(request.ResetPassword);
+        }
+
+        public async Task<AuthenticationResult> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
+        {
+            return await _authService.ConfirmEmailAsync(request.ConfirmEmail);
         }
     }
 }

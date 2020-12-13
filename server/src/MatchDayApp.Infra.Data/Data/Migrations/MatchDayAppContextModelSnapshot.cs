@@ -223,9 +223,7 @@ namespace MatchDayApp.Infra.Data.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ConfirmEmails");
+                    b.ToTable("UserConfirmEmails");
                 });
 
             modelBuilder.Entity("MatchDayApp.Domain.Entities.UserTeam", b =>
@@ -288,15 +286,6 @@ namespace MatchDayApp.Infra.Data.Data.Migrations
                     b.HasOne("MatchDayApp.Domain.Entities.User", "OwnerUser")
                         .WithMany()
                         .HasForeignKey("OwnerUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.UserConfirmEmail", b =>
-                {
-                    b.HasOne("MatchDayApp.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

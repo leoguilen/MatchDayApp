@@ -64,6 +64,21 @@ namespace MatchDayApp.UnitTest.Configuration
 
             #endregion
 
+            #region Confirm Email Request
+
+            var confirmEmail = new UserConfirmEmail
+            {
+                Id = Guid.NewGuid(),
+                UserId = users.Last().Id,
+                RequestedAt = DateTime.Now,
+                ConfirmKey = Guid.NewGuid()
+            };
+
+            testContext.UserConfirmEmails.AddRange(confirmEmail);
+            testContext.SaveChanges();
+
+            #endregion
+
             #region Team
 
             var teams = new List<Team>
