@@ -22,7 +22,7 @@ namespace MatchDayApp.Application.Services
 
         public async Task<bool> AddTeamAsync(TeamModel team)
         {
-            var newTeam = _mapper.Map<Team>(team);
+            var newTeam = _mapper.Map<Time>(team);
 
             var cmdResult = await _uow.Teams
                 .AddRangeAsync(new[] { newTeam });

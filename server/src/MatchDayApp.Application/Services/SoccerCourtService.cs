@@ -23,7 +23,7 @@ namespace MatchDayApp.Application.Services
 
         public async Task<bool> AddSoccerCourtAsync(SoccerCourtModel soccerCourt)
         {
-            var newSoccerCourt = _mapper.Map<SoccerCourt>(soccerCourt);
+            var newSoccerCourt = _mapper.Map<QuadraFutebol>(soccerCourt);
 
             var cmdResult = await _uow.SoccerCourts
                 .AddRangeAsync(new[] { newSoccerCourt });
@@ -53,7 +53,7 @@ namespace MatchDayApp.Application.Services
 
         public async Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsByGeoLocalizationAsync(double lat, double lon)
         {
-            var spec = new SoccerCourtNearbyToUserSpecification(lat, lon);
+            var spec = new QuadrasProximasAoUsuarioEspecificao(lat, lon);
             var soccerCourts = await _uow.SoccerCourts.GetAsync(spec);
             return _mapper.Map<IReadOnlyList<SoccerCourtModel>>(soccerCourts);
         }

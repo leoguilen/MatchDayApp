@@ -16,9 +16,9 @@ namespace MatchDayApp.Application.Services
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        private readonly JwtOptions _jwtOptions;
+        private readonly JwtConfiguracao _jwtOptions;
 
-        public AuthService(IUnitOfWork uow, IMapper mapper, JwtOptions jwtOptions)
+        public AuthService(IUnitOfWork uow, IMapper mapper, JwtConfiguracao jwtOptions)
         {
             _uow = uow ?? throw new ArgumentNullException(nameof(uow));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -76,7 +76,7 @@ namespace MatchDayApp.Application.Services
                 };
             }
 
-            if (!SecurePasswordHasher.AreEqual(
+            if (!SecurePasswordHasherHelper.AreEqual(
                 login.Password, user.Password, user.Salt))
             {
                 return new AuthenticationResult
@@ -124,10 +124,10 @@ namespace MatchDayApp.Application.Services
                 };
             }
 
-            string salt = SecurePasswordHasher.CreateSalt(8);
-            string hashedPassword = SecurePasswordHasher.GenerateHash(register.Password, salt);
+            string salt = SecurePasswordHasherHelper.CreateSalt(8);
+            string hashedPassword = SecurePasswordHasherHelper.GenerateHash(register.Password, salt);
 
-            var newUser = _mapper.Map<User>(register);
+            var newUser = _mapper.Map<Usuario>(register);
 
             newUser.Salt = salt;
             newUser.Password = hashedPassword;
@@ -157,8 +157,8 @@ namespace MatchDayApp.Application.Services
                 };
             }
 
-            user.Salt = SecurePasswordHasher.CreateSalt(8);
-            user.Password = SecurePasswordHasher
+            user.Salt = SecurePasswordHasherHelper.CreateSalt(8);
+            user.Password = SecurePasswordHasherHelper
                 .GenerateHash(resetPassword.Password, user.Salt);
 
             await _uow.Users.SaveAsync(user);

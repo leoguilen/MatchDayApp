@@ -22,10 +22,10 @@ namespace MatchDayApp.UnitTest.Persistence
     public class UserRepositoryTest
     {
         private readonly MatchDayAppContext _memoryDb;
-        private readonly IUserRepository _userRepository;
+        private readonly IUsuarioRepositorio _userRepository;
 
-        private readonly Faker<User> _fakeUser;
-        private readonly User _userTest;
+        private readonly Faker<Usuario> _fakeUser;
+        private readonly Usuario _userTest;
         private readonly object _expectedUser;
 
         public UserRepositoryTest()
@@ -36,19 +36,19 @@ namespace MatchDayApp.UnitTest.Persistence
                 .GetRequiredService<MatchDayAppContext>()
                 .SeedFakeData();
 
-            _userRepository = new UserRepository(_memoryDb);
+            _userRepository = new UsuarioRepositorio(_memoryDb);
             _userTest = _memoryDb.Users.First();
 
-            string salt = SecurePasswordHasher.CreateSalt(8);
-            _fakeUser = new Faker<User>()
+            string salt = SecurePasswordHasherHelper.CreateSalt(8);
+            _fakeUser = new Faker<Usuario>()
                 .RuleFor(u => u.FirstName, f => f.Person.FirstName)
                 .RuleFor(u => u.LastName, f => f.Person.LastName)
                 .RuleFor(u => u.Email, f => f.Person.Email)
                 .RuleFor(u => u.PhoneNumber, f => f.Person.Phone)
                 .RuleFor(u => u.Username, f => f.UniqueIndex + f.Person.UserName)
-                .RuleFor(u => u.Password, f => SecurePasswordHasher.GenerateHash(f.Internet.Password(), salt))
+                .RuleFor(u => u.Password, f => SecurePasswordHasherHelper.GenerateHash(f.Internet.Password(), salt))
                 .RuleFor(u => u.Salt, salt)
-                .RuleFor(u => u.UserType, UserType.Player);
+                .RuleFor(u => u.UserType, TipoUsuario.Player);
 
             _expectedUser = new
             {
@@ -57,7 +57,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 Username = "test1",
                 Email = "test1@email.com",
                 PhoneNumber = "+551155256325",
-                UserType = UserType.SoccerCourtOwner,
+                UserType = TipoUsuario.SoccerCourtOwner,
             };
         }
 
@@ -82,21 +82,21 @@ namespace MatchDayApp.UnitTest.Persistence
                     {
                         user1.Username.Should().Be("test1");
                         user1.Email.Should().Be("test1@email.com");
-                        user1.UserType.Should().Be(UserType.SoccerCourtOwner);
+                        user1.UserType.Should().Be(TipoUsuario.SoccerCourtOwner);
                         user1.UserTeam.Team.Name.Should().Be("Team 1");
                     },
                     user2 =>
                     {
                         user2.Username.Should().Be("test2");
                         user2.Email.Should().Be("test2@email.com");
-                        user2.UserType.Should().Be(UserType.TeamOwner);
+                        user2.UserType.Should().Be(TipoUsuario.TeamOwner);
                         user2.UserTeam.Team.Name.Should().Be("Team 2");
                     },
                     user3 =>
                     {
                         user3.Username.Should().Be("test3");
                         user3.Email.Should().Be("test3@email.com");
-                        user3.UserType.Should().Be(UserType.SoccerCourtOwner);
+                        user3.UserType.Should().Be(TipoUsuario.SoccerCourtOwner);
                         user3.UserTeam.Team.Name.Should().Be("Team 3");
                     });
         }
@@ -126,7 +126,7 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(5)]
         public async Task GetAsync_User_GetUserWithMatchTheUserTypeSpecification()
         {
-            var spec = new UserContainEmailOrUsernameSpecification("test1@email.com");
+            var spec = new UsuarioContendoEmailOuUsernameEspecificacao("test1@email.com");
             var user = (await _userRepository.GetAsync(spec)).FirstOrDefault();
 
             user.Should().BeEquivalentTo(_expectedUser, options =>
@@ -175,7 +175,7 @@ namespace MatchDayApp.UnitTest.Persistence
         {
             const int expectedTotalCount = 2;
 
-            var spec = new UserContainUserTypeSpecification(UserType.SoccerCourtOwner);
+            var spec = new UsuarioContendoTipoUsuarioEspecificacao(TipoUsuario.SoccerCourtOwner);
             var usersCount = await _userRepository.CountAsync(spec);
 
             usersCount.Should().Be(expectedTotalCount);
@@ -186,7 +186,7 @@ namespace MatchDayApp.UnitTest.Persistence
         {
             var fakeUsers = _fakeUser.Generate(5);
 
-            fakeUsers.ForEach(u => u.UserTeam = new UserTeam
+            fakeUsers.ForEach(u => u.UserTeam = new UsuarioTime
             { UserId = u.Id, TeamId = Guid.NewGuid(), Accepted = true });
 
             var result = await _userRepository
@@ -210,7 +210,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 .SaveAsync(userToUpdate);
 
             result.Should().NotBeNull()
-                .And.BeOfType<User>();
+                .And.BeOfType<Usuario>();
             result.LastName.Should().Be("Updated");
             result.Email.Should().Be("test.updated@email.com");
         }

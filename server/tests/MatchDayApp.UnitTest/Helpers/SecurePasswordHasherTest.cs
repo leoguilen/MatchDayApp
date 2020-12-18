@@ -15,7 +15,7 @@ namespace MatchDayApp.UnitTest.Helpers
         {
             string salt = string.Empty;
 
-            salt = SecurePasswordHasher.CreateSalt(_saltSize);
+            salt = SecurePasswordHasherHelper.CreateSalt(_saltSize);
 
             salt.Should()
                 .NotBeNullOrEmpty()
@@ -30,9 +30,9 @@ namespace MatchDayApp.UnitTest.Helpers
         public void GenerateHash_SecurePasswordHasher_GenerateValidHash(string pwd)
         {
             string hash = string.Empty;
-            string salt = SecurePasswordHasher.CreateSalt(_saltSize);
+            string salt = SecurePasswordHasherHelper.CreateSalt(_saltSize);
 
-            hash = SecurePasswordHasher.GenerateHash(pwd, salt);
+            hash = SecurePasswordHasherHelper.GenerateHash(pwd, salt);
 
             hash.Should()
                 .NotBeNullOrEmpty()
@@ -46,10 +46,10 @@ namespace MatchDayApp.UnitTest.Helpers
         [InlineData("HaShEdPwD7820=")]
         public void AreEqual_SecurePasswordHasher_ValidatePasswordHashIfAreEquals(string pwd)
         {
-            string pwdSalt = SecurePasswordHasher.CreateSalt(_saltSize);
-            string pwdHashed = SecurePasswordHasher.GenerateHash(pwd, pwdSalt);
+            string pwdSalt = SecurePasswordHasherHelper.CreateSalt(_saltSize);
+            string pwdHashed = SecurePasswordHasherHelper.GenerateHash(pwd, pwdSalt);
 
-            bool isValidPassword = SecurePasswordHasher.AreEqual(pwd, pwdHashed, pwdSalt);
+            bool isValidPassword = SecurePasswordHasherHelper.AreEqual(pwd, pwdHashed, pwdSalt);
 
             isValidPassword.Should().BeTrue();
         }
@@ -61,10 +61,10 @@ namespace MatchDayApp.UnitTest.Helpers
         public void AreEqual_SecurePasswordHasher_InvalidatePasswordHashIfNotAreEquals(string pwd)
         {
             string invalidPwd = new Faker().Internet.Password();
-            string pwdSalt = SecurePasswordHasher.CreateSalt(_saltSize);
-            string pwdHashed = SecurePasswordHasher.GenerateHash(pwd, pwdSalt);
+            string pwdSalt = SecurePasswordHasherHelper.CreateSalt(_saltSize);
+            string pwdHashed = SecurePasswordHasherHelper.GenerateHash(pwd, pwdSalt);
 
-            bool isValidPassword = SecurePasswordHasher.AreEqual(invalidPwd, pwdHashed, pwdSalt);
+            bool isValidPassword = SecurePasswordHasherHelper.AreEqual(invalidPwd, pwdHashed, pwdSalt);
 
             isValidPassword.Should().BeFalse();
         }

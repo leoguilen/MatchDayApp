@@ -15,12 +15,12 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
     {
         public static void AddServiceDependency(this IServiceCollection services, IConfiguration configuration)
         {
-            var smtpSetting = new SmtpSettings();
-            configuration.Bind(nameof(SmtpSettings), smtpSetting);
+            var smtpSetting = new ConfiguracaoSmtp();
+            configuration.Bind(nameof(ConfiguracaoSmtp), smtpSetting);
             services.AddSingleton(smtpSetting);
 
-            var twilioSettings = new TwilioSettings();
-            configuration.Bind(nameof(TwilioSettings), twilioSettings);
+            var twilioSettings = new ConfiguracaoTwilio();
+            configuration.Bind(nameof(ConfiguracaoTwilio), twilioSettings);
             services.AddSingleton(twilioSettings);
 
             // Application Services

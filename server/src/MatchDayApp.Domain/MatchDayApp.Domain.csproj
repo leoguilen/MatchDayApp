@@ -10,18 +10,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\Dictionary.Designer.cs">
+    <Compile Update="Recursos\Dicionario.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Dictionary.resx</DependentUpon>
+      <DependentUpon>Dicionario.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Dictionary.resx">
+    <EmbeddedResource Update="Recursos\Dicionario.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <CustomToolNamespace>MatchDayApp.Domain.Resources</CustomToolNamespace>
-      <LastGenOutput>Dictionary.Designer.cs</LastGenOutput>
+      <LastGenOutput>Dicionario.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

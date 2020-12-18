@@ -17,7 +17,7 @@ namespace MatchDayApp.Infra.CrossCutting.SwaggerExamples.Request
                 Password = "Mateus@123",
                 ConfirmPassword = "Mateus@123",
                 PhoneNumber = "+55 (11)1234-5678",
-                UserType = UserType.Player,
+                TipoUsuario = TipoUsuario.Player,
                 Avatar = "avatar.png"
             };
         }

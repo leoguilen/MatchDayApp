@@ -8,10 +8,10 @@ namespace MatchDayApp.Application.Mapper
     {
         public DomainToViewModelMappingProfile()
         {
-            CreateMap<User, UserModel>().ReverseMap();
-            CreateMap<Team, TeamModel>().ReverseMap();
-            CreateMap<SoccerCourt, SoccerCourtModel>().ReverseMap();
-            CreateMap<ScheduleMatch, ScheduleMatchModel>().ReverseMap()
+            CreateMap<Usuario, UserModel>().ReverseMap();
+            CreateMap<Time, TeamModel>().ReverseMap();
+            CreateMap<QuadraFutebol, SoccerCourtModel>().ReverseMap();
+            CreateMap<Partida, ScheduleMatchModel>().ReverseMap()
                 .ForMember(sc => sc.Date, prop => prop.MapFrom(scm => scm.MatchDate));
         }
     }

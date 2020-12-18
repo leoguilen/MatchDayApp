@@ -36,7 +36,7 @@ namespace MatchDayApp.UnitTest.Services
 
             _authService = new AuthService(_uow,
                 configServices.GetRequiredService<IMapper>(),
-                configServices.GetService<JwtOptions>());
+                configServices.GetService<JwtConfiguracao>());
         }
 
         #region Reset Password
@@ -96,7 +96,7 @@ namespace MatchDayApp.UnitTest.Services
 
             var userWithResetedPassword = await _uow.Users
                 .GetByEmailAsync(resetPasswordModel.Email);
-            var expectedPasswordHashed = SecurePasswordHasher
+            var expectedPasswordHashed = SecurePasswordHasherHelper
                 .GenerateHash(resetPasswordModel.Password,
                     userWithResetedPassword.Salt);
 

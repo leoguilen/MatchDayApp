@@ -31,7 +31,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
                 Email = "mateussilva@email.com",
                 Password = "Mateus@123",
                 ConfirmPassword = "Mateus@123",
-                UserType = UserType.Player,
+                UserType = TipoUsuario.Player,
                 Avatar = "avatar.png"
             };
         }

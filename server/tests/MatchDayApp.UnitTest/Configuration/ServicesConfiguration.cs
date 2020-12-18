@@ -39,13 +39,13 @@ namespace MatchDayApp.UnitTest.Configuration
             serviceProvider.AddTransient<ISoccerCourtService, SoccerCourtService>();
             serviceProvider.AddTransient<IScheduleMatchService, ScheduleMatchService>();
 
-            var jwtOptions = new JwtOptions
+            var jwtOptions = new JwtConfiguracao
             {
                 Secret = "9ce891b219b6fb5b0088e3e05e05baf5",
                 TokenLifetime = TimeSpan.FromMinutes(5)
             };
 
-            var smtpSetting = new SmtpSettings
+            var smtpSetting = new ConfiguracaoSmtp
             {
                 SmtpAddress = "smtp.gmail.com",
                 SmtpPort = 465,
@@ -54,7 +54,7 @@ namespace MatchDayApp.UnitTest.Configuration
                 SmtpPassword = "Dev@2020"
             };
 
-            var twilioSettings = new TwilioSettings
+            var twilioSettings = new ConfiguracaoTwilio
             {
                 TwilioAccountSID = "ACee2e2e7da6a0b0324b9ee07edd0ce97c",
                 TwilioAuthToken = "00185e58ac4a15e42bf3eb6483b9a5f7",

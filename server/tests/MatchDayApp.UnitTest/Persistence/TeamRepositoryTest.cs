@@ -20,10 +20,10 @@ namespace MatchDayApp.UnitTest.Persistence
     public class TeamRepositoryTest
     {
         private readonly MatchDayAppContext _memoryDb;
-        private readonly ITeamRepository _teamRepository;
+        private readonly ITimeRepositorio _teamRepository;
 
-        private readonly Faker<Team> _fakeTeam;
-        private readonly Team _teamTest;
+        private readonly Faker<Time> _fakeTeam;
+        private readonly Time _teamTest;
         private readonly object _expectedTeam;
 
         public TeamRepositoryTest()
@@ -34,10 +34,10 @@ namespace MatchDayApp.UnitTest.Persistence
                 .GetRequiredService<MatchDayAppContext>()
                 .SeedFakeData();
 
-            _teamRepository = new TeamRepository(_memoryDb);
+            _teamRepository = new TimeRepositorio(_memoryDb);
             _teamTest = _memoryDb.Teams.First();
 
-            _fakeTeam = new Faker<Team>()
+            _fakeTeam = new Faker<Time>()
                 .RuleFor(u => u.Name, f => f.Company.CompanyName())
                 .RuleFor(u => u.Image, f => f.Image.PicsumUrl())
                 .RuleFor(u => u.TotalPlayers, f => f.Random.Int(6, 16))
@@ -101,7 +101,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 options.ExcludingMissingMembers());
             team.OwnerUser.Should()
                 .NotBeNull()
-                .And.BeOfType<User>();
+                .And.BeOfType<Usuario>();
         }
 
         [Fact, Order(4)]
@@ -118,27 +118,27 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(5)]
         public async Task GetAsync_Team_GetTeamWithMatchTheOwnerUserSpecification()
         {
-            var spec = new TeamWithUserSpecification(_teamTest.OwnerUserId);
+            var spec = new TimeComUsuarioEspecificacao(_teamTest.OwnerUserId);
             var team = (await _teamRepository.GetAsync(spec)).FirstOrDefault();
 
             team.Should().BeEquivalentTo(_expectedTeam, options =>
                 options.ExcludingMissingMembers());
             team.OwnerUser.Should()
                 .NotBeNull()
-                .And.BeOfType<User>();
+                .And.BeOfType<Usuario>();
         }
 
         [Fact, Order(6)]
         public async Task GetAsync_Team_GetTeamWithMatchTheTeamNameSpecification()
         {
-            var spec = new TeamWithUserSpecification("Team 3");
+            var spec = new TimeComUsuarioEspecificacao("Team 3");
             var team = (await _teamRepository.GetAsync(spec)).FirstOrDefault();
 
             team.Should().BeEquivalentTo(_expectedTeam, options =>
                 options.ExcludingMissingMembers());
             team.OwnerUser.Should()
                 .NotBeNull()
-                .And.BeOfType<User>();
+                .And.BeOfType<Usuario>();
         }
 
         [Fact, Order(7)]
@@ -179,7 +179,7 @@ namespace MatchDayApp.UnitTest.Persistence
         {
             const int expectedTotalCount = 1;
 
-            var spec = new TeamWithUserSpecification("Team 2");
+            var spec = new TimeComUsuarioEspecificacao("Team 2");
             var teamsCount = await _teamRepository.CountAsync(spec);
 
             teamsCount.Should()
@@ -209,7 +209,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 .SaveAsync(teamToUpdate);
 
             result.Should().NotBeNull()
-                .And.BeOfType<Team>();
+                .And.BeOfType<Time>();
             result.Name.Should().Be("Team updated");
             result.Image.Should().Be("teamupdated.jpg");
         }

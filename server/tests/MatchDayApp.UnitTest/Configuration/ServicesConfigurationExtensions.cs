@@ -15,11 +15,11 @@ namespace MatchDayApp.UnitTest.Configuration
         {
             #region User
 
-            var salt = SecurePasswordHasher.CreateSalt(8);
+            var salt = SecurePasswordHasherHelper.CreateSalt(8);
 
-            var users = new List<User>
+            var users = new List<Usuario>
             {
-                new User
+                new Usuario
                 {
                     FirstName = "Test",
                     LastName = "One",
@@ -27,12 +27,12 @@ namespace MatchDayApp.UnitTest.Configuration
                     Email = "test1@email.com",
                     ConfirmedEmail = true,
                     PhoneNumber = "+551155256325",
-                    Password = SecurePasswordHasher.GenerateHash("test123", salt),
+                    Password = SecurePasswordHasherHelper.GenerateHash("test123", salt),
                     Salt = salt,
-                    UserType = UserType.SoccerCourtOwner,
+                    UserType = TipoUsuario.SoccerCourtOwner,
                     Deleted = true
                 },
-                new User
+                new Usuario
                 {
                     FirstName = "Test",
                     LastName = "Two",
@@ -40,12 +40,12 @@ namespace MatchDayApp.UnitTest.Configuration
                     Email = "test2@email.com",
                     ConfirmedEmail = true,
                     PhoneNumber = "+551112345525",
-                    Password = SecurePasswordHasher.GenerateHash("test321", salt),
+                    Password = SecurePasswordHasherHelper.GenerateHash("test321", salt),
                     Salt = salt,
-                    UserType = UserType.TeamOwner
+                    UserType = TipoUsuario.TeamOwner
                 },
 
-                new User
+                new Usuario
                 {
                     FirstName = "Test",
                     LastName = "Three",
@@ -53,9 +53,9 @@ namespace MatchDayApp.UnitTest.Configuration
                     Email = "test3@email.com",
                     ConfirmedEmail = true,
                     PhoneNumber = "+551198765525",
-                    Password = SecurePasswordHasher.GenerateHash("test231", salt),
+                    Password = SecurePasswordHasherHelper.GenerateHash("test231", salt),
                     Salt = salt,
-                    UserType = UserType.SoccerCourtOwner
+                    UserType = TipoUsuario.SoccerCourtOwner
                 }
             };
 
@@ -66,7 +66,7 @@ namespace MatchDayApp.UnitTest.Configuration
 
             #region Confirm Email Request
 
-            var confirmEmail = new UserConfirmEmail
+            var confirmEmail = new ConfirmacaoEmail
             {
                 Id = Guid.NewGuid(),
                 UserId = users.Last().Id,
@@ -81,23 +81,23 @@ namespace MatchDayApp.UnitTest.Configuration
 
             #region Team
 
-            var teams = new List<Team>
+            var teams = new List<Time>
             {
-                new Team
+                new Time
                 {
                     Name = "Team 1",
                     Image = "team1.png",
                     TotalPlayers = 15,
                     OwnerUserId = testContext.Users.ToList()[0].Id
                 },
-                new Team
+                new Time
                 {
                     Name = "Team 2",
                     Image = "team2.png",
                     TotalPlayers = 13,
                     OwnerUserId = testContext.Users.ToList()[1].Id
                 },
-                new Team
+                new Time
                 {
                     Name = "Team 3",
                     Image = "team3.png",
@@ -106,9 +106,9 @@ namespace MatchDayApp.UnitTest.Configuration
                 }
             };
 
-            users[0].UserTeam = new UserTeam { UserId = users[0].Id, TeamId = teams[0].Id, Accepted = true };
-            users[1].UserTeam = new UserTeam { UserId = users[1].Id, TeamId = teams[1].Id, Accepted = true };
-            users[2].UserTeam = new UserTeam { UserId = users[2].Id, TeamId = teams[2].Id, Accepted = true };
+            users[0].UserTeam = new UsuarioTime { UserId = users[0].Id, TeamId = teams[0].Id, Accepted = true };
+            users[1].UserTeam = new UsuarioTime { UserId = users[1].Id, TeamId = teams[1].Id, Accepted = true };
+            users[2].UserTeam = new UsuarioTime { UserId = users[2].Id, TeamId = teams[2].Id, Accepted = true };
 
             testContext.Users.UpdateRange(users);
             testContext.Teams.AddRange(teams);
@@ -118,9 +118,9 @@ namespace MatchDayApp.UnitTest.Configuration
 
             #region Soccer Court
 
-            var soccerCourt = new List<SoccerCourt>
+            var soccerCourt = new List<QuadraFutebol>
             {
-                new SoccerCourt
+                new QuadraFutebol
                 {
                     Name = "Soccer Court 1",
                     Image = "soccerCourt1.png",
@@ -132,7 +132,7 @@ namespace MatchDayApp.UnitTest.Configuration
                     Longitude = -46.5552845,
                     OwnerUserId = testContext.Users.ToList()[0].Id
                 },
-                new SoccerCourt
+                new QuadraFutebol
                 {
                     Name = "Soccer Court 2",
                     Image = "soccerCourt2.png",
@@ -144,7 +144,7 @@ namespace MatchDayApp.UnitTest.Configuration
                     Longitude = -43.7595,
                     OwnerUserId = testContext.Users.ToList()[1].Id
                 },
-                new SoccerCourt
+                new QuadraFutebol
                 {
                     Name = "Soccer Court 3",
                     Image = "soccerCourt3.png",
@@ -165,9 +165,9 @@ namespace MatchDayApp.UnitTest.Configuration
 
             #region Schedule Match
 
-            var matches = new List<ScheduleMatch>
+            var matches = new List<Partida>
             {
-                new ScheduleMatch
+                new Partida
                 {
                     FirstTeamId = testContext.Teams.ToList()[0].Id,
                     FirstTeamConfirmed = true,
@@ -176,9 +176,9 @@ namespace MatchDayApp.UnitTest.Configuration
                     SoccerCourtId = testContext.SoccerCourts.ToList()[2].Id,
                     TotalHours = 1,
                     Date = new DateTime(2020,10,20,21,0,0,DateTimeKind.Local),
-                    MatchStatus = MatchStatus.Confirmed
+                    MatchStatus = StatusPartida.Confirmed
                 },
-                new ScheduleMatch
+                new Partida
                 {
                     FirstTeamId = testContext.Teams.ToList()[1].Id,
                     FirstTeamConfirmed = true,
@@ -187,9 +187,9 @@ namespace MatchDayApp.UnitTest.Configuration
                     SoccerCourtId = testContext.SoccerCourts.ToList()[1].Id,
                     TotalHours = 1,
                     Date = new DateTime(2020,10,19,18,0,0,DateTimeKind.Local),
-                    MatchStatus = MatchStatus.WaitingForConfirmation
+                    MatchStatus = StatusPartida.WaitingForConfirmation
                 },
-                new ScheduleMatch
+                new Partida
                 {
                     FirstTeamId = testContext.Teams.ToList()[1].Id,
                     FirstTeamConfirmed = true,
@@ -198,9 +198,9 @@ namespace MatchDayApp.UnitTest.Configuration
                     SoccerCourtId = testContext.SoccerCourts.ToList()[1].Id,
                     TotalHours = 1,
                     Date = new DateTime(2020,10,21,19,0,0,DateTimeKind.Local),
-                    MatchStatus = MatchStatus.Confirmed
+                    MatchStatus = StatusPartida.Confirmed
                 },
-                new ScheduleMatch
+                new Partida
                 {
                     FirstTeamId = testContext.Teams.ToList()[0].Id,
                     FirstTeamConfirmed = true,
@@ -209,9 +209,9 @@ namespace MatchDayApp.UnitTest.Configuration
                     SoccerCourtId = testContext.SoccerCourts.ToList()[0].Id,
                     TotalHours = 1,
                     Date = new DateTime(2020,10,16,20,0,0,DateTimeKind.Local),
-                    MatchStatus = MatchStatus.Finished
+                    MatchStatus = StatusPartida.Finished
                 },
-                new ScheduleMatch
+                new Partida
                 {
                     FirstTeamId = testContext.Teams.ToList()[2].Id,
                     FirstTeamConfirmed = false,
@@ -220,7 +220,7 @@ namespace MatchDayApp.UnitTest.Configuration
                     SoccerCourtId = testContext.SoccerCourts.ToList()[2].Id,
                     TotalHours = 1,
                     Date = new DateTime(2020,10,18,17,0,0,DateTimeKind.Local),
-                    MatchStatus = MatchStatus.Canceled
+                    MatchStatus = StatusPartida.Canceled
                 }
             };
 

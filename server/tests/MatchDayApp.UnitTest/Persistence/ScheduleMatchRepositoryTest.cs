@@ -21,7 +21,7 @@ namespace MatchDayApp.UnitTest.Persistence
         private readonly MatchDayAppContext _memoryDb;
         private readonly IScheduleMatchRepository _matchRepository;
 
-        private readonly ScheduleMatch _matchTest;
+        private readonly Partida _matchTest;
 
         public ScheduleMatchRepositoryTest()
         {
@@ -31,7 +31,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 .GetRequiredService<MatchDayAppContext>()
                 .SeedFakeData();
 
-            _matchRepository = new ScheduleMatchRepository(_memoryDb);
+            _matchRepository = new PartidaRepositorio(_memoryDb);
             _matchTest = _memoryDb.ScheduleMatches.First();
         }
 
@@ -118,7 +118,7 @@ namespace MatchDayApp.UnitTest.Persistence
             match.SoccerCourt.Name.Should().Be("Soccer Court 1");
             match.TotalHours.Should().Be(1);
             match.Date.Should().Be(new DateTime(2020, 10, 20, 21, 0, 0));
-            match.MatchStatus.Should().Be(MatchStatus.Confirmed);
+            match.MatchStatus.Should().Be(StatusPartida.Confirmed);
         }
 
         [Fact, Order(4)]
@@ -157,7 +157,7 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(5)]
         public async Task AddMatchAsync_ScheduleMatch_NewScheduledMatch()
         {
-            var newMatch = new ScheduleMatch
+            var newMatch = new Partida
             {
                 FirstTeamId = _memoryDb.Teams.First().Id,
                 FirstTeamConfirmed = true,
@@ -166,7 +166,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 SoccerCourtId = _memoryDb.SoccerCourts.First().Id,
                 TotalHours = 1,
                 Date = new DateTime(2020, 10, 15, 19, 30, 0),
-                MatchStatus = MatchStatus.WaitingForConfirmation
+                MatchStatus = StatusPartida.WaitingForConfirmation
             };
 
             var result = await _matchRepository
@@ -179,14 +179,14 @@ namespace MatchDayApp.UnitTest.Persistence
         public async Task UpdateMatchAsync_ScheduleMatch_UpdateExitingMatch()
         {
             _matchTest.Date = new DateTime(2020, 10, 26, 18, 30, 0);
-            _matchTest.MatchStatus = MatchStatus.Canceled;
+            _matchTest.MatchStatus = StatusPartida.Canceled;
 
             var result = await _matchRepository
                 .UpdateMatchAsync(_matchTest);
 
             result.Should().BeTrue();
             _matchTest.Date.Should().Be(new DateTime(2020, 10, 26, 18, 30, 0));
-            _matchTest.MatchStatus.Should().Be(MatchStatus.Canceled);
+            _matchTest.MatchStatus.Should().Be(StatusPartida.Canceled);
         }
     }
 }

@@ -16,16 +16,16 @@ namespace MatchDayApp.UnitTest.Services
     {
         // Formato válido para números = +551155256325
         private const string _phoneNumberTest = "+5511981411956";
-        private readonly WhatsappService _whatsService;
-        private readonly TwilioSettings _twilioSettings;
+        private readonly ServicoNotificacaoWhatsapp _whatsService;
+        private readonly ConfiguracaoTwilio _twilioSettings;
 
         public WhatsappServiceTest()
         {
             var configServices = ServicesConfiguration.Configure();
             var logger = configServices.GetRequiredService<ILogger>();
-            _twilioSettings = configServices.GetRequiredService<TwilioSettings>();
+            _twilioSettings = configServices.GetRequiredService<ConfiguracaoTwilio>();
 
-            _whatsService = new WhatsappService(_twilioSettings, logger);
+            _whatsService = new ServicoNotificacaoWhatsapp(_twilioSettings, logger);
         }
 
         [Fact]

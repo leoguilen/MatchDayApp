@@ -80,7 +80,7 @@ namespace MatchDayApp.UnitTest.Handlers
                     FirstName = new Faker().Person.FirstName,
                     LastName = new Faker().Person.LastName,
                     Email = "test3@email.com",
-                    UserType = UserType.Player
+                    UserType = TipoUsuario.Player
                 }
             };
 

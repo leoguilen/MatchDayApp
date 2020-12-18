@@ -13,6 +13,6 @@ namespace MatchDayApp.Application.Models
         public SoccerCourtModel SoccerCourt { get; set; }
         public int MatchTime { get; set; } = 1;
         public DateTime MatchDate { get; set; }
-        public MatchStatus MatchStatus { get; set; }
+        public StatusPartida MatchStatus { get; set; }
     }
 }

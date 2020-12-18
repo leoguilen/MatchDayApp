@@ -16,7 +16,7 @@ namespace MatchDayApp.UnitTest.Persistence
     public class UserConfirmEmailRepositoryTest
     {
         private readonly MatchDayAppContext _memoryDb;
-        private readonly IUserConfirmEmailRepository _confirmEmailRepository;
+        private readonly IConfirmacaoEmailRepositorio _confirmEmailRepository;
 
         public UserConfirmEmailRepositoryTest()
         {
@@ -26,7 +26,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 .GetRequiredService<MatchDayAppContext>()
                 .SeedFakeData();
 
-            _confirmEmailRepository = new UserConfirmEmailRepository(_memoryDb);
+            _confirmEmailRepository = new ConfirmacaoEmailRepositorio(_memoryDb);
         }
 
         [Fact]

@@ -22,8 +22,8 @@ namespace MatchDayApp.UnitTest.Persistence
         private readonly MatchDayAppContext _memoryDb;
         private readonly ISoccerCourtRepository _soccerCourtRepository;
 
-        private readonly Faker<SoccerCourt> _fakeSoccerCourt;
-        private readonly SoccerCourt _soccerCourtTest;
+        private readonly Faker<QuadraFutebol> _fakeSoccerCourt;
+        private readonly QuadraFutebol _soccerCourtTest;
         private readonly object _expectedSoccerCourt;
 
         public SoccerCourtRepositoryTest()
@@ -34,10 +34,10 @@ namespace MatchDayApp.UnitTest.Persistence
                 .GetRequiredService<MatchDayAppContext>()
                 .SeedFakeData();
 
-            _soccerCourtRepository = new SoccerCourtRepository(_memoryDb);
+            _soccerCourtRepository = new QuadraFutebolRepositorio(_memoryDb);
             _soccerCourtTest = _memoryDb.SoccerCourts.First();
 
-            _fakeSoccerCourt = new Faker<SoccerCourt>()
+            _fakeSoccerCourt = new Faker<QuadraFutebol>()
                 .RuleFor(sc => sc.Name, f => f.Company.CompanyName())
                 .RuleFor(sc => sc.Image, f => f.Image.PicsumUrl())
                 .RuleFor(sc => sc.HourPrice, f => f.Random.Decimal(80M, 200M))
@@ -111,7 +111,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 options.ExcludingMissingMembers());
             soccerCourt.OwnerUser.Should()
                 .NotBeNull()
-                .And.BeOfType<User>();
+                .And.BeOfType<Usuario>();
         }
 
         [Fact, Order(4)]
@@ -135,7 +135,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 options.ExcludingMissingMembers());
             soccerCourt.OwnerUser.Should()
                 .NotBeNull()
-                .And.BeOfType<User>();
+                .And.BeOfType<Usuario>();
         }
 
         [Fact, Order(6)]
@@ -148,7 +148,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 options.ExcludingMissingMembers());
             soccerCourt.OwnerUser.Should()
                 .NotBeNull()
-                .And.BeOfType<User>();
+                .And.BeOfType<Usuario>();
         }
 
         [Fact, Order(7)]
@@ -219,7 +219,7 @@ namespace MatchDayApp.UnitTest.Persistence
                 .SaveAsync(soccerCourtToUpdate);
 
             result.Should().NotBeNull()
-                .And.BeOfType<SoccerCourt>();
+                .And.BeOfType<QuadraFutebol>();
             result.Name.Should().Be("Soccer court updated");
             result.HourPrice.Should().Be(150M);
         }
@@ -242,7 +242,7 @@ namespace MatchDayApp.UnitTest.Persistence
         [Fact, Order(12)]
         public async Task GetAsync_SoccerCourt_GetSoccerCourtsNearbyToUserSpecification()
         {
-            var spec = new SoccerCourtNearbyToUserSpecification(-23.109136, -46.5582639);
+            var spec = new QuadrasProximasAoUsuarioEspecificao(-23.109136, -46.5582639);
             var soccerCourts = await _soccerCourtRepository.GetAsync(spec);
 
             soccerCourts.Should()

@@ -14,16 +14,16 @@ namespace MatchDayApp.UnitTest.Services
     [Trait("Services", "SendMessage")]
     public class EmailServiceTest
     {
-        private readonly EmailService _emailService;
+        private readonly ServicoEmail _emailService;
         private const string _emailTest = "desenvolvimento.dev1@gmail.com";
 
         public EmailServiceTest()
         {
             var configServices = ServicesConfiguration.Configure();
             var logger = configServices.GetRequiredService<ILogger>();
-            var smtpSettings = configServices.GetRequiredService<SmtpSettings>();
+            var smtpSettings = configServices.GetRequiredService<ConfiguracaoSmtp>();
 
-            _emailService = new EmailService(smtpSettings, logger);
+            _emailService = new ServicoEmail(smtpSettings, logger);
         }
 
         [Fact]

@@ -11,7 +11,7 @@ namespace MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public string ConfirmPassword { get; set; }
-        public UserType UserType { get; set; }
+        public TipoUsuario UserType { get; set; }
         public string Avatar { get; set; }
     }
 }

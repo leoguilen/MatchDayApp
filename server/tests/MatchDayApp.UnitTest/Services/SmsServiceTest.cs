@@ -16,16 +16,16 @@ namespace MatchDayApp.UnitTest.Services
     {
         // Formato válido para números = +551155256325
         private const string _phoneNumberTest = "+5511981411956";
-        private readonly SmsService _smsService;
-        private readonly TwilioSettings _twilioSettings;
+        private readonly ServicoSms _smsService;
+        private readonly ConfiguracaoTwilio _twilioSettings;
 
         public SmsServiceTest()
         {
             var configServices = ServicesConfiguration.Configure();
             var logger = configServices.GetRequiredService<ILogger>();
-            _twilioSettings = configServices.GetRequiredService<TwilioSettings>();
+            _twilioSettings = configServices.GetRequiredService<ConfiguracaoTwilio>();
 
-            _smsService = new SmsService(_twilioSettings, logger);
+            _smsService = new ServicoSms(_twilioSettings, logger);
         }
 
         [Fact]

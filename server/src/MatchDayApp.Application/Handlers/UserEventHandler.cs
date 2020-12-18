@@ -16,12 +16,11 @@ namespace MatchDayApp.Application.Handlers
         INotificationHandler<UserResetPasswordEvent>,
         INotificationHandler<UserDeletedEvent>
     {
-        private readonly SmtpSettings _smtpSettings;
-        private readonly TwilioSettings _twilioSettings;
-        private readonly MessageServiceStrategy _messageStrategy;
-        private readonly IAuthService _authService;
+        private readonly ConfiguracaoSmtp _smtpSettings;
+        private readonly ConfiguracaoTwilio _twilioSettings;
+        private readonly EstrategiaServicoNotificacao _messageStrategy;
 
-        public UserEventHandler(IAuthService authService, SmtpSettings smtpSettings, TwilioSettings twilioSettings, ILogger logger)
+        public UserEventHandler(ConfiguracaoSmtp smtpSettings, ConfiguracaoTwilio twilioSettings, ILogger logger)
         {
             _authService = authService
                 ?? throw new ArgumentNullException(nameof(authService));
@@ -30,7 +29,7 @@ namespace MatchDayApp.Application.Handlers
             _twilioSettings = twilioSettings
                 ?? throw new ArgumentNullException(nameof(twilioSettings));
 
-            _messageStrategy = new MessageServiceStrategy(
+            _messageStrategy = new EstrategiaServicoNotificacao(
                 smtpSettings, twilioSettings, logger);
         }
 
@@ -52,7 +51,7 @@ namespace MatchDayApp.Application.Handlers
                 .AddConfirmEmailRequestAsync(notification.UserId);
 
             // Enviando email
-            await _messageStrategy.SetStrategy(MessageType.Email)
+            await _messageStrategy.SetStrategy(TipoMensagem.Email)
                 .SendMessageAsync(new MessageModel
                 {
                     From = _smtpSettings.SmtpUsername,
@@ -62,7 +61,7 @@ namespace MatchDayApp.Application.Handlers
                 });
 
             // Enviando Sms
-            await _messageStrategy.SetStrategy(MessageType.Sms)
+            await _messageStrategy.SetStrategy(TipoMensagem.Sms)
                 .SendMessageAsync(new MessageModel
                 {
                     From = _twilioSettings.TwilioPhoneNumber,
@@ -74,7 +73,7 @@ namespace MatchDayApp.Application.Handlers
                 });
 
             // Enviando Whatsapp
-            await _messageStrategy.SetStrategy(MessageType.Whatsapp)
+            await _messageStrategy.SetStrategy(TipoMensagem.Whatsapp)
                 .SendMessageAsync(new MessageModel
                 {
                     From = _twilioSettings.TwilioWhatsappNumber,

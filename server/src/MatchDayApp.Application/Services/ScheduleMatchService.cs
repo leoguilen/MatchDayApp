@@ -30,18 +30,18 @@ namespace MatchDayApp.Application.Services
                 if (!match.FirstTeamConfirmed)
                 {
                     match.FirstTeamConfirmed = true;
-                    match.MatchStatus = MatchStatus.WaitingForConfirmation;
+                    match.MatchStatus = StatusPartida.WaitingForConfirmation;
                 }
 
             if (match.SecondTeamId == teamId)
                 if (!match.SecondTeamConfirmed)
                 {
                     match.SecondTeamConfirmed = true;
-                    match.MatchStatus = MatchStatus.WaitingForConfirmation;
+                    match.MatchStatus = StatusPartida.WaitingForConfirmation;
                 }
 
             if (match.FirstTeamConfirmed && match.SecondTeamConfirmed)
-                match.MatchStatus = MatchStatus.Confirmed;
+                match.MatchStatus = StatusPartida.Confirmed;
 
             await _uow.ScheduleMatches.UpdateMatchAsync(match);
             var commited = await _uow.CommitAsync();
@@ -90,8 +90,8 @@ namespace MatchDayApp.Application.Services
             if (hasScheduleMatch.Any())
                 return false;
 
-            var scModel = _mapper.Map<ScheduleMatch>(scheduleMatch);
-            scModel.MatchStatus = MatchStatus.WaitingForConfirmation;
+            var scModel = _mapper.Map<Partida>(scheduleMatch);
+            scModel.MatchStatus = StatusPartida.WaitingForConfirmation;
             scModel.Date = scheduleMatch.MatchDate;
 
             await _uow.ScheduleMatches.AddMatchAsync(scModel);
@@ -108,7 +108,7 @@ namespace MatchDayApp.Application.Services
             if (match == null)
                 return false;
 
-            match.MatchStatus = MatchStatus.Canceled;
+            match.MatchStatus = StatusPartida.Canceled;
 
             await _uow.ScheduleMatches.UpdateMatchAsync(match);
             await _uow.CommitAsync();

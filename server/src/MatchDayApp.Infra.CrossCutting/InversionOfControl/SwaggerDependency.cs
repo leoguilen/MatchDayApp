@@ -66,8 +66,8 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
         }
         public static void UseSwaggerDependency(this IApplicationBuilder app, IConfiguration configuration, IApiVersionDescriptionProvider provider)
         {
-            var swaggerOptions = new SwaggerOptions();
-            configuration.Bind(nameof(SwaggerOptions), swaggerOptions);
+            var swaggerOptions = new SwaggerConfiguracao();
+            configuration.Bind(nameof(SwaggerConfiguracao), swaggerOptions);
 
             app.UseSwagger(opt => opt.RouteTemplate = swaggerOptions.JsonRoute);
             app.UseSwaggerUI(opt =>

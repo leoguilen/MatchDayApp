@@ -11,8 +11,8 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
     {
         public static void AddJwtDependency(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtOptions = new JwtOptions();
-            configuration.Bind(nameof(JwtOptions), jwtOptions);
+            var jwtOptions = new JwtConfiguracao();
+            configuration.Bind(nameof(JwtConfiguracao), jwtOptions);
 
             var tokenValidationParameters = new TokenValidationParameters
             {

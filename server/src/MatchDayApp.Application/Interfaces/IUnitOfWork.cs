@@ -6,10 +6,10 @@ namespace MatchDayApp.Application.Interfaces
     public interface IUnitOfWork
     {
         public ISoccerCourtRepository SoccerCourts { get; }
-        public ITeamRepository Teams { get; }
-        public IUserRepository Users { get; }
+        public ITimeRepositorio Teams { get; }
+        public IUsuarioRepositorio Users { get; }
         public IScheduleMatchRepository ScheduleMatches { get; }
-        public IUserConfirmEmailRepository UserConfirmEmails { get; }
+        public IConfirmacaoEmailRepositorio UserConfirmEmails { get; }
         Task<int> CommitAsync();
     }
 }
