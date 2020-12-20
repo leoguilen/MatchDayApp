@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MatchDayApp.Application.Services
 {
-    public class AuthService : IAuthService
+    public class AutenticacaoServico : IAutenticacaoServico
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;

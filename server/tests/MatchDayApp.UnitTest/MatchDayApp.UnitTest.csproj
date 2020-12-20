@@ -33,7 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\MatchDayApp.Domain\MatchDayApp.Domain.csproj" />
     <ProjectReference Include="..\..\src\MatchDayApp.Infra.Data\MatchDayApp.Infra.Data.csproj" />
-    <ProjectReference Include="..\..\src\MatchDayApp.Infra.Message\MatchDayApp.Infra.Notification.csproj" />
+    <ProjectReference Include="..\..\src\MatchDayApp.Infra.Notification\MatchDayApp.Infra.Notification.csproj" />
   </ItemGroup>
 
 </Project>
