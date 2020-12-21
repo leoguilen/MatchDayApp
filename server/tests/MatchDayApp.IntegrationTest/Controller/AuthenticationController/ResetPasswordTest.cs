@@ -1,9 +1,5 @@
 ﻿using Bogus;
 using FluentAssertions;
-using MatchDayApp.Domain.Resources;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Response.Auth;
-using MatchDayApp.Infra.CrossCutting.V1;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;

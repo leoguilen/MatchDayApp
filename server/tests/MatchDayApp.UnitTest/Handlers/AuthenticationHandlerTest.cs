@@ -1,8 +1,6 @@
 ﻿using Bogus;
 using FluentAssertions;
-using MatchDayApp.Application.Commands.Auth;
 using MatchDayApp.Application.Models.Auth;
-using MatchDayApp.Domain.Resources;
 using MatchDayApp.Infra.Data.Data;
 using MatchDayApp.UnitTest.Configuration;
 using MediatR;

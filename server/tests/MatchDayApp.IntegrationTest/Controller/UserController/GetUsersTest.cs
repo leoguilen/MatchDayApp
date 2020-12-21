@@ -1,7 +1,4 @@
 ﻿using FluentAssertions;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Query;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Response;
-using MatchDayApp.Infra.CrossCutting.V1;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;

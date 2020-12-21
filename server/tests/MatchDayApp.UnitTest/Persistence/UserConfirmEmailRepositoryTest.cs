@@ -1,14 +1,11 @@
 ﻿using FluentAssertions;
-using MatchDayApp.Domain.Repository;
 using MatchDayApp.Infra.Data.Data;
-using MatchDayApp.Infra.Data.Repositories;
 using MatchDayApp.UnitTest.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Extensions.Ordering;
 
 namespace MatchDayApp.UnitTest.Persistence
 {

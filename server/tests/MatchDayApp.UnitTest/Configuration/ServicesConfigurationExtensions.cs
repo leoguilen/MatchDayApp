@@ -1,7 +1,4 @@
-﻿using MatchDayApp.Domain.Common.Helpers;
-using MatchDayApp.Domain.Entities;
-using MatchDayApp.Domain.Entities.Enum;
-using MatchDayApp.Infra.Data.Data;
+﻿using MatchDayApp.Infra.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

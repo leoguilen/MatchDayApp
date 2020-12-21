@@ -2,8 +2,8 @@
 using MatchDayApp.Application.Behaviours;
 using MatchDayApp.Application.Comandos.Autenticao.Validacoes;
 using MatchDayApp.Application.Middlewares;
-using MatchDayApp.Infra.CrossCutting.Services;
-using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
+using MatchDayApp.Infra.CrossCutting.Servicos;
+using MatchDayApp.Infra.CrossCutting.Servicos.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -63,12 +63,12 @@ namespace MatchDayApp.Infra.CrossCutting.Ioc
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IUriService>(provider =>
+            services.AddSingleton<IUriServico>(provider =>
             {
                 var accessor = provider.GetRequiredService<IHttpContextAccessor>();
                 var request = accessor.HttpContext.Request;
                 var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent(), "/");
-                return new UriService(absoluteUri);
+                return new UriServico(absoluteUri);
             });
         }
 

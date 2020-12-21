@@ -76,7 +76,7 @@ namespace MatchDayApp.Application.Servicos
         {
             var times = await _uow.TimeRepositorio
                 .ListAllAsync();
-            
+
             return _mapper.Map<IReadOnlyList<TimeModel>>(times);
         }
     }

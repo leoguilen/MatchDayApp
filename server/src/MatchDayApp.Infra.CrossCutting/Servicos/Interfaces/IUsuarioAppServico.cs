@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MatchDayApp.Infra.CrossCutting.Servicos.Interfaces
 {
-    public interface IUsuarioAppService
+    public interface IUsuarioAppServico
     {
         Task<IReadOnlyList<UsuarioModel>> ObterUsuariosAsync(PaginacaoQuery pagination = null);
         Task<UsuarioModel> ObterUsuarioPorIdAsync(Guid usuarioId);

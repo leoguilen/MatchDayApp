@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using MatchDayApp.Infra.Message.Common.Helpers;
 using System.Text.RegularExpressions;
 using Xunit;
 

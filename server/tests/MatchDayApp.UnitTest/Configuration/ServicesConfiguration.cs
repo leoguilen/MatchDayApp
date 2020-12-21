@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MatchDayApp.Application.Interfaces;
-using MatchDayApp.Application.Services;
-using MatchDayApp.Domain.Configuration;
+using MatchDayApp.Application.Servicos;
+using MatchDayApp.Domain.Configuracoes;
 using MatchDayApp.Infra.Data.Data;
-using MatchDayApp.Infra.Data.Repositories;
+using MatchDayApp.Infra.Data.Repositorios;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -33,7 +33,7 @@ namespace MatchDayApp.UnitTest.Configuration
 
             serviceProvider.AddSingleton<IUnitOfWork, UnitOfWork>();
             serviceProvider.AddAutoMapper(Assembly.Load("MatchDayApp.Application"));
-            serviceProvider.AddTransient<IAuthService, AuthService>();
+            serviceProvider.AddTransient<IAutenticacaoServico, AutenticacaoServico>();
             serviceProvider.AddTransient<IUsuarioServico, UsuarioServico>();
             serviceProvider.AddTransient<ITimeServico, TimeServico>();
             serviceProvider.AddTransient<IQuadraFutebolServico, QuadraFutebolServico>();
@@ -45,7 +45,7 @@ namespace MatchDayApp.UnitTest.Configuration
                 TokenLifetime = TimeSpan.FromMinutes(5)
             };
 
-            var smtpSetting = new ConfiguracaoSmtp
+            var smtpSetting = new SmtpConfiguracao
             {
                 SmtpAddress = "smtp.gmail.com",
                 SmtpPort = 465,
@@ -54,7 +54,7 @@ namespace MatchDayApp.UnitTest.Configuration
                 SmtpPassword = "Dev@2020"
             };
 
-            var twilioSettings = new ConfiguracaoTwilio
+            var twilioSettings = new TwilioConfiguracao
             {
                 TwilioAccountSID = "ACee2e2e7da6a0b0324b9ee07edd0ce97c",
                 TwilioAuthToken = "00185e58ac4a15e42bf3eb6483b9a5f7",

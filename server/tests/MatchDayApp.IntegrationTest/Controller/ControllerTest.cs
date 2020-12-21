@@ -1,7 +1,4 @@
 ﻿using Bogus;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Response.Auth;
-using MatchDayApp.Infra.CrossCutting.V1;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;

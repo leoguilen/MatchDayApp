@@ -1,8 +1,5 @@
 ﻿using Bogus;
 using FluentAssertions;
-using MatchDayApp.Domain.Configuration;
-using MatchDayApp.Infra.Message.Models;
-using MatchDayApp.Infra.Message.Services;
 using MatchDayApp.UnitTest.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MatchDayApp.Application.Interfaces;
-using MatchDayApp.Application.Services;
+using MatchDayApp.Application.Servicos;
 using MatchDayApp.Domain.Configuracoes;
-using MatchDayApp.Infra.CrossCutting.Services;
-using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
+using MatchDayApp.Infra.CrossCutting.Servicos;
+using MatchDayApp.Infra.CrossCutting.Servicos.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,11 +33,11 @@ namespace MatchDayApp.Infra.CrossCutting.Ioc
             services.AddMediatR(Assembly.Load("MatchDayApp.Application"));
 
             // App Services
-            services.AddTransient<IAuthAppService, AutenticacaoAppServico>();
-            services.AddTransient<IUserAppService, UserAppService>();
-            services.AddTransient<ITeamAppService, TeamAppService>();
-            services.AddTransient<ISoccerCourtAppService, SoccerCourtAppService>();
-            services.AddTransient<IScheduleMatchAppService, ScheduleMatchAppService>();
+            services.AddTransient<IAutenticacaoAppServico, AutenticacaoAppServico>();
+            services.AddTransient<IUsuarioAppServico, UsuarioAppServico>();
+            services.AddTransient<ITimeAppServico, TimeAppServico>();
+            services.AddTransient<IQuadraAppServico, QuadraAppServico>();
+            services.AddTransient<IPartidaAppServico, PartidaAppServico>();
         }
     }
 }

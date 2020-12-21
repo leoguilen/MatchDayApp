@@ -1,12 +1,6 @@
 ﻿using Bogus;
 using FluentAssertions;
-using MatchDayApp.Domain.Common.Helpers;
-using MatchDayApp.Domain.Entities;
-using MatchDayApp.Domain.Entities.Enum;
-using MatchDayApp.Domain.Repository;
-using MatchDayApp.Domain.Specification.UserSpec;
 using MatchDayApp.Infra.Data.Data;
-using MatchDayApp.Infra.Data.Repositories;
 using MatchDayApp.UnitTest.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

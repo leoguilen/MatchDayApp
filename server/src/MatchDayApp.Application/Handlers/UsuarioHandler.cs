@@ -20,7 +20,7 @@ namespace MatchDayApp.Application.Handlers
 
         public UsuarioHandler(IUsuarioServico usuarioServico)
         {
-            _usuarioServico = usuarioServico 
+            _usuarioServico = usuarioServico
                 ?? throw new System.ArgumentNullException(nameof(usuarioServico));
         }
 

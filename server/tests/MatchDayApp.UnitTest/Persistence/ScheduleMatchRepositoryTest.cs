@@ -1,9 +1,5 @@
 ﻿using FluentAssertions;
-using MatchDayApp.Domain.Entities;
-using MatchDayApp.Domain.Entities.Enum;
-using MatchDayApp.Domain.Repository;
 using MatchDayApp.Infra.Data.Data;
-using MatchDayApp.Infra.Data.Repositories;
 using MatchDayApp.UnitTest.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

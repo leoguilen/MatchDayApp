@@ -20,7 +20,7 @@ namespace MatchDayApp.Application.Handlers
 
         public TimeHandler(ITimeServico timeServico)
         {
-            _timeServico = timeServico 
+            _timeServico = timeServico
                 ?? throw new System.ArgumentNullException(nameof(timeServico));
         }
 

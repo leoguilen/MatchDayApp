@@ -5,7 +5,6 @@ using MatchDayApp.Domain.Entidades;
 using MatchDayApp.Domain.Especificacoes.Quadra;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MatchDayApp.Application.Servicos
@@ -46,7 +45,7 @@ namespace MatchDayApp.Application.Servicos
 
                 var quadraAtualizada = await _uow.QuadraFutebolRepositorio
                     .SaveAsync(quadraAtualizar);
-                
+
                 return _mapper.Map<QuadraModel>(quadraAtualizada);
             }
 
@@ -80,7 +79,7 @@ namespace MatchDayApp.Application.Servicos
         {
             var quadras = await _uow.QuadraFutebolRepositorio
                 .ListAllAsync();
-            
+
             return _mapper.Map<IReadOnlyList<QuadraModel>>(quadras);
         }
 

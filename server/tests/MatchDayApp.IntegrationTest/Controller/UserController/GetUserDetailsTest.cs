@@ -1,6 +1,4 @@
 ﻿using FluentAssertions;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Response;
-using MatchDayApp.Infra.CrossCutting.V1;
 using MatchDayApp.Infra.Data.Data;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;

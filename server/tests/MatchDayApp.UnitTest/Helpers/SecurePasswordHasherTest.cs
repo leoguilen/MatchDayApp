@@ -1,6 +1,5 @@
 ﻿using Bogus;
 using FluentAssertions;
-using MatchDayApp.Domain.Common.Helpers;
 using Xunit;
 
 namespace MatchDayApp.UnitTest.Helpers

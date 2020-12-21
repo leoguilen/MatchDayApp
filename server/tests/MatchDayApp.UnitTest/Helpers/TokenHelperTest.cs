@@ -1,9 +1,5 @@
 ﻿using Bogus;
 using FluentAssertions;
-using MatchDayApp.Domain.Common.Helpers;
-using MatchDayApp.Domain.Configuration;
-using MatchDayApp.Domain.Entities;
-using MatchDayApp.Domain.Entities.Enum;
 using System;
 using System.Threading.Tasks;
 using Xunit;

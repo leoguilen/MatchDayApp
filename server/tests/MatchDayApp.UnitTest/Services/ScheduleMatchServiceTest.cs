@@ -3,8 +3,6 @@ using Bogus;
 using FluentAssertions;
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Application.Models;
-using MatchDayApp.Application.Services;
-using MatchDayApp.Domain.Entities.Enum;
 using MatchDayApp.Infra.Data.Data;
 using MatchDayApp.UnitTest.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,9 +1,5 @@
 ﻿using Bogus;
 using FluentAssertions;
-using MatchDayApp.Application.Commands.User;
-using MatchDayApp.Application.Models;
-using MatchDayApp.Application.Queries.User;
-using MatchDayApp.Domain.Entities.Enum;
 using MatchDayApp.Infra.Data.Data;
 using MatchDayApp.UnitTest.Configuration;
 using MediatR;

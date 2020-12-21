@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MatchDayApp.Infra.CrossCutting.Servicos.Interfaces
 {
-    public interface IQuadraAppService
+    public interface IQuadraAppServico
     {
         Task<IReadOnlyList<QuadraModel>> ObterQuadrasAsync(PaginacaoQuery pagination = null);
         Task<QuadraModel> ObterQuadraPorIdAsync(Guid quadraId);
