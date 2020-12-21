@@ -153,6 +153,10 @@
     <value>Registrado com sucesso</value>
     <comment>Mensagem de sucesso no registro de usuário na aplicação</comment>
   </data>
+  <data name="MS004" xml:space="preserve">
+    <value>Confirmação de email concluida com sucesso</value>
+    <comment>Mensagem de sucesso na confirmação de email do usuário</comment>
+  </data>
   <data name="MV001" xml:space="preserve">
     <value>Email inválido</value>
     <comment>Mensagem de validação de login com erro no email</comment>

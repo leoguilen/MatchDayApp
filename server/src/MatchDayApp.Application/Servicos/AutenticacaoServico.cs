@@ -2,11 +2,15 @@
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Models.Auth;
+using MatchDayApp.Domain.Configuracoes;
+using MatchDayApp.Domain.Entidades;
+using MatchDayApp.Domain.Helpers;
+using MatchDayApp.Domain.Resources;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MatchDayApp.Application.Services
+namespace MatchDayApp.Application.Servicos
 {
     public class AutenticacaoServico : IAutenticacaoServico
     {
@@ -14,175 +18,157 @@ namespace MatchDayApp.Application.Services
         private readonly IMapper _mapper;
         private readonly JwtConfiguracao _jwtOptions;
 
-        public AuthService(IUnitOfWork uow, IMapper mapper, JwtConfiguracao jwtOptions)
+        public AutenticacaoServico(IUnitOfWork uow, IMapper mapper, JwtConfiguracao jwtOptions)
         {
             _uow = uow ?? throw new ArgumentNullException(nameof(uow));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _jwtOptions = jwtOptions ?? throw new ArgumentNullException(nameof(jwtOptions));
         }
 
-        public async Task<bool> AddConfirmEmailRequestAsync(Guid userId)
+        public async Task<bool> AdicionarSolicitacaoConfirmacaoEmail(Guid usuarioId)
         {
-            return await _uow.UserConfirmEmails
-                .AddRequestAsync(userId);
+            return await _uow.ConfirmacaoEmailRepositorio
+                .AdicionarRequisicaoAsync(usuarioId);
         }
 
-        public Task<bool> AdicionarSolicitacaoConfirmacaoEmail(Guid usuarioId)
+        public async Task<AutenticacaoResult> ConfirmarEmailAsync(ConfirmacaoEmailModel model)
         {
-            throw new NotImplementedException();
-        }
+            var confirmacao = await _uow.ConfirmacaoEmailRepositorio
+                .ObterRequisicaoPorChaveAsync(model.ChaveDeConfirmacao);
 
-        public Task<AuthenticationResult> ConfirmarEmailAsync(ConfirmacaoEmailModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<AuthenticationResult> ConfirmEmailAsync(ConfirmacaoEmailModel confirmEmail)
-        {
-            var request = await _uow.UserConfirmEmails
-                .GetRequestByKeyAsync(confirmEmail.ConfirmKey);
-
-            if (request is null)
+            if (confirmacao is null)
             {
-                return new AuthenticationResult
+                return new AutenticacaoResult
                 {
-                    Message = Dictionary.ME006,
-                    Success = false
+                    Mensagem = Dicionario.ME006,
+                    Sucesso = false
                 };
             }
 
-            _uow.UserConfirmEmails
-                .UpdateRequest(request);
+            _uow.ConfirmacaoEmailRepositorio
+                .AtualizarRequisicao(confirmacao);
 
-            var user = await _uow.Users
-                .GetByIdAsync(request.UserId);
+            var usuario = await _uow.UsuarioRepositorio
+                .GetByIdAsync(confirmacao.UsuarioId);
 
-            user.ConfirmedEmail = true;
-            await _uow.Users.SaveAsync(user);
+            usuario.EmailConfirmado = true;
+            await _uow.UsuarioRepositorio.SaveAsync(usuario);
 
-            return new AuthenticationResult
+            return new AutenticacaoResult
             {
-                Message = Dictionary.MS004,
-                Success = true,
+                Mensagem = Dicionario.MS004,
+                Sucesso = true,
             };
         }
 
-        public async Task<AuthenticationResult> LoginAsync(LoginModel login)
+        public async Task<AutenticacaoResult> LoginAsync(LoginModel login)
         {
-            var user = await _uow.Users
-                .GetByEmailAsync(login.Email);
+            var usuario = await _uow.UsuarioRepositorio
+                .ObterUsuarioPorEmailAsync(login.Email);
 
-            if (user == null || user.Deleted)
+            if (usuario == null || usuario.Deletado)
             {
-                return new AuthenticationResult
+                return new AutenticacaoResult
                 {
-                    Message = Dictionary.ME004,
-                    Success = false,
-                    Errors = new[] { Dictionary.MV001 }
+                    Mensagem = Dicionario.ME004,
+                    Sucesso = false,
+                    Errors = new[] { Dicionario.MV001 }
                 };
             }
 
-            if (!SecurePasswordHasherHelper.AreEqual(
-                login.Password, user.Password, user.Salt))
+            if (!SenhaHasherHelper.SaoIguais(
+                login.Senha, usuario.Senha, usuario.Salt))
             {
-                return new AuthenticationResult
+                return new AutenticacaoResult
                 {
-                    Message = Dictionary.ME004,
-                    Success = false,
-                    Errors = new[] { Dictionary.MV002 }
+                    Mensagem = Dicionario.ME004,
+                    Sucesso = false,
+                    Errors = new[] { Dicionario.MV002 }
                 };
             }
 
-            return new AuthenticationResult
+            return new AutenticacaoResult
             {
-                Message = Dictionary.MS001,
-                Success = true,
-                Token = await TokenHelper.GenerateTokenForUserAsync(user, _jwtOptions),
-                User = _mapper.Map<UserModel>(user)
+                Mensagem = Dicionario.MS001,
+                Sucesso = true,
+                Token = await TokenHelper.GerarTokenUsuarioAsync(usuario, _jwtOptions),
+                Usuario = _mapper.Map<UsuarioModel>(usuario)
             };
         }
 
-        public async Task<AuthenticationResult> RegisterAsync(RegistrarUsuarioModel register)
+        public async Task<AutenticacaoResult> RegistrarUsuarioAsync(RegistrarUsuarioModel model)
         {
-            var existsEmail = await _uow.Users
-                .GetByEmailAsync(register.Email);
+            var emailExiste = await _uow.UsuarioRepositorio
+                .ObterUsuarioPorEmailAsync(model.Email);
 
-            if (existsEmail != null)
+            if (emailExiste != null)
             {
-                return new AuthenticationResult
+                return new AutenticacaoResult
                 {
-                    Message = Dictionary.ME005,
-                    Success = false,
-                    Errors = new[] { Dictionary.MV003 }
+                    Mensagem = Dicionario.ME005,
+                    Sucesso = false,
+                    Errors = new[] { Dicionario.MV003 }
                 };
             }
 
-            var existsUsername = await _uow.Users
-                .GetAsync(u => u.Username.Contains(register.UserName));
+            var usuarionameExiste = await _uow.UsuarioRepositorio
+                .GetAsync(u => u.Username.Contains(model.Username));
 
-            if (existsUsername.Any())
+            if (usuarionameExiste.Any())
             {
-                return new AuthenticationResult
+                return new AutenticacaoResult
                 {
-                    Message = Dictionary.ME005,
-                    Success = false,
-                    Errors = new[] { Dictionary.MV004 }
+                    Mensagem = Dicionario.ME005,
+                    Sucesso = false,
+                    Errors = new[] { Dicionario.MV004 }
                 };
             }
 
-            string salt = SecurePasswordHasherHelper.CreateSalt(8);
-            string hashedPassword = SecurePasswordHasherHelper.GenerateHash(register.Password, salt);
+            string salt = SenhaHasherHelper.CriarSalt(8);
+            string hashedPassword = SenhaHasherHelper
+                .GerarHash(model.Senha, salt);
 
-            var newUser = _mapper.Map<Usuario>(register);
+            var novoUsuario = _mapper.Map<Usuario>(model);
 
-            newUser.Salt = salt;
-            newUser.Password = hashedPassword;
+            novoUsuario.Salt = salt;
+            novoUsuario.Senha = hashedPassword;
 
-            await _uow.Users.AddRangeAsync(new[] { newUser });
+            await _uow.UsuarioRepositorio
+                .SaveAsync(novoUsuario);
 
-            return new AuthenticationResult
+            return new AutenticacaoResult
             {
-                Message = Dictionary.MS003,
-                Success = true,
-                Token = await TokenHelper.GenerateTokenForUserAsync(newUser, _jwtOptions),
-                User = _mapper.Map<UserModel>(newUser)
+                Mensagem = Dicionario.MS003,
+                Sucesso = true,
+                Token = await TokenHelper.GerarTokenUsuarioAsync(novoUsuario, _jwtOptions),
+                Usuario = _mapper.Map<UsuarioModel>(novoUsuario)
             };
         }
 
-        public Task<AuthenticationResult> RegistrarUsuarioAsync(RegistrarUsuarioModel model)
+        public async Task<AutenticacaoResult> ResetarSenhaAsync(ResetarSenhaModel model)
         {
-            throw new NotImplementedException();
-        }
+            var usuario = await _uow.UsuarioRepositorio
+                .ObterUsuarioPorEmailAsync(model.Email);
 
-        public Task<AuthenticationResult> ResetarSenhaAsync(ResetarSenhaModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<AuthenticationResult> ResetPasswordAsync(ResetarSenhaModel resetPassword)
-        {
-            var user = await _uow.Users
-                .GetByEmailAsync(resetPassword.Email);
-
-            if (user == null || user.Deleted)
+            if (usuario == null || usuario.Deletado)
             {
-                return new AuthenticationResult
+                return new AutenticacaoResult
                 {
-                    Message = Dictionary.ME001,
-                    Success = false,
+                    Mensagem = Dicionario.ME001,
+                    Sucesso = false,
                 };
             }
 
-            user.Salt = SecurePasswordHasherHelper.CreateSalt(8);
-            user.Password = SecurePasswordHasherHelper
-                .GenerateHash(resetPassword.Password, user.Salt);
+            usuario.Salt = SenhaHasherHelper.CriarSalt(8);
+            usuario.Senha = SenhaHasherHelper
+                .GerarHash(model.Senha, usuario.Salt);
 
-            await _uow.Users.SaveAsync(user);
+            await _uow.UsuarioRepositorio.SaveAsync(usuario);
 
-            return new AuthenticationResult
+            return new AutenticacaoResult
             {
-                Message = Dictionary.MS002,
-                Success = true
+                Mensagem = Dicionario.MS002,
+                Sucesso = true
             };
         }
     }

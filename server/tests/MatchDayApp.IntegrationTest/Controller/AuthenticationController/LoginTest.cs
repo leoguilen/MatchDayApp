@@ -16,7 +16,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
     [Trait("AuthenticationController", "Login")]
     public class LoginTest : ControllerTest
     {
-        private readonly string _requestUri = ApiRoutes.Authentication.Login;
+        private readonly string _requestUri = ApiRotas.Authentication.Login;
         private readonly LoginRequest _loginRequest;
 
         public LoginTest(CustomWebApplicationFactory factory,
@@ -39,7 +39,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
-                .ReadAsAsync<AuthFailedResponse>();
+                .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
             authResponse.Message.Should()
                 .Be(Dictionary.ME004);
@@ -61,7 +61,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
-                .ReadAsAsync<AuthFailedResponse>();
+                .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
             authResponse.Message.Should()
                 .Be(Dictionary.ME004);
@@ -87,7 +87,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
-                .ReadAsAsync<AuthFailedResponse>();
+                .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
             authResponse.Message.Should()
                 .Be(Dictionary.ME004);
@@ -106,7 +106,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
                 .PostAsJsonAsync(_requestUri, _loginRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var authResponse = await response.Content.ReadAsAsync<AuthSuccessResponse>();
+            var authResponse = await response.Content.ReadAsAsync<AutenticacaoComSucessoResponse>();
 
             authResponse.Message.Should().Be(Dictionary.MS001);
             authResponse.Token.Should().NotBeNullOrEmpty();

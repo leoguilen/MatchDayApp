@@ -20,7 +20,7 @@ namespace MatchDayApp.Domain.Helpers
             var claims = new List<Claim>
             {
                 new Claim("Id", usuario.Id.ToString()),
-                new Claim("UserType", usuario.TipoUsuario.ToString()),
+                new Claim("TipoUsuario", usuario.TipoUsuario.ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, usuario.Email),

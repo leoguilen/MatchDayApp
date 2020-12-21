@@ -52,7 +52,7 @@ namespace MatchDayApp.UnitTest.Handlers
         {
             var faker = new Faker("pt_BR");
             var newPass = faker.Internet.Password();
-            var registerCommand = new RegisterCommand
+            var registerCommand = new RegistrarUsuarioCommand
             {
                 Register = new RegistrarUsuarioModel
                 {
@@ -77,7 +77,7 @@ namespace MatchDayApp.UnitTest.Handlers
         public async Task Handle_AuthenticationHandler_SuccessResetPassword()
         {
             var newPass = new Faker().Internet.Password();
-            var resetPasswordCommand = new ResetPasswordCommand
+            var resetPasswordCommand = new ResetarSenhaCommand
             {
                 ResetPassword = new ResetarSenhaModel
                 {

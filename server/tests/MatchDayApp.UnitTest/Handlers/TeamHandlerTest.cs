@@ -38,7 +38,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_TeamHandler_GetAllTeams()
         {
-            var getTeamsQuery = new GetTeamsQuery { };
+            var getTeamsQuery = new ObterTimesQuery { };
 
             var teamsResult = await _mediator.Send(getTeamsQuery);
 
@@ -48,7 +48,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_TeamHandler_GetTeamById()
         {
-            var getTeamByIdQuery = new GetTeamDetailsByIdQuery
+            var getTeamByIdQuery = new ObterTimePorIdQuery
             {
                 Id = _teamId
             };
@@ -61,7 +61,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_TeamHandler_AddedTeam()
         {
-            var addTeamCommand = new AddTeamCommand
+            var addTeamCommand = new AdicionarTimeCommand
             {
                 Team = new TimeModel
                 {
@@ -87,7 +87,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_TeamHandler_UpdatedTeam()
         {
-            var updateTeamCommand = new UpdateTeamCommand
+            var updateTeamCommand = new AtualizarTimeCommand
             {
                 Id = _teamId,
                 Team = new TimeModel
@@ -110,7 +110,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_TeamHandler_DeletedTeam()
         {
-            var deleteTeamCommand = new DeleteTeamCommand
+            var deleteTeamCommand = new DeletarTimeCommand
             {
                 Id = _teamId
             };

@@ -45,19 +45,19 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <param name="pagination">Pagination options</param>
         /// <response code="200">Returns all soccer courts in the system</response>
-        [HttpGet(ApiRoutes.SoccerCourt.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<SoccerCourtResponse>), (int)HttpStatusCode.OK)]
+        [HttpGet(ApiRotas.SoccerCourt.GetAll)]
+        [ProducesResponseType(typeof(PagedResponse<QuadraResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll([FromQuery] PaginationQuery pagination)
         {
             var sc = await _scService
                 .GetSoccerCourtsListAsync(pagination);
 
             var scResponse = _mapper
-                .Map<IReadOnlyList<SoccerCourtResponse>>(sc);
+                .Map<IReadOnlyList<QuadraResponse>>(sc);
 
             if (pagination == null || pagination.PageNumber < 1 || pagination.PageSize < 1)
             {
-                return Ok(new PagedResponse<SoccerCourtResponse>(scResponse));
+                return Ok(new PagedResponse<QuadraResponse>(scResponse));
             }
 
             var paginationResponse = PaginationHelpers
@@ -72,8 +72,8 @@ namespace MatchDayApp.Api.Controllers
         /// <param name="scId">Soccer court identification in the system</param>
         /// <response code="200">Return soccer court by id</response>
         /// <response code="404">Not found soccer court</response>
-        [HttpGet(ApiRoutes.SoccerCourt.Get)]
-        [ProducesResponseType(typeof(Response<SoccerCourtResponse>), 200)]
+        [HttpGet(ApiRotas.SoccerCourt.Get)]
+        [ProducesResponseType(typeof(Response<QuadraResponse>), 200)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
@@ -83,8 +83,8 @@ namespace MatchDayApp.Api.Controllers
             if (sc is null)
                 return NotFound();
 
-            return Ok(new Response<SoccerCourtResponse>(_mapper
-                .Map<SoccerCourtResponse>(sc)));
+            return Ok(new Response<QuadraResponse>(_mapper
+                .Map<QuadraResponse>(sc)));
         }
 
         /// <summary>
@@ -92,10 +92,10 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="201">Created soccer court</response>
         /// <response code="400">An error when create soccer court</response>
-        [HttpPost(ApiRoutes.SoccerCourt.Create)]
+        [HttpPost(ApiRotas.SoccerCourt.Create)]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Create([FromBody] CreateSoccerCourtRequest request)
+        public async Task<IActionResult> Create([FromBody] CriarQuadraRequest request)
         {
             request.OwnerUserId = Guid
                 .Parse(HttpContext.GetUserId());
@@ -125,10 +125,10 @@ namespace MatchDayApp.Api.Controllers
         /// <response code="200">Updated soccer court</response>
         /// <response code="400">An error when update soccer court</response>
         /// <response code="404">Not found soccer court</response>
-        [HttpPut(ApiRoutes.SoccerCourt.Update)]
+        [HttpPut(ApiRotas.SoccerCourt.Update)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateSoccerCourtRequest request)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] AtualizarQuadraRequest request)
         {
             var result = await _scService
                 .UpdateSoccerCourtAsync(id, request);
@@ -154,7 +154,7 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="204">Deleted soccer court</response>
         /// <response code="404">Not found soccer court</response>
-        [HttpDelete(ApiRoutes.SoccerCourt.Delete)]
+        [HttpDelete(ApiRotas.SoccerCourt.Delete)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)

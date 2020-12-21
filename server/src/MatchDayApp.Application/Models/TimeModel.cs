@@ -7,7 +7,7 @@ namespace MatchDayApp.Application.Models
     {
         public string Nome { get; set; }
         public string Imagem { get; set; }
-        public int TotalJogadores { get; set; } = 0;
+        public int QtdIntegrantes { get; set; } = 0;
         public Guid UsuarioProprietarioId { get; set; }
     }
 }

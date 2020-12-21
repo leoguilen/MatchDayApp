@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MatchDayApp.Application.Models;
-using MatchDayApp.Domain.Entities;
+using MatchDayApp.Domain.Entidades;
 
 namespace MatchDayApp.Application.Mapper
 {
@@ -8,11 +8,10 @@ namespace MatchDayApp.Application.Mapper
     {
         public DomainToViewModelMappingProfile()
         {
-            CreateMap<Usuario, UserModel>().ReverseMap();
+            CreateMap<Usuario, UsuarioModel>().ReverseMap();
             CreateMap<Time, TimeModel>().ReverseMap();
             CreateMap<QuadraFutebol, QuadraModel>().ReverseMap();
-            CreateMap<Partida, ScheduleMatchModel>().ReverseMap()
-                .ForMember(sc => sc.Date, prop => prop.MapFrom(scm => scm.MatchDate));
+            CreateMap<Partida, PartidaModel>().ReverseMap();
         }
     }
 }

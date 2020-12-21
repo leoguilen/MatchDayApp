@@ -37,7 +37,7 @@ namespace MatchDayApp.UnitTest.Configuration
             serviceProvider.AddTransient<IUsuarioServico, UsuarioServico>();
             serviceProvider.AddTransient<ITimeServico, TimeServico>();
             serviceProvider.AddTransient<IQuadraFutebolServico, QuadraFutebolServico>();
-            serviceProvider.AddTransient<IScheduleMatchService, ScheduleMatchService>();
+            serviceProvider.AddTransient<IPartidaServico, PartidaServico>();
 
             var jwtOptions = new JwtConfiguracao
             {

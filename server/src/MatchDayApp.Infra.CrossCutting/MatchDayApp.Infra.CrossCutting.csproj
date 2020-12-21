@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="InversionOfControl\p3i5sxr1.xcu~" />
+    <None Remove="IoC\p3i5sxr1.xcu~" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,7 +16,7 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
     [Trait("UserController", "Get")]
     public class GetUserDetailsTest : ControllerTest
     {
-        private readonly string _requestUri = ApiRoutes.User.Get;
+        private readonly string _requestUri = ApiRotas.User.Get;
         private readonly MatchDayAppContext _memoryDb;
 
         public GetUserDetailsTest(CustomWebApplicationFactory factory,
@@ -39,7 +39,7 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var userResponse = await response.Content
-                .ReadAsAsync<Response<UserResponse>>();
+                .ReadAsAsync<Response<UsuarioResponse>>();
 
             userResponse.Data.Id.Should().Be(userId);
             userResponse.Data.Username.Should().Be("test3");

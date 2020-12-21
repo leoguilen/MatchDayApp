@@ -35,7 +35,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_ScheduleMatchHandler_GetAllMatches()
         {
-            var getMatchesQuery = new GetMatchesQuery { };
+            var getMatchesQuery = new ObterPartidasQuery { };
 
             var matchesResult = await _mediator.Send(getMatchesQuery);
 
@@ -45,7 +45,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_ScheduleMatchHandler_GetMatchById()
         {
-            var getMatchByIdQuery = new GetMatchByIdQuery
+            var getMatchByIdQuery = new ObterPartidaPorIdQuery
             {
                 MatchId = _matchId
             };
@@ -59,7 +59,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_ScheduleMatchHandler_GetMatchesBySoccerCourtId()
         {
-            var getMatchesBySoccerCourtIdQuery = new GetMatchesBySoccerCourtIdQuery
+            var getMatchesBySoccerCourtIdQuery = new ObterPartidasPorQuadraIdQuery
             {
                 SoccerCourtId = _memoryDb.SoccerCourts.First().Id
             };
@@ -74,7 +74,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_ScheduleMatchHandler_GetMatchesByTeamId()
         {
-            var getMatchesByTeamIdQuery = new GetMatchesByTeamIdQuery
+            var getMatchesByTeamIdQuery = new ObterPartidasPorTimeIdQuery
             {
                 TeamId = _memoryDb.Teams.ToList()[1].Id
             };
@@ -88,9 +88,9 @@ namespace MatchDayApp.UnitTest.Handlers
         public async Task Handle_ScheduleMatchHandler_ScheduledNewMatch()
         {
             var faker = new Faker("pt_BR");
-            var scheduleMatchCommand = new ScheduleMatchCommand
+            var scheduleMatchCommand = new MarcarPartidaCommand
             {
-                Match = new ScheduleMatchModel
+                Match = new PartidaModel
                 {
                     FirstTeam = new TimeModel
                     {
@@ -134,7 +134,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_ScheduleMatchHandler_ConfirmedMatch()
         {
-            var confirmMatchCommand = new ConfirmMatchCommand
+            var confirmMatchCommand = new ConfirmarPartidaCommand
             {
                 TeamId = _memoryDb.Teams.Last().Id,
                 MatchId = _matchId
@@ -148,7 +148,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_ScheduleMatchHandler_UncheckedMatch()
         {
-            var uncheckMatchCommand = new UncheckMatchCommand
+            var uncheckMatchCommand = new DesmarcarPartidaCommand
             {
                 MatchId = _matchId
             };

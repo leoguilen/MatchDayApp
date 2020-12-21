@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MatchDayApp.Application.Services
+namespace MatchDayApp.Application.Servicos
 {
     public class UsuarioServico : IUsuarioServico
     {
@@ -19,7 +19,7 @@ namespace MatchDayApp.Application.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<bool> AtualizarUsuarioAsync(Guid usuarioId, UsuarioModel usuario)
+        public async Task<UsuarioModel> AtualizarUsuarioAsync(Guid usuarioId, UsuarioModel usuario)
         {
             var usuarioAtualizar = await _uow.UsuarioRepositorio
                 .GetByIdAsync(usuarioId);
@@ -37,10 +37,10 @@ namespace MatchDayApp.Application.Services
                 await _uow.UsuarioRepositorio
                     .SaveAsync(usuarioAtualizar);
 
-                return true;
+                return _mapper.Map<UsuarioModel>(usuarioAtualizar);
             }
 
-            return false;
+            return null;
         }
 
         public async Task<bool> DeletarUsuarioAsync(Guid usuarioId)

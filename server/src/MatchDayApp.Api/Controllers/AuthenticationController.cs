@@ -32,23 +32,23 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="200">Register a new user in the system</response>
         /// <response code="400">An error occurred when try register a new user in the system</response>
-        [HttpPost(ApiRoutes.Authentication.Register)]
-        [ProducesResponseType(typeof(AuthSuccessResponse), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(AuthFailedResponse), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        [HttpPost(ApiRotas.Authentication.Register)]
+        [ProducesResponseType(typeof(AutenticacaoComSucessoResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AutenticacaoComFalhaResponse), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Register([FromBody] RegistrarUsuarioRequest request)
         {
             var result = await _authService.RegisterAsync(request);
 
             if (!result.Success)
             {
-                return BadRequest(new AuthFailedResponse
+                return BadRequest(new AutenticacaoComFalhaResponse
                 {
                     Message = result.Message,
                     Errors = result.Errors
                 });
             }
 
-            return Ok(new AuthSuccessResponse
+            return Ok(new AutenticacaoComSucessoResponse
             {
                 Message = result.Message,
                 Token = result.Token,
@@ -61,23 +61,23 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="200">user login validated in the system</response>
         /// <response code="400">An error occurred when try login user in the system</response>
-        [HttpPost(ApiRoutes.Authentication.Login)]
-        [ProducesResponseType(typeof(AuthSuccessResponse), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(AuthFailedResponse), (int)HttpStatusCode.BadRequest)]
+        [HttpPost(ApiRotas.Authentication.Login)]
+        [ProducesResponseType(typeof(AutenticacaoComSucessoResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AutenticacaoComFalhaResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await _authService.LoginAsync(request);
 
             if (!result.Success)
             {
-                return BadRequest(new AuthFailedResponse
+                return BadRequest(new AutenticacaoComFalhaResponse
                 {
                     Message = result.Message,
                     Errors = result.Errors
                 });
             }
 
-            return Ok(new AuthSuccessResponse
+            return Ok(new AutenticacaoComSucessoResponse
             {
                 Message = result.Message,
                 Token = result.Token,
@@ -90,23 +90,23 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="200">User password reseted succefully in the system</response>
         /// <response code="400">An error occurred when try reset user password in the system</response>
-        [HttpPost(ApiRoutes.Authentication.ResetPassword)]
-        [ProducesResponseType(typeof(AuthSuccessResponse), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(AuthFailedResponse), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+        [HttpPost(ApiRotas.Authentication.ResetPassword)]
+        [ProducesResponseType(typeof(AutenticacaoComSucessoResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AutenticacaoComFalhaResponse), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetarSenhaRequest request)
         {
             var result = await _authService.ResetPasswordAsync(request);
 
             if (!result.Success)
             {
-                return BadRequest(new AuthFailedResponse
+                return BadRequest(new AutenticacaoComFalhaResponse
                 {
                     Message = result.Message,
                     Errors = result.Errors
                 });
             }
 
-            return Ok(new AuthSuccessResponse
+            return Ok(new AutenticacaoComSucessoResponse
             {
                 Message = result.Message
             });
@@ -117,9 +117,9 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="200">Confirmed email with succefully</response>
         /// <response code="400">An error occurred when try confirm user email in the system</response>
-        [HttpGet(ApiRoutes.Authentication.ConfirmEmail)]
-        [ProducesResponseType(typeof(AuthSuccessResponse), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(AuthFailedResponse), (int)HttpStatusCode.BadRequest)]
+        [HttpGet(ApiRotas.Authentication.ConfirmEmail)]
+        [ProducesResponseType(typeof(AutenticacaoComSucessoResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AutenticacaoComFalhaResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> ConfirmEmail([FromQuery] Guid key)
         {
             var result = await _authService
@@ -127,14 +127,14 @@ namespace MatchDayApp.Api.Controllers
 
             if (!result.Success)
             {
-                return BadRequest(new AuthFailedResponse
+                return BadRequest(new AutenticacaoComFalhaResponse
                 {
                     Message = result.Message,
                     Errors = result.Errors
                 });
             }
 
-            return Ok(new AuthSuccessResponse
+            return Ok(new AutenticacaoComSucessoResponse
             {
                 Message = result.Message
             });

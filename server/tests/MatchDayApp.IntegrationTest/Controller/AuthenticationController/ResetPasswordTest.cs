@@ -16,13 +16,13 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
     [Trait("AuthenticationController", "ResetPassword")]
     public class ResetPasswordTest : ControllerTest
     {
-        private readonly string _requestUri = ApiRoutes.Authentication.ResetPassword;
-        private readonly ResetPasswordRequest _resetPassRequest;
+        private readonly string _requestUri = ApiRotas.Authentication.ResetPassword;
+        private readonly ResetarSenhaRequest _resetPassRequest;
 
         public ResetPasswordTest(CustomWebApplicationFactory factory,
             ITestOutputHelper output) : base(factory, output)
         {
-            _resetPassRequest = new ResetPasswordRequest
+            _resetPassRequest = new ResetarSenhaRequest
             {
                 Email = "test2@email.com",
                 Password = "Test@321",
@@ -42,7 +42,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
-                .ReadAsAsync<AuthFailedResponse>();
+                .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
@@ -68,7 +68,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
-                .ReadAsAsync<AuthFailedResponse>();
+                .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
@@ -90,7 +90,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
-                .ReadAsAsync<AuthFailedResponse>();
+                .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
@@ -114,7 +114,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
-                .ReadAsAsync<AuthFailedResponse>();
+                .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
@@ -136,7 +136,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
-                .ReadAsAsync<AuthFailedResponse>();
+                .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
             authResponse.Message.Should()
                 .Be(Dictionary.ME001);
@@ -155,7 +155,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
-                .ReadAsAsync<AuthFailedResponse>();
+                .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
             authResponse.Message.Should()
                 .Be(Dictionary.ME001);
@@ -172,7 +172,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var authResponse = await response.Content
-                .ReadAsAsync<AuthSuccessResponse>();
+                .ReadAsAsync<AutenticacaoComSucessoResponse>();
 
             authResponse.Message.Should()
                 .Be(Dictionary.MS002);

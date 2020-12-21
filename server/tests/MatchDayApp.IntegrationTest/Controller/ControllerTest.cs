@@ -31,7 +31,7 @@ namespace MatchDayApp.IntegrationTest.Controller
         private async Task<string> GetJwtAsync()
         {
             var response = await HttpClientTest.PostAsJsonAsync(
-                ApiRoutes.Authentication.Login,
+                ApiRotas.Authentication.Login,
                 new LoginRequest
                 {
                     Email = "test2@email.com",
@@ -39,7 +39,7 @@ namespace MatchDayApp.IntegrationTest.Controller
                 });
 
             var authResponse = await response.Content
-                .ReadAsAsync<AuthSuccessResponse>();
+                .ReadAsAsync<AutenticacaoComSucessoResponse>();
 
             return authResponse.Token;
         }

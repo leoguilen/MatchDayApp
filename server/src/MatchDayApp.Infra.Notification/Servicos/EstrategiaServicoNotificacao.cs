@@ -26,7 +26,7 @@ namespace MatchDayApp.Infra.Notification.Servicos
                 ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public IServicoNotificacao EscolheEstrategia(TipoNotificacao tipoNotificacao)
+        public IServicoNotificacao DefineEstrategia(TipoNotificacao tipoNotificacao)
         {
             _servicoNotificacao = tipoNotificacao switch
             {

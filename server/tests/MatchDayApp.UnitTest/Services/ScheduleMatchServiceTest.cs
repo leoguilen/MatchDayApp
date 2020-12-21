@@ -19,7 +19,7 @@ namespace MatchDayApp.UnitTest.Services
     public class ScheduleMatchServiceTest
     {
         private readonly IUnitOfWork _uow;
-        private readonly IScheduleMatchService _scheduleMatchService;
+        private readonly IPartidaServico _scheduleMatchService;
         private readonly MatchDayAppContext _memoryDb;
         private readonly Faker _faker = new Faker("pt_BR");
 
@@ -33,7 +33,7 @@ namespace MatchDayApp.UnitTest.Services
             _uow = configServices
                 .GetRequiredService<IUnitOfWork>();
 
-            _scheduleMatchService = new ScheduleMatchService(_uow,
+            _scheduleMatchService = new PartidaServico(_uow,
                 configServices.GetRequiredService<IMapper>());
         }
 
@@ -144,7 +144,7 @@ namespace MatchDayApp.UnitTest.Services
         public async Task ScheduleMatchAsync_ScheduleMatchService_ScheduledNewMatch()
         {
             var faker = new Faker("pt_BR");
-            var newMatch = new ScheduleMatchModel
+            var newMatch = new PartidaModel
             {
                 FirstTeam = new TimeModel
                 {
@@ -200,7 +200,7 @@ namespace MatchDayApp.UnitTest.Services
         public async Task ScheduleMatchAsync_ScheduleMatchService_NotScheduledMatchIfAlreadyMatchInDate()
         {
             var faker = new Faker("pt_BR");
-            var newMatch = new ScheduleMatchModel
+            var newMatch = new PartidaModel
             {
                 FirstTeam = new TimeModel
                 {

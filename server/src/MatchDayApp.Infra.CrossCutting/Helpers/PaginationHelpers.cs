@@ -1,5 +1,5 @@
-﻿using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Query;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Response;
+﻿using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Query;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Respostas;
 using MatchDayApp.Infra.CrossCutting.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,23 +8,23 @@ namespace MatchDayApp.Infra.CrossCutting.Helpers
 {
     public static class PaginationHelpers
     {
-        public static PagedResponse<T> CreatePaginatedResponse<T>(IUriService uriService, PaginationQuery pagination, List<T> response)
+        public static PagedResponse<T> CriarRespostaPaginada<T>(IUriService uriService, PaginacaoQuery pagination, List<T> response)
         {
-            var nextPage = pagination.PageNumber >= 1
-                ? uriService.GetAllUri(pagination.PageNumber + 1, pagination.PageSize).ToString()
+            var nextPage = pagination.NumeroPagina >= 1
+                ? uriService.GetAllUri(pagination.NumeroPagina + 1, pagination.QuantidadePagina).ToString()
                 : null;
 
-            var previousPage = pagination.PageNumber - 1 >= 1
-                ? uriService.GetAllUri(pagination.PageNumber - 1, pagination.PageSize).ToString()
+            var previousPage = pagination.NumeroPagina - 1 >= 1
+                ? uriService.GetAllUri(pagination.NumeroPagina - 1, pagination.QuantidadePagina).ToString()
                 : null;
 
             return new PagedResponse<T>
             {
-                Data = response,
-                PageNumber = pagination.PageNumber >= 1 ? pagination.PageNumber : (int?)null,
-                PageSize = pagination.PageSize >= 1 ? pagination.PageSize : (int?)null,
-                NextPage = response.Any() ? nextPage : null,
-                PreviousPage = previousPage
+                Dados = response,
+                NumeroPagina = pagination.NumeroPagina >= 1 ? pagination.NumeroPagina : (int?)null,
+                QuantidadePagina = pagination.QuantidadePagina >= 1 ? pagination.QuantidadePagina : (int?)null,
+                ProximaPagina = response.Any() ? nextPage : null,
+                PaginaAnterior = previousPage
             };
         }
     }

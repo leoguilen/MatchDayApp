@@ -13,7 +13,7 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
     [Trait("UserController", "Get")]
     public class GetUsersTest : ControllerTest
     {
-        private readonly string _requestUri = ApiRoutes.User.GetAll;
+        private readonly string _requestUri = ApiRotas.User.GetAll;
 
         private readonly PaginationQuery _pagination;
 
@@ -37,7 +37,7 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var userResponse = await response.Content
-                .ReadAsAsync<PagedResponse<UserResponse>>();
+                .ReadAsAsync<PagedResponse<UsuarioResponse>>();
 
             userResponse.Data.Should().SatisfyRespectively(
                 user1 =>

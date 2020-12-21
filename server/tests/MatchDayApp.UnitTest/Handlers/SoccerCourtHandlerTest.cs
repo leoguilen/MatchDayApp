@@ -75,7 +75,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_SoccerCourtHandler_AddedSoccerCourt()
         {
-            var addSoccerCourtCommand = new AddSoccerCourtCommand
+            var addSoccerCourtCommand = new AdicionarQuadraCommand
             {
                 SoccerCourt = new QuadraModel
                 {
@@ -111,7 +111,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_SoccerCourtHandler_UpdatedSoccerCourt()
         {
-            var updateSoccerCourtCommand = new UpdateSoccerCourtCommand
+            var updateSoccerCourtCommand = new AtualizarQuadraCommand
             {
                 Id = _soccerCourtId,
                 SoccerCourt = new QuadraModel
@@ -134,7 +134,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_SoccerCourtHandler_DeletedSoccerCourt()
         {
-            var deleteSoccerCourtCommand = new DeleteSoccerCourtCommand
+            var deleteSoccerCourtCommand = new DeletarQuadraCommand
             {
                 Id = _soccerCourtId
             };

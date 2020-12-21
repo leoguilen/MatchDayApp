@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MatchDayApp.Infra.Data.Repositories
+namespace MatchDayApp.Infra.Data.Repositorios
 {
     public class UsuarioRepositorio : Repository<Usuario>, IUsuarioRepositorio
     {

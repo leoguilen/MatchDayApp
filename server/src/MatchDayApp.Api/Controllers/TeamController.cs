@@ -45,19 +45,19 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <param name="pagination">Pagination options</param>
         /// <response code="200">Returns all teams in the system</response>
-        [HttpGet(ApiRoutes.Team.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<TeamResponse>), (int)HttpStatusCode.OK)]
+        [HttpGet(ApiRotas.Team.GetAll)]
+        [ProducesResponseType(typeof(PagedResponse<TimeResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll([FromQuery] PaginationQuery pagination)
         {
             var teams = await _teamService
                 .GetTeamsListAsync(pagination);
 
             var teamsResponse = _mapper
-                .Map<IReadOnlyList<TeamResponse>>(teams);
+                .Map<IReadOnlyList<TimeResponse>>(teams);
 
             if (pagination == null || pagination.PageNumber < 1 || pagination.PageSize < 1)
             {
-                return Ok(new PagedResponse<TeamResponse>(teamsResponse));
+                return Ok(new PagedResponse<TimeResponse>(teamsResponse));
             }
 
             var paginationResponse = PaginationHelpers
@@ -72,8 +72,8 @@ namespace MatchDayApp.Api.Controllers
         /// <param name="teamId">Team identification in the system</param>
         /// <response code="200">Return team by id</response>
         /// <response code="404">Not found team</response>
-        [HttpGet(ApiRoutes.Team.Get)]
-        [ProducesResponseType(typeof(Response<TeamResponse>), (int)HttpStatusCode.OK)]
+        [HttpGet(ApiRotas.Team.Get)]
+        [ProducesResponseType(typeof(Response<TimeResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
@@ -83,8 +83,8 @@ namespace MatchDayApp.Api.Controllers
             if (team is null)
                 return NotFound();
 
-            return Ok(new Response<TeamResponse>(_mapper
-                .Map<TeamResponse>(team)));
+            return Ok(new Response<TimeResponse>(_mapper
+                .Map<TimeResponse>(team)));
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="201">Created team</response>
         /// <response code="400">An error when create team</response>
-        [HttpPost(ApiRoutes.Team.Create)]
+        [HttpPost(ApiRotas.Team.Create)]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateTeamRequest request)
@@ -125,10 +125,10 @@ namespace MatchDayApp.Api.Controllers
         /// <response code="200">Updated team</response>
         /// <response code="400">An error when update team</response>
         /// <response code="404">Not found team</response>
-        [HttpPut(ApiRoutes.Team.Update)]
+        [HttpPut(ApiRotas.Team.Update)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateTeamRequest request)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] AtualizarTimeRequest request)
         {
             var result = await _teamService
                 .UpdateTeamAsync(id, request);
@@ -154,7 +154,7 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="204">Deleted team</response>
         /// <response code="404">Not found team</response>
-        [HttpDelete(ApiRoutes.Team.Delete)]
+        [HttpDelete(ApiRotas.Team.Delete)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)

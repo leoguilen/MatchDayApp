@@ -36,7 +36,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_UserHandler_GetAllUsers()
         {
-            var getUsersQuery = new GetUsersQuery { };
+            var getUsersQuery = new ObterUsuariosQuery { };
 
             var usersResult = await _mediator.Send(getUsersQuery);
 
@@ -46,7 +46,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_UserHandler_GetUserById()
         {
-            var getUserByIdQuery = new GetUserDetailsByIdQuery
+            var getUserByIdQuery = new ObterUsuarioPorIdQuery
             {
                 Id = _userId
             };
@@ -59,7 +59,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_UserHandler_GetUserByEmail()
         {
-            var getUserByEmailQuery = new GetUserDetailsByEmailQuery
+            var getUserByEmailQuery = new ObterUsuarioPorEmailQuery
             {
                 Email = "test2@email.com"
             };
@@ -72,7 +72,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_UserHandler_UpdatedUser()
         {
-            var updateUserCommand = new UpdateUserCommand
+            var updateUserCommand = new AtualizarUsuarioCommand
             {
                 UserId = _memoryDb.Users.Last().Id,
                 UpdateUser = new UserModel
@@ -98,7 +98,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_UserHandler_DeletedUser()
         {
-            var deleteUserCommand = new DeleteUserCommand
+            var deleteUserCommand = new DeletarUsuarioCommand
             {
                 Id = _userId
             };

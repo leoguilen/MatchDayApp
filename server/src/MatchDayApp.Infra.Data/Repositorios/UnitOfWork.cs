@@ -1,10 +1,9 @@
 ﻿using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Domain.Repositorios;
 using MatchDayApp.Infra.Data.Data;
-using MatchDayApp.Infra.Data.Repositorios;
 using System.Threading.Tasks;
 
-namespace MatchDayApp.Infra.Data.Repositories
+namespace MatchDayApp.Infra.Data.Repositorios
 {
     public class UnitOfWork : IUnitOfWork
     {

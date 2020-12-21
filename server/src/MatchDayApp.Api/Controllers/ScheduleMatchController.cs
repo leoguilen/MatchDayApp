@@ -44,18 +44,18 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <param name="pagination">Pagination options</param>
         /// <response code="200">Returns all scheduled matches</response>
-        [HttpGet(ApiRoutes.ScheduleMatch.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<ScheduleMatchResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationQuery pagination, [FromQuery] MatchFilterQuery filter)
+        [HttpGet(ApiRotas.ScheduleMatch.GetAll)]
+        [ProducesResponseType(typeof(PagedResponse<PartidaResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAll([FromQuery] PaginationQuery pagination, [FromQuery] PartidaFilterQuery filter)
         {
             var matches = await _matchService
                 .GetScheduledMatchesListAsync(pagination, filter);
 
             var matchesResponse = _mapper
-                .Map<IReadOnlyList<ScheduleMatchResponse>>(matches);
+                .Map<IReadOnlyList<PartidaResponse>>(matches);
 
             if (pagination == null || pagination.PageNumber < 1 || pagination.PageSize < 1)
-                return Ok(new PagedResponse<ScheduleMatchResponse>(matchesResponse));
+                return Ok(new PagedResponse<PartidaResponse>(matchesResponse));
 
             var paginationResponse = PaginationHelpers
                 .CreatePaginatedResponse(_uriService, pagination, matchesResponse.ToList());
@@ -69,8 +69,8 @@ namespace MatchDayApp.Api.Controllers
         /// <param name="matchId">Match identification in the system</param>
         /// <response code="200">Return match by id</response>
         /// <response code="404">Not found match</response>
-        [HttpGet(ApiRoutes.ScheduleMatch.Get)]
-        [ProducesResponseType(typeof(Response<ScheduleMatchResponse>), (int)HttpStatusCode.OK)]
+        [HttpGet(ApiRotas.ScheduleMatch.Get)]
+        [ProducesResponseType(typeof(Response<PartidaResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
@@ -80,8 +80,8 @@ namespace MatchDayApp.Api.Controllers
             if (match is null)
                 return NotFound();
 
-            return Ok(new Response<ScheduleMatchResponse>(_mapper
-                .Map<ScheduleMatchResponse>(match)));
+            return Ok(new Response<PartidaResponse>(_mapper
+                .Map<PartidaResponse>(match)));
         }
 
         /// <summary>
@@ -89,10 +89,10 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="200">Scheduled match</response>
         /// <response code="400">An error when schedule match</response>
-        [HttpPost(ApiRoutes.ScheduleMatch.ScheduledMatch)]
+        [HttpPost(ApiRotas.ScheduleMatch.ScheduledMatch)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> ScheduleMatch([FromBody] ScheduleMatchRequest request)
+        public async Task<IActionResult> ScheduleMatch([FromBody] MarcarPartidaRequest request)
         {
             var result = await _matchService
                 .ScheduleMatchAsync(request);
@@ -118,10 +118,10 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="200">Confirmed match</response>
         /// <response code="400">An error when confirm match</response>
-        [HttpPost(ApiRoutes.ScheduleMatch.ConfirmMatch)]
+        [HttpPost(ApiRotas.ScheduleMatch.ConfirmMatch)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> ConfirmMatch([FromBody] ConfirmMatchRequest request)
+        public async Task<IActionResult> ConfirmMatch([FromBody] ConfirmarPartidaRequest request)
         {
             var result = await _matchService
                 .ConfirmMatchAsync(request);
@@ -147,10 +147,10 @@ namespace MatchDayApp.Api.Controllers
         /// </summary>
         /// <response code="200">Unchecked match</response>
         /// <response code="400">An error when uncheck match</response>
-        [HttpPost(ApiRoutes.ScheduleMatch.UncheckMatch)]
+        [HttpPost(ApiRotas.ScheduleMatch.UncheckMatch)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> UncheckMatch([FromBody] UncheckMatchRequest request)
+        public async Task<IActionResult> UncheckMatch([FromBody] DesmarcarPartidaRequest request)
         {
             var result = await _matchService
                 .UncheckMatchAsync(request.MatchId);
