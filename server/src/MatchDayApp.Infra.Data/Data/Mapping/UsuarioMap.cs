@@ -1,6 +1,9 @@
 ﻿using MatchDayApp.Domain.Entidades;
+using MatchDayApp.Domain.Entidades.Enum;
+using MatchDayApp.Domain.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace MatchDayApp.Infra.Data.Data.Mapping
 {
@@ -39,6 +42,22 @@ namespace MatchDayApp.Infra.Data.Data.Mapping
 
             builder.Property(prop => prop.TipoUsuario)
                 .HasConversion<int>();
+
+            var salt = SenhaHasherHelper.CriarSalt(8);
+
+            // Seeding usuários
+            builder.HasData(new Usuario
+            {
+                Nome = "Administrador",
+                Sobrenome = "Master",
+                Username = "admin.master",
+                Email = "desenvolvimento.dev1@gmail.com",
+                EmailConfirmado = true,
+                Telefone = "+55 (11)1020-3040",
+                Senha = SenhaHasherHelper.GerarHash("Admin@Master123", salt),
+                Salt = salt,
+                TipoUsuario = TipoUsuario.ProprietarioTime,
+            });
         }
     }
 }
