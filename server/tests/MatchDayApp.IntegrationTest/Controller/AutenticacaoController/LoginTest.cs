@@ -1,5 +1,9 @@
 ﻿using Bogus;
 using FluentAssertions;
+using MatchDayApp.Domain.Resources;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Auth;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Respostas.Auth;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -7,12 +11,12 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
+namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 {
-    [Trait("AuthenticationController", "Login")]
+    [Trait("AutenticacaoController", "Login")]
     public class LoginTest : ControllerTest
     {
-        private readonly string _requestUri = ApiRotas.Authentication.Login;
+        private readonly string _requestUri = ApiRotas.Autenticacao.Login;
         private readonly LoginRequest _loginRequest;
 
         public LoginTest(CustomWebApplicationFactory factory,
@@ -21,12 +25,12 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
             _loginRequest = new LoginRequest
             {
                 Email = "test2@email.com",
-                Password = "test321"
+                Senha = "test321"
             };
         }
 
         [Fact]
-        public async Task Login_AuthenticationController_FailedResponseIfEmailIsInvalid()
+        public async Task Login_AutenticacaoController_RespostaDeFalhaQuandoEmailEhInvalido()
         {
             _loginRequest.Email = Faker.Person.Email;
 
@@ -37,20 +41,20 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
             var authResponse = await response.Content
                 .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
-            authResponse.Message.Should()
-                .Be(Dictionary.ME004);
+            authResponse.Mensagem.Should()
+                .Be(Dicionario.ME004);
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV001 });
+                .BeEquivalentTo(new[] { Dicionario.MV001 });
 
             Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task Login_AuthenticationController_FailedResponseIfPasswordIsInvalid()
+        public async Task Login_AutenticacaoController_RespostaComFalhaQuandoSenhaEhInvalida()
         {
-            _loginRequest.Password = Faker.Internet.Password();
+            _loginRequest.Senha = Faker.Internet.Password();
 
             var response = await HttpClientTest
                 .PostAsJsonAsync(_requestUri, _loginRequest);
@@ -59,23 +63,23 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
             var authResponse = await response.Content
                 .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
-            authResponse.Message.Should()
-                .Be(Dictionary.ME004);
+            authResponse.Mensagem.Should()
+                .Be(Dicionario.ME004);
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV002 });
+                .BeEquivalentTo(new[] { Dicionario.MV002 });
 
             Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task Login_AuthenticationController_FailedResponseIfUserIsDeleted()
+        public async Task Login_AuthenticationController_RespostaComFalhaQuandoUsuarioEstaDeletado()
         {
             var loginUserDeletedRequest = new LoginRequest
             {
                 Email = "test1@email.com",
-                Password = "test123"
+                Senha = "test123"
             };
 
             var response = await HttpClientTest
@@ -85,18 +89,18 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
             var authResponse = await response.Content
                 .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
-            authResponse.Message.Should()
-                .Be(Dictionary.ME004);
+            authResponse.Mensagem.Should()
+                .Be(Dicionario.ME004);
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV001 });
+                .BeEquivalentTo(new[] { Dicionario.MV001 });
 
             Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task Login_AuthenticationController_SuccessResponse()
+        public async Task Login_AuthenticationController_RespostaComSucessoEUsuarioRecebeTokenDeAcesso()
         {
             var response = await HttpClientTest
                 .PostAsJsonAsync(_requestUri, _loginRequest);
@@ -104,9 +108,9 @@ namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var authResponse = await response.Content.ReadAsAsync<AutenticacaoComSucessoResponse>();
 
-            authResponse.Message.Should().Be(Dictionary.MS001);
+            authResponse.Mensagem.Should().Be(Dicionario.MS001);
             authResponse.Token.Should().NotBeNullOrEmpty();
-            authResponse.User.Email.Should().Be(_loginRequest.Email);
+            authResponse.Usuario.Email.Should().Be(_loginRequest.Email);
 
             Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_loginRequest)} 
                               | Resultado teste: {response.StatusCode}");

@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using MatchDayApp.Api;
 using MatchDayApp.Application.Interfaces;
+using MatchDayApp.Domain.Configuracoes;
+using MatchDayApp.Infra.CrossCutting.Ioc;
 using MatchDayApp.Infra.Data.Data;
+using MatchDayApp.Infra.Data.Repositorios;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -39,12 +42,12 @@ namespace MatchDayApp.IntegrationTest
                         .GetRequiredService<MatchDayAppContext>();
                     providerDbContext.SeedFakeData();
 
-                    var smtpSetting = new ConfiguracaoSmtp();
-                    configuration.Bind(nameof(ConfiguracaoSmtp), smtpSetting);
+                    var smtpSetting = new SmtpConfiguracao();
+                    configuration.Bind(nameof(SmtpConfiguracao), smtpSetting);
                     services.AddSingleton(smtpSetting);
 
-                    var twilioSettings = new ConfiguracaoTwilio();
-                    configuration.Bind(nameof(ConfiguracaoTwilio), twilioSettings);
+                    var twilioSettings = new TwilioConfiguracao();
+                    configuration.Bind(nameof(TwilioConfiguracao), twilioSettings);
                     services.AddSingleton(twilioSettings);
 
                     var jwtOptions = new JwtConfiguracao();

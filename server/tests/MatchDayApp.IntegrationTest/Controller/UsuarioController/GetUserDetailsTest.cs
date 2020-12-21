@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Respostas;
 using MatchDayApp.Infra.Data.Data;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
@@ -9,12 +11,12 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace MatchDayApp.IntegrationTest.Controller.UserController
+namespace MatchDayApp.IntegrationTest.Controller.UsuarioController
 {
-    [Trait("UserController", "Get")]
+    [Trait("UsuarioController", "Get")]
     public class GetUserDetailsTest : ControllerTest
     {
-        private readonly string _requestUri = ApiRotas.User.Get;
+        private readonly string _requestUri = ApiRotas.Usuario.Get;
         private readonly MatchDayAppContext _memoryDb;
 
         public GetUserDetailsTest(CustomWebApplicationFactory factory,
@@ -26,9 +28,9 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
         }
 
         //[Fact]
-        public async Task Get_UserController_GetUserDetailsById()
+        public async Task Get_UserController_RetornaUsuárioPorId()
         {
-            var userId = _memoryDb.Users.Last().Id;
+            var userId = _memoryDb.Usuarios.Last().Id;
 
             await AuthenticateAsync();
 
@@ -39,9 +41,9 @@ namespace MatchDayApp.IntegrationTest.Controller.UserController
             var userResponse = await response.Content
                 .ReadAsAsync<Response<UsuarioResponse>>();
 
-            userResponse.Data.Id.Should().Be(userId);
-            userResponse.Data.Username.Should().Be("test3");
-            userResponse.Data.Email.Should().Be("test3@email.com");
+            userResponse.Dados.Id.Should().Be(userId);
+            userResponse.Dados.Username.Should().Be("test3");
+            userResponse.Dados.Email.Should().Be("test3@email.com");
 
             Output.WriteLine($"Response: {JsonSerializer.Serialize(userResponse)}");
         }

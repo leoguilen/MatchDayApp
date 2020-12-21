@@ -1,5 +1,8 @@
 ﻿using Bogus;
 using FluentAssertions;
+using MatchDayApp.Domain.Entidades.Enum;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Auth;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -7,26 +10,26 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
+namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 {
-    [Trait("AuthenticationController", "Register")]
-    public class RegisterTest : ControllerTest
+    [Trait("AutenticacaoController", "Register")]
+    public class RegistrarUsuarioTest : ControllerTest
     {
-        private readonly string _requestUri = ApiRotas.Authentication.Register;
+        private readonly string _requestUri = ApiRotas.Autenticacao.RegistrarUsuario;
         private readonly RegistrarUsuarioRequest _registerRequest;
 
-        public RegisterTest(CustomWebApplicationFactory factory,
+        public RegistrarUsuarioTest(CustomWebApplicationFactory factory,
             ITestOutputHelper output) : base(factory, output)
         {
             _registerRequest = new RegistrarUsuarioRequest
             {
-                FirstName = "Mateus",
-                LastName = "Silva",
-                UserName = "mateus.silva",
+                Nome = "Mateus",
+                Sobrenome = "Silva",
+                Username = "mateus.silva",
                 Email = "mateussilva@email.com",
-                Password = "Mateus@123",
-                ConfirmPassword = "Mateus@123",
-                UserType = TipoUsuario.Player,
+                Senha = "Mateus@123",
+                ConfirmacaoSenha = "Mateus@123",
+                TipoUsuario = TipoUsuario.Jogador,
                 Avatar = "avatar.png"
             };
         }

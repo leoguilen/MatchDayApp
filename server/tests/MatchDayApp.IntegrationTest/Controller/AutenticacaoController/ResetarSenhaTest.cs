@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace MatchDayApp.IntegrationTest.Controller.AuthenticationController
+namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 {
-    [Trait("AuthenticationController", "ResetPassword")]
-    public class ResetPasswordTest : ControllerTest
+    [Trait("AutenticacaoController", "ResetPassword")]
+    public class ResetarSenhaTest : ControllerTest
     {
         private readonly string _requestUri = ApiRotas.Authentication.ResetPassword;
         private readonly ResetarSenhaRequest _resetPassRequest;
 
-        public ResetPasswordTest(CustomWebApplicationFactory factory,
+        public ResetarSenhaTest(CustomWebApplicationFactory factory,
             ITestOutputHelper output) : base(factory, output)
         {
             _resetPassRequest = new ResetarSenhaRequest
