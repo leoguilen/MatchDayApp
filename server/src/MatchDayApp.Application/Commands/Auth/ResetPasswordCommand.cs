@@ -6,6 +6,6 @@ namespace MatchDayApp.Application.Commands.Auth
 {
     public class ResetPasswordCommand : IRequest<AuthenticationResult>
     {
-        public ResetPasswordModel ResetPassword { get; set; }
+        public ResetarSenhaModel ResetPassword { get; set; }
     }
 }

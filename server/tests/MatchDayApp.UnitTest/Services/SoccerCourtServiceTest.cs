@@ -18,7 +18,7 @@ namespace MatchDayApp.UnitTest.Services
     public class SoccerCourtServiceTest
     {
         private readonly IUnitOfWork _uow;
-        private readonly ISoccerCourtService _soccerCourtService;
+        private readonly IQuadraFutebolServico _soccerCourtService;
         private readonly MatchDayAppContext _memoryDb;
 
         private readonly Guid _soccerCourtId;
@@ -31,7 +31,7 @@ namespace MatchDayApp.UnitTest.Services
                 .SeedFakeData();
             _uow = cfg.GetRequiredService<IUnitOfWork>();
 
-            _soccerCourtService = new SoccerCourtService(_uow,
+            _soccerCourtService = new QuadraFutebolServico(_uow,
                 cfg.GetRequiredService<IMapper>());
 
             _soccerCourtId = _memoryDb.SoccerCourts.Last().Id;
@@ -108,7 +108,7 @@ namespace MatchDayApp.UnitTest.Services
         public async Task AddSoccerCourtAsync_SoccerCourtService_AddedSoccerCourtInSystem()
         {
             var faker = new Faker("pt_BR");
-            var newSoccerCourt = new SoccerCourtModel
+            var newSoccerCourt = new QuadraModel
             {
                 Name = faker.Company.CompanyName(),
                 Image = faker.Image.PicsumUrl(),

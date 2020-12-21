@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MatchDayApp.Application.Queries.SoccerCourt
 {
-    public class GetSoccerCourtsQuery : IRequest<IReadOnlyList<SoccerCourtModel>>
+    public class GetSoccerCourtsQuery : IRequest<IReadOnlyList<QuadraModel>>
     {
     }
 }

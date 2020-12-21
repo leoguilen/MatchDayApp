@@ -2,10 +2,6 @@
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Models.Auth;
-using MatchDayApp.Domain.Common.Helpers;
-using MatchDayApp.Domain.Configuration;
-using MatchDayApp.Domain.Entities;
-using MatchDayApp.Domain.Resources;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,7 +27,17 @@ namespace MatchDayApp.Application.Services
                 .AddRequestAsync(userId);
         }
 
-        public async Task<AuthenticationResult> ConfirmEmailAsync(ConfirmEmailModel confirmEmail)
+        public Task<bool> AdicionarSolicitacaoConfirmacaoEmail(Guid usuarioId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AuthenticationResult> ConfirmarEmailAsync(ConfirmacaoEmailModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<AuthenticationResult> ConfirmEmailAsync(ConfirmacaoEmailModel confirmEmail)
         {
             var request = await _uow.UserConfirmEmails
                 .GetRequestByKeyAsync(confirmEmail.ConfirmKey);
@@ -96,7 +102,7 @@ namespace MatchDayApp.Application.Services
             };
         }
 
-        public async Task<AuthenticationResult> RegisterAsync(RegisterModel register)
+        public async Task<AuthenticationResult> RegisterAsync(RegistrarUsuarioModel register)
         {
             var existsEmail = await _uow.Users
                 .GetByEmailAsync(register.Email);
@@ -143,7 +149,17 @@ namespace MatchDayApp.Application.Services
             };
         }
 
-        public async Task<AuthenticationResult> ResetPasswordAsync(ResetPasswordModel resetPassword)
+        public Task<AuthenticationResult> RegistrarUsuarioAsync(RegistrarUsuarioModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AuthenticationResult> ResetarSenhaAsync(ResetarSenhaModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<AuthenticationResult> ResetPasswordAsync(ResetarSenhaModel resetPassword)
         {
             var user = await _uow.Users
                 .GetByEmailAsync(resetPassword.Email);

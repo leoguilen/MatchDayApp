@@ -54,7 +54,7 @@ namespace MatchDayApp.UnitTest.Handlers
             var newPass = faker.Internet.Password();
             var registerCommand = new RegisterCommand
             {
-                Register = new RegisterModel
+                Register = new RegistrarUsuarioModel
                 {
                     FirstName = faker.Person.FirstName,
                     LastName = faker.Person.LastName,
@@ -79,7 +79,7 @@ namespace MatchDayApp.UnitTest.Handlers
             var newPass = new Faker().Internet.Password();
             var resetPasswordCommand = new ResetPasswordCommand
             {
-                ResetPassword = new ResetPasswordModel
+                ResetPassword = new ResetarSenhaModel
                 {
                     Email = "test2@email.com",
                     Password = newPass,

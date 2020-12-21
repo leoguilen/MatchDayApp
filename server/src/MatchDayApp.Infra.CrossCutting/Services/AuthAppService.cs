@@ -26,7 +26,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
         {
             var confirmEmailCommand = new ConfirmEmailCommand
             {
-                ConfirmEmail = new ConfirmEmailModel { ConfirmKey = key }
+                ConfirmEmail = new ConfirmacaoEmailModel { ConfirmKey = key }
             };
 
             var authResult = await _mediator.Send(confirmEmailCommand);
@@ -52,7 +52,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             var registerCommand = new RegisterCommand
             {
                 Register = _mapper
-                    .Map<RegisterModel>(register)
+                    .Map<RegistrarUsuarioModel>(register)
             };
 
             var authResult = await _mediator.Send(registerCommand);
@@ -76,7 +76,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             var resetPassCommand = new ResetPasswordCommand
             {
                 ResetPassword = _mapper
-                    .Map<ResetPasswordModel>(resetPassword)
+                    .Map<ResetarSenhaModel>(resetPassword)
             };
 
             var authResult = await _mediator.Send(resetPassCommand);

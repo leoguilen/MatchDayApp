@@ -6,6 +6,6 @@ namespace MatchDayApp.Application.Commands.Auth
 {
     public class RegisterCommand : IRequest<AuthenticationResult>
     {
-        public RegisterModel Register { get; set; }
+        public RegistrarUsuarioModel Register { get; set; }
     }
 }

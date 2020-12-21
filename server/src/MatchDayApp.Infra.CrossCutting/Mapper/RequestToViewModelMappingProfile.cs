@@ -14,13 +14,13 @@ namespace MatchDayApp.Infra.CrossCutting.Mapper
         public RequestToViewModelMappingProfile()
         {
             CreateMap<LoginRequest, LoginModel>();
-            CreateMap<RegisterRequest, RegisterModel>();
-            CreateMap<ResetPasswordRequest, ResetPasswordModel>();
+            CreateMap<RegisterRequest, RegistrarUsuarioModel>();
+            CreateMap<ResetPasswordRequest, ResetarSenhaModel>();
             CreateMap<UpdateUserRequest, UserModel>();
-            CreateMap<CreateTeamRequest, TeamModel>();
-            CreateMap<UpdateTeamRequest, TeamModel>();
-            CreateMap<CreateSoccerCourtRequest, SoccerCourtModel>();
-            CreateMap<UpdateSoccerCourtRequest, SoccerCourtModel>();
+            CreateMap<CreateTeamRequest, TimeModel>();
+            CreateMap<UpdateTeamRequest, TimeModel>();
+            CreateMap<CreateSoccerCourtRequest, QuadraModel>();
+            CreateMap<UpdateSoccerCourtRequest, QuadraModel>();
             CreateMap<ScheduleMatchRequest, ScheduleMatchModel>();
         }
     }

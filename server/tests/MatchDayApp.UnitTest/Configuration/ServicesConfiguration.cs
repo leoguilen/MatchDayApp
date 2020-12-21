@@ -34,9 +34,9 @@ namespace MatchDayApp.UnitTest.Configuration
             serviceProvider.AddSingleton<IUnitOfWork, UnitOfWork>();
             serviceProvider.AddAutoMapper(Assembly.Load("MatchDayApp.Application"));
             serviceProvider.AddTransient<IAuthService, AuthService>();
-            serviceProvider.AddTransient<IUserService, UserService>();
-            serviceProvider.AddTransient<ITeamService, TeamService>();
-            serviceProvider.AddTransient<ISoccerCourtService, SoccerCourtService>();
+            serviceProvider.AddTransient<IUsuarioServico, UsuarioServico>();
+            serviceProvider.AddTransient<ITimeServico, TimeServico>();
+            serviceProvider.AddTransient<IQuadraFutebolServico, QuadraFutebolServico>();
             serviceProvider.AddTransient<IScheduleMatchService, ScheduleMatchService>();
 
             var jwtOptions = new JwtConfiguracao

@@ -29,7 +29,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             var addSoccerCourtCommand = new AddSoccerCourtCommand
             {
                 SoccerCourt = _mapper
-                    .Map<SoccerCourtModel>(request)
+                    .Map<QuadraModel>(request)
             };
 
             var result = await _mediator.Send(addSoccerCourtCommand);
@@ -49,7 +49,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return result;
         }
 
-        public async Task<SoccerCourtModel> GetSoccerCourtByIdAsync(Guid soccerCourtId)
+        public async Task<QuadraModel> GetSoccerCourtByIdAsync(Guid soccerCourtId)
         {
             var getSoccerCourtByIdQuery = new GetSoccerCourtDetailsByIdQuery
             {
@@ -61,7 +61,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return soccerCourt;
         }
 
-        public async Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsByGeoLocalizationAsync(GetSoccerCourtsByGeoRequest request)
+        public async Task<IReadOnlyList<QuadraModel>> GetSoccerCourtsByGeoLocalizationAsync(GetSoccerCourtsByGeoRequest request)
         {
             var getSoccerCourtsByGeoQuery = new GetSoccerCourtsByGeoLocalizationQuery
             {
@@ -74,7 +74,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return soccerCourts;
         }
 
-        public async Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsListAsync(PaginationQuery pagination = null)
+        public async Task<IReadOnlyList<QuadraModel>> GetSoccerCourtsListAsync(PaginationQuery pagination = null)
         {
             var getSoccerCourtsQuery = new GetSoccerCourtsQuery { };
 
@@ -94,7 +94,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             {
                 Id = soccerCourtId,
                 SoccerCourt = _mapper
-                    .Map<SoccerCourtModel>(request)
+                    .Map<QuadraModel>(request)
             };
 
             var result = await _mediator.Send(updateSoccerCourtCommand);

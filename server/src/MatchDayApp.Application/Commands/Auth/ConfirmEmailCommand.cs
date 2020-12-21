@@ -7,6 +7,6 @@ namespace MatchDayApp.Application.Commands.Auth
 {
     public class ConfirmEmailCommand : IRequest<AuthenticationResult>
     {
-        public ConfirmEmailModel ConfirmEmail { get; set; }
+        public ConfirmacaoEmailModel ConfirmEmail { get; set; }
     }
 }

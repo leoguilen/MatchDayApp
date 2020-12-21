@@ -146,21 +146,21 @@ namespace MatchDayApp.UnitTest.Services
             var faker = new Faker("pt_BR");
             var newMatch = new ScheduleMatchModel
             {
-                FirstTeam = new TeamModel
+                FirstTeam = new TimeModel
                 {
                     Name = faker.Company.CompanyName(),
                     TotalPlayers = faker.Random.Int(12, 20),
                     Image = faker.Image.PicsumUrl(),
                     OwnerUserId = _memoryDb.Users.Last().Id
                 },
-                SecondTeam = new TeamModel
+                SecondTeam = new TimeModel
                 {
                     Name = faker.Company.CompanyName(),
                     TotalPlayers = faker.Random.Int(12, 20),
                     Image = faker.Image.PicsumUrl(),
                     OwnerUserId = _memoryDb.Users.First().Id
                 },
-                SoccerCourt = new SoccerCourtModel
+                SoccerCourt = new QuadraModel
                 {
                     Name = faker.Company.CompanyName(),
                     Image = faker.Image.PicsumUrl(),
@@ -202,21 +202,21 @@ namespace MatchDayApp.UnitTest.Services
             var faker = new Faker("pt_BR");
             var newMatch = new ScheduleMatchModel
             {
-                FirstTeam = new TeamModel
+                FirstTeam = new TimeModel
                 {
                     Name = faker.Company.CompanyName(),
                     TotalPlayers = faker.Random.Int(12, 20),
                     Image = faker.Image.PicsumUrl(),
                     OwnerUserId = _memoryDb.Users.Last().Id
                 },
-                SecondTeam = new TeamModel
+                SecondTeam = new TimeModel
                 {
                     Name = faker.Company.CompanyName(),
                     TotalPlayers = faker.Random.Int(12, 20),
                     Image = faker.Image.PicsumUrl(),
                     OwnerUserId = _memoryDb.Users.First().Id
                 },
-                SoccerCourt = new SoccerCourtModel
+                SoccerCourt = new QuadraModel
                 {
                     Id = _memoryDb.SoccerCourts.ToList()[1].Id,
                     Name = faker.Company.CompanyName(),

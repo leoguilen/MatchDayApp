@@ -1,7 +1,7 @@
-﻿using MatchDayApp.Domain.Entities;
-using MatchDayApp.Domain.Repository;
+﻿using MatchDayApp.Domain.Entidades;
+using MatchDayApp.Domain.Repositorios;
 using MatchDayApp.Infra.Data.Data;
-using MatchDayApp.Infra.Data.Repositories.Base;
+using MatchDayApp.Infra.Data.Repositorios.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,14 +16,14 @@ namespace MatchDayApp.Infra.Data.Repositories
         public override async Task<IReadOnlyList<Time>> ListAllAsync()
         {
             return await Entities
-                .Include(t => t.OwnerUser)
+                .Include(t => t.UsuarioProprietario)
                 .ToListAsync();
         }
 
         public override async Task<Time> GetByIdAsync(Guid id)
         {
             return await Entities
-                .Include(t => t.OwnerUser)
+                .Include(t => t.UsuarioProprietario)
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
     }

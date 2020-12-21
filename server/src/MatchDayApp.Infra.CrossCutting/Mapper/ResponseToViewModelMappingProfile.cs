@@ -9,8 +9,8 @@ namespace MatchDayApp.Infra.CrossCutting.Mapper
         public ResponseToViewModelMappingProfile()
         {
             CreateMap<UserModel, UserResponse>();
-            CreateMap<TeamModel, TeamResponse>();
-            CreateMap<SoccerCourtModel, SoccerCourtResponse>();
+            CreateMap<TimeModel, TeamResponse>();
+            CreateMap<QuadraModel, SoccerCourtResponse>();
             CreateMap<ScheduleMatchModel, ScheduleMatchResponse>()
                 .ForMember(res => res.FirstTeamId, prop => prop.MapFrom(sm => sm.FirstTeam.Id))
                 .ForMember(res => res.FirstTeamName, prop => prop.MapFrom(sm => sm.FirstTeam.Name))

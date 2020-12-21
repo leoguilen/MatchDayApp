@@ -13,13 +13,13 @@ namespace MatchDayApp.Application.Handlers
         IRequestHandler<AddSoccerCourtCommand, bool>,
         IRequestHandler<DeleteSoccerCourtCommand, bool>,
         IRequestHandler<UpdateSoccerCourtCommand, bool>,
-        IRequestHandler<GetSoccerCourtDetailsByIdQuery, SoccerCourtModel>,
-        IRequestHandler<GetSoccerCourtsQuery, IReadOnlyList<SoccerCourtModel>>,
-        IRequestHandler<GetSoccerCourtsByGeoLocalizationQuery, IReadOnlyList<SoccerCourtModel>>
+        IRequestHandler<GetSoccerCourtDetailsByIdQuery, QuadraModel>,
+        IRequestHandler<GetSoccerCourtsQuery, IReadOnlyList<QuadraModel>>,
+        IRequestHandler<GetSoccerCourtsByGeoLocalizationQuery, IReadOnlyList<QuadraModel>>
     {
-        private readonly ISoccerCourtService _soccerCourtService;
+        private readonly IQuadraFutebolServico _soccerCourtService;
 
-        public SoccerCourtHandler(ISoccerCourtService soccerCourtService)
+        public SoccerCourtHandler(IQuadraFutebolServico soccerCourtService)
         {
             _soccerCourtService = soccerCourtService ?? throw new System.ArgumentNullException(nameof(soccerCourtService));
         }
@@ -39,17 +39,17 @@ namespace MatchDayApp.Application.Handlers
             return await _soccerCourtService.UpdateSoccerCourtAsync(request.Id, request.SoccerCourt);
         }
 
-        public async Task<SoccerCourtModel> Handle(GetSoccerCourtDetailsByIdQuery request, CancellationToken cancellationToken)
+        public async Task<QuadraModel> Handle(GetSoccerCourtDetailsByIdQuery request, CancellationToken cancellationToken)
         {
             return await _soccerCourtService.GetSoccerCourtByIdAsync(request.Id);
         }
 
-        public async Task<IReadOnlyList<SoccerCourtModel>> Handle(GetSoccerCourtsQuery request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<QuadraModel>> Handle(GetSoccerCourtsQuery request, CancellationToken cancellationToken)
         {
             return await _soccerCourtService.GetSoccerCourtsListAsync();
         }
 
-        public async Task<IReadOnlyList<SoccerCourtModel>> Handle(GetSoccerCourtsByGeoLocalizationQuery request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<QuadraModel>> Handle(GetSoccerCourtsByGeoLocalizationQuery request, CancellationToken cancellationToken)
         {
             return await _soccerCourtService.GetSoccerCourtsByGeoLocalizationAsync(request.Lat, request.Long);
         }

@@ -4,7 +4,7 @@ using System;
 
 namespace MatchDayApp.Application.Queries.SoccerCourt
 {
-    public class GetSoccerCourtDetailsByIdQuery : IRequest<SoccerCourtModel>
+    public class GetSoccerCourtDetailsByIdQuery : IRequest<QuadraModel>
     {
         public Guid Id { get; set; }
     }

@@ -29,7 +29,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             var addTeamCommand = new AddTeamCommand
             {
                 Team = _mapper
-                    .Map<TeamModel>(team)
+                    .Map<TimeModel>(team)
             };
 
             var result = await _mediator.Send(addTeamCommand);
@@ -49,7 +49,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return result;
         }
 
-        public async Task<TeamModel> GetTeamByIdAsync(Guid teamId)
+        public async Task<TimeModel> GetTeamByIdAsync(Guid teamId)
         {
             var getTeamByIdQuery = new GetTeamDetailsByIdQuery
             {
@@ -61,7 +61,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             return team;
         }
 
-        public async Task<IReadOnlyList<TeamModel>> GetTeamsListAsync(PaginationQuery pagination = null)
+        public async Task<IReadOnlyList<TimeModel>> GetTeamsListAsync(PaginationQuery pagination = null)
         {
             var getTeamsQuery = new GetTeamsQuery { };
 
@@ -81,7 +81,7 @@ namespace MatchDayApp.Infra.CrossCutting.Services
             {
                 Id = teamId,
                 Team = _mapper
-                    .Map<TeamModel>(team)
+                    .Map<TimeModel>(team)
             };
 
             var result = await _mediator.Send(updateTeamCommand);

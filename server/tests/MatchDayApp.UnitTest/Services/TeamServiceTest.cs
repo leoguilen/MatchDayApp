@@ -18,7 +18,7 @@ namespace MatchDayApp.UnitTest.Services
     public class TeamServiceTest
     {
         private readonly IUnitOfWork _uow;
-        private readonly ITeamService _teamService;
+        private readonly ITimeServico _teamService;
         private readonly MatchDayAppContext _memoryDb;
 
         private readonly Guid _teamId;
@@ -31,7 +31,7 @@ namespace MatchDayApp.UnitTest.Services
                 .SeedFakeData();
             _uow = cfg.GetRequiredService<IUnitOfWork>();
 
-            _teamService = new TeamService(_uow,
+            _teamService = new TimeServico(_uow,
                 cfg.GetRequiredService<IMapper>());
 
             _teamId = _memoryDb.Teams.Last().Id;
@@ -96,7 +96,7 @@ namespace MatchDayApp.UnitTest.Services
         public async Task AddTeamAsync_TeamService_AddedTeamInSystem()
         {
             var faker = new Faker("pt_BR");
-            var newTeam = new TeamModel
+            var newTeam = new TimeModel
             {
                 Name = faker.Company.CompanyName(),
                 Image = faker.Image.PicsumUrl(),

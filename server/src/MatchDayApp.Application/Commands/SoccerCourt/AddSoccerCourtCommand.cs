@@ -5,6 +5,6 @@ namespace MatchDayApp.Application.Commands.SoccerCourt
 {
     public class AddSoccerCourtCommand : IRequest<bool>
     {
-        public SoccerCourtModel SoccerCourt { get; set; }
+        public QuadraModel SoccerCourt { get; set; }
     }
 }

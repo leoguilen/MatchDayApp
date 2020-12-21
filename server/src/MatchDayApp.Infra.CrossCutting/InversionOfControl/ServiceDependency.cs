@@ -26,9 +26,9 @@ namespace MatchDayApp.Infra.CrossCutting.InversionOfControl
             // Application Services
             services.AddAutoMapper(new[] { Assembly.Load("MatchDayApp.Application"), Assembly.Load("MatchDayApp.Infra.CrossCutting") });
             services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<ITeamService, TeamService>();
-            services.AddTransient<ISoccerCourtService, SoccerCourtService>();
+            services.AddTransient<IUsuarioServico, UsuarioServico>();
+            services.AddTransient<ITimeServico, TimeServico>();
+            services.AddTransient<IQuadraFutebolServico, QuadraFutebolServico>();
             services.AddTransient<IScheduleMatchService, ScheduleMatchService>();
             services.AddMediatR(Assembly.Load("MatchDayApp.Application"));
 

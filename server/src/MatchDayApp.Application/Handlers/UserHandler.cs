@@ -16,9 +16,9 @@ namespace MatchDayApp.Application.Handlers
         IRequestHandler<GetUserDetailsByIdQuery, UserModel>,
         IRequestHandler<GetUsersQuery, IReadOnlyList<UserModel>>
     {
-        private readonly IUserService _userService;
+        private readonly IUsuarioServico _userService;
 
-        public UserHandler(IUserService userService)
+        public UserHandler(IUsuarioServico userService)
         {
             _userService = userService ?? throw new System.ArgumentNullException(nameof(userService));
         }

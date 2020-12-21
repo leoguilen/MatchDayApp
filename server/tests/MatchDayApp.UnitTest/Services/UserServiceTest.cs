@@ -16,7 +16,7 @@ namespace MatchDayApp.UnitTest.Services
     public class UserServiceTest
     {
         private readonly IUnitOfWork _uow;
-        private readonly IUserService _userService;
+        private readonly IUsuarioServico _userService;
         private readonly MatchDayAppContext _memoryDb;
 
         public UserServiceTest()
@@ -27,7 +27,7 @@ namespace MatchDayApp.UnitTest.Services
                 .SeedFakeData();
             _uow = cfg.GetRequiredService<IUnitOfWork>();
 
-            _userService = new UserService(_uow,
+            _userService = new UsuarioServico(_uow,
                 cfg.GetRequiredService<IMapper>());
         }
 

@@ -9,9 +9,9 @@ namespace MatchDayApp.Infra.CrossCutting.Services.Interfaces
 {
     public interface ISoccerCourtAppService
     {
-        Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsListAsync(PaginationQuery pagination = null);
-        Task<SoccerCourtModel> GetSoccerCourtByIdAsync(Guid soccerCourtId);
-        Task<IReadOnlyList<SoccerCourtModel>> GetSoccerCourtsByGeoLocalizationAsync(GetSoccerCourtsByGeoRequest request);
+        Task<IReadOnlyList<QuadraModel>> GetSoccerCourtsListAsync(PaginationQuery pagination = null);
+        Task<QuadraModel> GetSoccerCourtByIdAsync(Guid soccerCourtId);
+        Task<IReadOnlyList<QuadraModel>> GetSoccerCourtsByGeoLocalizationAsync(GetSoccerCourtsByGeoRequest request);
         Task<bool> AddSoccerCourtAsync(CreateSoccerCourtRequest request);
         Task<bool> UpdateSoccerCourtAsync(Guid soccerCourtId, UpdateSoccerCourtRequest request);
         Task<bool> DeleteSoccerCourtAsync(Guid soccerCourtId);

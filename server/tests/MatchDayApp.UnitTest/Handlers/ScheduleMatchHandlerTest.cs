@@ -92,21 +92,21 @@ namespace MatchDayApp.UnitTest.Handlers
             {
                 Match = new ScheduleMatchModel
                 {
-                    FirstTeam = new TeamModel
+                    FirstTeam = new TimeModel
                     {
                         Name = faker.Company.CompanyName(),
                         TotalPlayers = faker.Random.Int(12, 20),
                         Image = faker.Image.PicsumUrl(),
                         OwnerUserId = _memoryDb.Users.Last().Id
                     },
-                    SecondTeam = new TeamModel
+                    SecondTeam = new TimeModel
                     {
                         Name = faker.Company.CompanyName(),
                         TotalPlayers = faker.Random.Int(12, 20),
                         Image = faker.Image.PicsumUrl(),
                         OwnerUserId = _memoryDb.Users.First().Id
                     },
-                    SoccerCourt = new SoccerCourtModel
+                    SoccerCourt = new QuadraModel
                     {
                         Name = faker.Company.CompanyName(),
                         Image = faker.Image.PicsumUrl(),

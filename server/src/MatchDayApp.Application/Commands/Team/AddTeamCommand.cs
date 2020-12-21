@@ -5,6 +5,6 @@ namespace MatchDayApp.Application.Commands.Team
 {
     public class AddTeamCommand : IRequest<bool>
     {
-        public TeamModel Team { get; set; }
+        public TimeModel Team { get; set; }
     }
 }

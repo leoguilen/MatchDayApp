@@ -9,8 +9,8 @@ namespace MatchDayApp.Infra.CrossCutting.Services.Interfaces
 {
     public interface ITeamAppService
     {
-        Task<IReadOnlyList<TeamModel>> GetTeamsListAsync(PaginationQuery pagination = null);
-        Task<TeamModel> GetTeamByIdAsync(Guid teamId);
+        Task<IReadOnlyList<TimeModel>> GetTeamsListAsync(PaginationQuery pagination = null);
+        Task<TimeModel> GetTeamByIdAsync(Guid teamId);
         Task<bool> AddTeamAsync(CreateTeamRequest team);
         Task<bool> UpdateTeamAsync(Guid teamId, UpdateTeamRequest team);
         Task<bool> DeleteTeamAsync(Guid teamId);

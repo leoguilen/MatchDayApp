@@ -77,7 +77,7 @@ namespace MatchDayApp.UnitTest.Handlers
         {
             var addSoccerCourtCommand = new AddSoccerCourtCommand
             {
-                SoccerCourt = new SoccerCourtModel
+                SoccerCourt = new QuadraModel
                 {
                     Name = _faker.Company.CompanyName(),
                     Image = _faker.Image.PicsumUrl(),
@@ -114,7 +114,7 @@ namespace MatchDayApp.UnitTest.Handlers
             var updateSoccerCourtCommand = new UpdateSoccerCourtCommand
             {
                 Id = _soccerCourtId,
-                SoccerCourt = new SoccerCourtModel
+                SoccerCourt = new QuadraModel
                 {
                     Name = _faker.Company.CompanyName(),
                     Image = _faker.Image.PicsumUrl()

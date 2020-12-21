@@ -45,7 +45,7 @@ namespace MatchDayApp.UnitTest.Services
         public async Task ResetPasswordAsync_AuthenticationResult_ErrorIfEmailNotExists()
         {
             var newPwd = _faker.Internet.Password();
-            var resetPasswordModel = new ResetPasswordModel
+            var resetPasswordModel = new ResetarSenhaModel
             {
                 Email = _faker.Person.Email,
                 Password = newPwd,
@@ -63,7 +63,7 @@ namespace MatchDayApp.UnitTest.Services
         public async Task ResetPasswordAsync_AuthenticationResult_ErrorIfUserHasDeleted()
         {
             var newPwd = _faker.Internet.Password();
-            var resetPasswordModel = new ResetPasswordModel
+            var resetPasswordModel = new ResetarSenhaModel
             {
                 Email = "test1@email.com",
                 Password = newPwd,
@@ -81,7 +81,7 @@ namespace MatchDayApp.UnitTest.Services
         public async Task ResetPasswordAsync_AuthenticationResult_ResetedUserPassword()
         {
             var newPwd = _faker.Internet.Password();
-            var resetPasswordModel = new ResetPasswordModel
+            var resetPasswordModel = new ResetarSenhaModel
             {
                 Email = "test2@email.com",
                 Password = newPwd,
@@ -185,7 +185,7 @@ namespace MatchDayApp.UnitTest.Services
         public async Task RegisterAsync_AuthenticationResult_ErrorIfEmailAlreadyExists()
         {
             var newPass = _faker.Internet.Password();
-            var registerModel = new RegisterModel
+            var registerModel = new RegistrarUsuarioModel
             {
                 FirstName = _faker.Person.FirstName,
                 LastName = _faker.Person.LastName,
@@ -207,7 +207,7 @@ namespace MatchDayApp.UnitTest.Services
         public async Task RegisterAsync_AuthenticationResult_ErrorIfUsernameAlreadyExists()
         {
             var newPass = _faker.Internet.Password();
-            var registerModel = new RegisterModel
+            var registerModel = new RegistrarUsuarioModel
             {
                 FirstName = _faker.Person.FirstName,
                 LastName = _faker.Person.LastName,
@@ -229,7 +229,7 @@ namespace MatchDayApp.UnitTest.Services
         public async Task RegisterAsync_AuthenticationResult_SuccessRegister()
         {
             var newPass = _faker.Internet.Password();
-            var registerModel = new RegisterModel
+            var registerModel = new RegistrarUsuarioModel
             {
                 FirstName = _faker.Person.FirstName,
                 LastName = _faker.Person.LastName,

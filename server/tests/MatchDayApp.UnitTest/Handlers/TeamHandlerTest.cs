@@ -63,7 +63,7 @@ namespace MatchDayApp.UnitTest.Handlers
         {
             var addTeamCommand = new AddTeamCommand
             {
-                Team = new TeamModel
+                Team = new TimeModel
                 {
                     Name = _faker.Company.CompanyName(),
                     Image = _faker.Image.PicsumUrl(),
@@ -90,7 +90,7 @@ namespace MatchDayApp.UnitTest.Handlers
             var updateTeamCommand = new UpdateTeamCommand
             {
                 Id = _teamId,
-                Team = new TeamModel
+                Team = new TimeModel
                 {
                     Name = _faker.Company.CompanyName(),
                     Image = _faker.Image.PicsumUrl()

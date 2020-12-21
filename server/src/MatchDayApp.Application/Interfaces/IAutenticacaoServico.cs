@@ -8,9 +8,9 @@ namespace MatchDayApp.Application.Interfaces
     public interface IAutenticacaoServico
     {
         Task<AuthenticationResult> LoginAsync(LoginModel model);
-        Task<AuthenticationResult> RegistrarUsuarioAsync(RegisterModel model);
-        Task<AuthenticationResult> ResetarSenhaAsync(ResetPasswordModel model);
-        Task<AuthenticationResult> ConfirmarEmailAsync(ConfirmEmailModel model);
+        Task<AuthenticationResult> RegistrarUsuarioAsync(RegistrarUsuarioModel model);
+        Task<AuthenticationResult> ResetarSenhaAsync(ResetarSenhaModel model);
+        Task<AuthenticationResult> ConfirmarEmailAsync(ConfirmacaoEmailModel model);
         Task<bool> AdicionarSolicitacaoConfirmacaoEmail(Guid usuarioId);
     }
 }

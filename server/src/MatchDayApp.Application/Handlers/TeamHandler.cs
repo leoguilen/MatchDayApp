@@ -13,12 +13,12 @@ namespace MatchDayApp.Application.Handlers
         IRequestHandler<AddTeamCommand, bool>,
         IRequestHandler<DeleteTeamCommand, bool>,
         IRequestHandler<UpdateTeamCommand, bool>,
-        IRequestHandler<GetTeamDetailsByIdQuery, TeamModel>,
-        IRequestHandler<GetTeamsQuery, IReadOnlyList<TeamModel>>
+        IRequestHandler<GetTeamDetailsByIdQuery, TimeModel>,
+        IRequestHandler<GetTeamsQuery, IReadOnlyList<TimeModel>>
     {
-        private readonly ITeamService _teamService;
+        private readonly ITimeServico _teamService;
 
-        public TeamHandler(ITeamService teamService)
+        public TeamHandler(ITimeServico teamService)
         {
             _teamService = teamService;
         }
@@ -38,12 +38,12 @@ namespace MatchDayApp.Application.Handlers
             return await _teamService.UpdateTeamAsync(request.Id, request.Team);
         }
 
-        public async Task<TeamModel> Handle(GetTeamDetailsByIdQuery request, CancellationToken cancellationToken)
+        public async Task<TimeModel> Handle(GetTeamDetailsByIdQuery request, CancellationToken cancellationToken)
         {
             return await _teamService.GetTeamByIdAsync(request.Id);
         }
 
-        public async Task<IReadOnlyList<TeamModel>> Handle(GetTeamsQuery request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<TimeModel>> Handle(GetTeamsQuery request, CancellationToken cancellationToken)
         {
             return await _teamService.GetTeamsListAsync();
         }
