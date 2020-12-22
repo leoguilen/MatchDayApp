@@ -1,6 +1,8 @@
 ﻿using Bogus;
 using FluentAssertions;
+using MatchDayApp.Application.Comandos.Autenticacao;
 using MatchDayApp.Application.Models.Auth;
+using MatchDayApp.Domain.Resources;
 using MatchDayApp.Infra.Data.Data;
 using MatchDayApp.UnitTest.Configuration;
 using MediatR;
@@ -10,12 +12,12 @@ using Xunit;
 
 namespace MatchDayApp.UnitTest.Handlers
 {
-    [Trait("Handler", "Authentication")]
-    public class AuthenticationHandlerTest
+    [Trait("Handler", "Autenticacao")]
+    public class AutenticacaoHandlerTeste
     {
         private readonly IMediator _mediator;
 
-        public AuthenticationHandlerTest()
+        public AutenticacaoHandlerTeste()
         {
             var cfg = ServicesConfiguration.Configure();
 
@@ -26,69 +28,69 @@ namespace MatchDayApp.UnitTest.Handlers
         }
 
         [Fact]
-        public async Task Handle_AuthenticationHandler_SuccessLogin()
+        public async Task Handle_AutenticacaoHandler_LogadoComSucesso()
         {
             var loginCommand = new LoginCommand
             {
                 Login = new LoginModel
                 {
                     Email = "test2@email.com",
-                    Password = "test321"
+                    Senha = "test321"
                 }
             };
 
             var authResult = await _mediator.Send(loginCommand);
 
-            authResult.Message.Should().Be(Dictionary.MS001);
-            authResult.Success.Should().BeTrue();
+            authResult.Mensagem.Should().Be(Dicionario.MS001);
+            authResult.Sucesso.Should().BeTrue();
             authResult.Token.Should().NotBeNullOrEmpty();
-            authResult.User.Email.Should().Be(loginCommand.Login.Email);
+            authResult.Usuario.Email.Should().Be(loginCommand.Login.Email);
         }
 
         [Fact]
-        public async Task Handle_AuthenticationHandler_SuccessRegister()
+        public async Task Handle_AutenticacaoHandler_UsuarioRegistradoComSucesso()
         {
             var faker = new Faker("pt_BR");
             var newPass = faker.Internet.Password();
             var registerCommand = new RegistrarUsuarioCommand
             {
-                Register = new RegistrarUsuarioModel
+                RegistrarUsuario = new RegistrarUsuarioModel
                 {
-                    FirstName = faker.Person.FirstName,
-                    LastName = faker.Person.LastName,
+                    Nome = faker.Person.FirstName,
+                    Sobrenome = faker.Person.LastName,
                     Email = faker.Person.Email,
-                    UserName = faker.Person.UserName,
-                    Password = newPass,
-                    ConfirmPassword = newPass
+                    Username = faker.Person.UserName,
+                    Senha = newPass,
+                    ConfirmacaoSenha = newPass
                 }
             };
 
             var authResult = await _mediator.Send(registerCommand);
 
-            authResult.Message.Should().Be(Dictionary.MS003);
-            authResult.Success.Should().BeTrue();
+            authResult.Mensagem.Should().Be(Dicionario.MS003);
+            authResult.Sucesso.Should().BeTrue();
             authResult.Token.Should().NotBeNullOrEmpty();
-            authResult.User.Email.Should().Be(registerCommand.Register.Email);
+            authResult.Usuario.Email.Should().Be(registerCommand.RegistrarUsuario.Email);
         }
 
         [Fact]
-        public async Task Handle_AuthenticationHandler_SuccessResetPassword()
+        public async Task Handle_AutenticacaoHandler_SenhaResetaComSucesso()
         {
             var newPass = new Faker().Internet.Password();
             var resetPasswordCommand = new ResetarSenhaCommand
             {
-                ResetPassword = new ResetarSenhaModel
+                ResetarSenha = new ResetarSenhaModel
                 {
                     Email = "test2@email.com",
-                    Password = newPass,
-                    ConfirmPassword = newPass
+                    Senha = newPass,
+                    ConfirmacaoSenha = newPass
                 }
             };
 
             var authResult = await _mediator.Send(resetPasswordCommand);
 
-            authResult.Message.Should().Be(Dictionary.MS002);
-            authResult.Success.Should().BeTrue();
+            authResult.Mensagem.Should().Be(Dicionario.MS002);
+            authResult.Sucesso.Should().BeTrue();
         }
     }
 }
