@@ -219,7 +219,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
         #endregion
 
-        #region Password Validation
+        #region Senha Validation
 
         [Theory]
         [InlineData("")]
@@ -267,7 +267,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
         #endregion
 
-        #region ConfirmPassword Validation
+        #region Confirmar Senha Validation
 
         [Fact]
         public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeConfirmacaoDeSenhaForDiferenteDaSenha()

@@ -17,7 +17,7 @@ namespace MatchDayApp.Infra.Data.Repositorios
         public override async Task<IReadOnlyList<Usuario>> ListAllAsync()
         {
             return await Entities
-                .Include(u => u.UsuarioTime)
+                .Include(u => u.UsuarioTime.Time)
                 .ToListAsync();
         }
 

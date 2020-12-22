@@ -1,4 +1,5 @@
 ﻿using MatchDayApp.Domain.Configuracoes;
+using MatchDayApp.Infra.Notification.Helpers;
 using MatchDayApp.Infra.Notification.Interfaces;
 using MatchDayApp.Infra.Notification.Models;
 using Microsoft.Extensions.Logging;
@@ -32,7 +33,7 @@ namespace MatchDayApp.Infra.Notification.Servicos
 
                 var msgResource = await MessageResource.CreateAsync(
                     from: new PhoneNumber(_twilioConfig.TwilioPhoneNumber),
-                    to: new PhoneNumber(mensagem.Para),
+                    to: new PhoneNumber(TwilioHelper.FormatarNumeroNoPadraoDoTwilio(mensagem.Para)),
                     addressRetention: MessageResource.AddressRetentionEnum.Retain,
                     body: mensagem.Conteudo);
 

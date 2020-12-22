@@ -19,7 +19,7 @@ namespace MatchDayApp.UnitTest.Handlers
     {
         private readonly IMediator _mediator;
         private readonly MatchDayAppContext _memoryDb;
-        private readonly Guid _matchId;
+        private readonly Guid _partidaId;
 
         public PartidaHandlerTeste()
         {
@@ -29,66 +29,66 @@ namespace MatchDayApp.UnitTest.Handlers
                 .SeedFakeData();
 
             _mediator = cfg.GetRequiredService<IMediator>();
-            _matchId = _memoryDb.Partidas.Last().Id;
+            _partidaId = _memoryDb.Partidas.Last().Id;
         }
 
         [Fact]
         public async Task Handle_PartidaHandler_RetornarListaComTodasPartidas()
         {
-            var getMatchesQuery = new ObterPartidasQuery { };
+            var query = new ObterPartidasQuery { };
 
-            var matchesResult = await _mediator.Send(getMatchesQuery);
+            var partidasResult = await _mediator.Send(query);
 
-            matchesResult.Should().HaveCount(5);
+            partidasResult.Should().HaveCount(5);
         }
 
         [Fact]
         public async Task Handle_PartidaHandler_RetornarPartidaPorId()
         {
-            var getMatchByIdQuery = new ObterPartidaPorIdQuery
+            var query = new ObterPartidaPorIdQuery
             {
-                PartidaId = _matchId
+                PartidaId = _partidaId
             };
 
-            var matchResult = await _mediator.Send(getMatchByIdQuery);
+            var partidaResult = await _mediator.Send(query);
 
-            matchResult.DataPartida.Should()
+            partidaResult.DataPartida.Should()
                 .Be(new DateTime(2020, 10, 18, 17, 0, 0));
         }
 
         [Fact]
         public async Task Handle_PartidaHandler_RetornarPartidasPelaQuadra()
         {
-            var getMatchesBySoccerCourtIdQuery = new ObterPartidasPorQuadraIdQuery
+            var query = new ObterPartidasPorQuadraIdQuery
             {
                 QuadraId = _memoryDb.Quadras.First().Id
             };
 
-            var matchesResult = await _mediator.Send(getMatchesBySoccerCourtIdQuery);
+            var partidasResult = await _mediator.Send(query);
 
-            matchesResult.Should().HaveCount(1);
-            matchesResult.First().DataPartida.Should()
+            partidasResult.Should().HaveCount(1);
+            partidasResult.First().DataPartida.Should()
                 .Be(new DateTime(2020, 10, 16, 20, 0, 0));
         }
 
         [Fact]
         public async Task Handle_PartidaHandler_RetornarPartidasPeloTime()
         {
-            var getMatchesByTeamIdQuery = new ObterPartidasPorTimeIdQuery
+            var query = new ObterPartidasPorTimeIdQuery
             {
                 TimeId = _memoryDb.Times.ToList()[1].Id
             };
 
-            var matchesResult = await _mediator.Send(getMatchesByTeamIdQuery);
+            var partidasResult = await _mediator.Send(query);
 
-            matchesResult.Should().HaveCount(4);
+            partidasResult.Should().HaveCount(4);
         }
 
         [Fact]
         public async Task Handle_PartidaHandler_MarcarNovaPartida()
         {
             var faker = new Faker("pt_BR");
-            var scheduleMatchCommand = new MarcarPartidaCommand
+            var comando = new MarcarPartidaCommand
             {
                 Partida = new PartidaModel
                 {
@@ -102,7 +102,7 @@ namespace MatchDayApp.UnitTest.Handlers
                 }
             };
 
-            var cmdResult = await _mediator.Send(scheduleMatchCommand);
+            var cmdResult = await _mediator.Send(comando);
 
             cmdResult.Should().NotBeNull();
             _memoryDb.Partidas.Should().HaveCount(6);
@@ -111,13 +111,13 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_PartidaHandler_ConfirmarPartidaPendente()
         {
-            var confirmMatchCommand = new ConfirmarPartidaCommand
+            var comando = new ConfirmarPartidaCommand
             {
                 TimeId = _memoryDb.Times.Last().Id,
-                PartidaId = _matchId
+                PartidaId = _partidaId
             };
 
-            var cmdResult = await _mediator.Send(confirmMatchCommand);
+            var cmdResult = await _mediator.Send(comando);
 
             cmdResult.Should().BeTrue();
         }
@@ -125,12 +125,12 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_PartidaHandler_DesmarcarPartida()
         {
-            var uncheckMatchCommand = new DesmarcarPartidaCommand
+            var comando = new DesmarcarPartidaCommand
             {
-                PartidaId = _matchId
+                PartidaId = _partidaId
             };
 
-            var cmdResult = await _mediator.Send(uncheckMatchCommand);
+            var cmdResult = await _mediator.Send(comando);
 
             cmdResult.Should().NotBeNull();
         }

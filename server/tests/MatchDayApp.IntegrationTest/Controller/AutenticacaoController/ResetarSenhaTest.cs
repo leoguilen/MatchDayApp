@@ -102,7 +102,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
         #endregion
 
-        #region ConfirmPassword Validation
+        #region Confirmar Senha Validation
 
         [Fact]
         public async Task ResetarSenha_AutenticacaoController_RespostaComFalhaSeConfirmacaoDeSenhaNaoForIgualASenha()

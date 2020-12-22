@@ -23,7 +23,7 @@ namespace MatchDayApp.UnitTest.Configuration
                 {
                     Nome = "Test",
                     Sobrenome = "One",
-                    UserNome = "test1",
+                    Username = "test1",
                     Email = "test1@email.com",
                     EmailConfirmado = true,
                     Telefone = "+551155256325",
@@ -36,7 +36,7 @@ namespace MatchDayApp.UnitTest.Configuration
                 {
                     Nome = "Test",
                     Sobrenome = "Two",
-                    UserNome = "test2",
+                    Username = "test2",
                     Email = "test2@email.com",
                     EmailConfirmado = true,
                     Telefone = "+551112345525",
@@ -49,7 +49,7 @@ namespace MatchDayApp.UnitTest.Configuration
                 {
                     Nome = "Test",
                     Sobrenome = "Three",
-                    UserNome = "test3",
+                    Username = "test3",
                     Email = "test3@email.com",
                     EmailConfirmado = true,
                     Telefone = "+551198765525",
@@ -110,7 +110,7 @@ namespace MatchDayApp.UnitTest.Configuration
             Usuarios[1].UsuarioTime = new UsuarioTime { UsuarioId = Usuarios[1].Id, TimeId = teams[1].Id, Aceito = true };
             Usuarios[2].UsuarioTime = new UsuarioTime { UsuarioId = Usuarios[2].Id, TimeId = teams[2].Id, Aceito = true };
 
-            testContext.Usuarios.UpDataPartidaRange(Usuarios);
+            testContext.Usuarios.UpdateRange(Usuarios);
             testContext.Times.AddRange(teams);
             testContext.SaveChanges();
 
@@ -118,12 +118,12 @@ namespace MatchDayApp.UnitTest.Configuration
 
             #region Quadras
 
-            var QuadraFutebol = new List<QuadraFutebol>
+            var quadra = new List<QuadraFutebol>
             {
                 new QuadraFutebol
                 {
                     Nome = "Soccer Court 1",
-                    Imagem = "QuadraFutebol1.png",
+                    Imagem = "soccerCourt1.png",
                     PrecoHora = 100M,
                     Telefone = "(11) 1234-5678",
                     Endereco = "Av. teste 10, teste",
@@ -135,7 +135,7 @@ namespace MatchDayApp.UnitTest.Configuration
                 new QuadraFutebol
                 {
                     Nome = "Soccer Court 2",
-                    Imagem = "QuadraFutebol2.png",
+                    Imagem = "soccerCourt2.png",
                     PrecoHora = 110M,
                     Telefone = "(11) 0000-9999",
                     Endereco = "Av. teste 123, teste",
@@ -147,7 +147,7 @@ namespace MatchDayApp.UnitTest.Configuration
                 new QuadraFutebol
                 {
                     Nome = "Soccer Court 3",
-                    Imagem = "QuadraFutebol3.png",
+                    Imagem = "soccerCourt3.png",
                     PrecoHora = 90M,
                     Telefone = "(11) 3692-1472",
                     Endereco = "Av. teste 321, teste",
@@ -158,7 +158,7 @@ namespace MatchDayApp.UnitTest.Configuration
                 }
             };
 
-            testContext.QuadraFutebols.AddRange(QuadraFutebol);
+            testContext.Quadras.AddRange(quadra);
             testContext.SaveChanges();
 
             #endregion

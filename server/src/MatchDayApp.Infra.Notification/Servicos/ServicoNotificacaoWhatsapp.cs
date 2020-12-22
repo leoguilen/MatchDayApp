@@ -1,4 +1,5 @@
 ﻿using MatchDayApp.Domain.Configuracoes;
+using MatchDayApp.Infra.Notification.Helpers;
 using MatchDayApp.Infra.Notification.Interfaces;
 using MatchDayApp.Infra.Notification.Models;
 using Microsoft.Extensions.Logging;
@@ -32,7 +33,7 @@ namespace MatchDayApp.Infra.Notification.Servicos
 
                 var msgResource = await MessageResource.CreateAsync(
                     from: new PhoneNumber($"whatsapp:{_twilioConfig.TwilioWhatsappNumber}"),
-                    to: new PhoneNumber($"whatsapp:{mensagem.Para}"),
+                    to: new PhoneNumber($"whatsapp:{TwilioHelper.FormatarNumeroNoPadraoDoTwilio(mensagem.Para)}"),
                     body: mensagem.Conteudo);
 
                 if (msgResource.Status == MessageResource.StatusEnum.Failed)

@@ -30,7 +30,7 @@ namespace MatchDayApp.UnitTest.Handlers
         [Fact]
         public async Task Handle_AutenticacaoHandler_LogadoComSucesso()
         {
-            var loginCommand = new LoginCommand
+            var comando = new LoginCommand
             {
                 Login = new LoginModel
                 {
@@ -39,20 +39,20 @@ namespace MatchDayApp.UnitTest.Handlers
                 }
             };
 
-            var authResult = await _mediator.Send(loginCommand);
+            var authResult = await _mediator.Send(comando);
 
             authResult.Mensagem.Should().Be(Dicionario.MS001);
             authResult.Sucesso.Should().BeTrue();
             authResult.Token.Should().NotBeNullOrEmpty();
-            authResult.Usuario.Email.Should().Be(loginCommand.Login.Email);
+            authResult.Usuario.Email.Should().Be(comando.Login.Email);
         }
 
         [Fact]
         public async Task Handle_AutenticacaoHandler_UsuarioRegistradoComSucesso()
         {
             var faker = new Faker("pt_BR");
-            var newPass = faker.Internet.Password();
-            var registerCommand = new RegistrarUsuarioCommand
+            var novaSenha = faker.Internet.Password();
+            var comando = new RegistrarUsuarioCommand
             {
                 RegistrarUsuario = new RegistrarUsuarioModel
                 {
@@ -60,34 +60,34 @@ namespace MatchDayApp.UnitTest.Handlers
                     Sobrenome = faker.Person.LastName,
                     Email = faker.Person.Email,
                     Username = faker.Person.UserName,
-                    Senha = newPass,
-                    ConfirmacaoSenha = newPass
+                    Senha = novaSenha,
+                    ConfirmacaoSenha = novaSenha
                 }
             };
 
-            var authResult = await _mediator.Send(registerCommand);
+            var authResult = await _mediator.Send(comando);
 
             authResult.Mensagem.Should().Be(Dicionario.MS003);
             authResult.Sucesso.Should().BeTrue();
             authResult.Token.Should().NotBeNullOrEmpty();
-            authResult.Usuario.Email.Should().Be(registerCommand.RegistrarUsuario.Email);
+            authResult.Usuario.Email.Should().Be(comando.RegistrarUsuario.Email);
         }
 
         [Fact]
         public async Task Handle_AutenticacaoHandler_SenhaResetaComSucesso()
         {
-            var newPass = new Faker().Internet.Password();
-            var resetPasswordCommand = new ResetarSenhaCommand
+            var novaSenha = new Faker().Internet.Password();
+            var comando = new ResetarSenhaCommand
             {
                 ResetarSenha = new ResetarSenhaModel
                 {
                     Email = "test2@email.com",
-                    Senha = newPass,
-                    ConfirmacaoSenha = newPass
+                    Senha = novaSenha,
+                    ConfirmacaoSenha = novaSenha
                 }
             };
 
-            var authResult = await _mediator.Send(resetPasswordCommand);
+            var authResult = await _mediator.Send(comando);
 
             authResult.Mensagem.Should().Be(Dicionario.MS002);
             authResult.Sucesso.Should().BeTrue();

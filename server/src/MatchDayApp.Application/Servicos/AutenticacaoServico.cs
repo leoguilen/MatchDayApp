@@ -134,7 +134,7 @@ namespace MatchDayApp.Application.Servicos
             novoUsuario.Senha = hashedPassword;
 
             await _uow.UsuarioRepositorio
-                .SaveAsync(novoUsuario);
+                .AddRangeAsync(new[] { novoUsuario });
 
             return new AutenticacaoResult
             {

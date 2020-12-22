@@ -1,7 +1,9 @@
-﻿using AutoMapper;
-using MatchDayApp.Api;
+﻿using MatchDayApp.Api;
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Domain.Configuracoes;
+using MatchDayApp.Domain.Entidades;
+using MatchDayApp.Domain.Entidades.Enum;
+using MatchDayApp.Domain.Helpers;
 using MatchDayApp.Infra.CrossCutting.Ioc;
 using MatchDayApp.Infra.Data.Data;
 using MatchDayApp.Infra.Data.Repositorios;
@@ -74,211 +76,211 @@ namespace MatchDayApp.IntegrationTest
     {
         public static MatchDayAppContext SeedFakeData(this MatchDayAppContext testContext)
         {
-            #region User
+            #region Usuario
 
-            var salt = SecurePasswordHasherHelper.CreateSalt(8);
+            var salt = SenhaHasherHelper.CriarSalt(8);
 
             var users = new List<Usuario>
             {
                 new Usuario
                 {
-                    FirstName = "Test",
-                    LastName = "One",
+                    Nome = "Test",
+                    Sobrenome = "One",
                     Username = "test1",
                     Email = "test1@email.com",
-                    ConfirmedEmail = true,
-                    PhoneNumber = "+551155256325",
-                    Password = SecurePasswordHasherHelper.GenerateHash("test123", salt),
+                    EmailConfirmado = true,
+                    Telefone = "+551155256325",
+                    Senha = SenhaHasherHelper.GerarHash("test123", salt),
                     Salt = salt,
-                    UserType = TipoUsuario.SoccerCourtOwner,
-                    Deleted = true
+                    TipoUsuario = TipoUsuario.ProprietarioQuadra,
+                    Deletado = true
                 },
                 new Usuario
                 {
-                    FirstName = "Test",
-                    LastName = "Two",
+                    Nome = "Test",
+                    Sobrenome = "Two",
                     Username = "test2",
                     Email = "test2@email.com",
-                    ConfirmedEmail = true,
-                    PhoneNumber = "+551112345525",
-                    Password = SecurePasswordHasherHelper.GenerateHash("test321", salt),
+                    EmailConfirmado = true,
+                    Telefone = "+551112345525",
+                    Senha = SenhaHasherHelper.GerarHash("test321", salt),
                     Salt = salt,
-                    UserType = TipoUsuario.TeamOwner
+                    TipoUsuario = TipoUsuario.ProprietarioTime
                 },
 
                 new Usuario
                 {
-                    FirstName = "Test",
-                    LastName = "Three",
+                    Nome = "Test",
+                    Sobrenome = "Three",
                     Username = "test3",
                     Email = "test3@email.com",
-                    ConfirmedEmail = true,
-                    PhoneNumber = "+551198765525",
-                    Password = SecurePasswordHasherHelper.GenerateHash("test231", salt),
+                    EmailConfirmado = true,
+                    Telefone = "+551198765525",
+                    Senha = SenhaHasherHelper.GerarHash("test231", salt),
                     Salt = salt,
-                    UserType = TipoUsuario.SoccerCourtOwner
+                    TipoUsuario = TipoUsuario.ProprietarioQuadra
                 }
             };
 
-            testContext.Users.AddRange(users);
+            testContext.Usuarios.AddRange(users);
             testContext.SaveChanges();
 
             #endregion
 
-            #region Team
+            #region Time
 
             var teams = new List<Time>
             {
                 new Time
                 {
-                    Name = "Team 1",
-                    Image = "team1.png",
-                    TotalPlayers = 15,
-                    OwnerUserId = testContext.Users.ToList()[0].Id
+                    Nome = "Team 1",
+                    Imagem = "team1.png",
+                    QtdIntegrantes = 15,
+                    UsuarioProprietarioId = testContext.Usuarios.ToList()[0].Id
                 },
                 new Time
                 {
-                    Name = "Team 2",
-                    Image = "team2.png",
-                    TotalPlayers = 13,
-                    OwnerUserId = testContext.Users.ToList()[1].Id
+                    Nome = "Team 2",
+                    Imagem = "team2.png",
+                    QtdIntegrantes = 13,
+                    UsuarioProprietarioId = testContext.Usuarios.ToList()[1].Id
                 },
                 new Time
                 {
-                    Name = "Team 3",
-                    Image = "team3.png",
-                    TotalPlayers = 11,
-                    OwnerUserId = testContext.Users.ToList()[2].Id
+                    Nome = "Team 3",
+                    Imagem = "team3.png",
+                    QtdIntegrantes = 11,
+                    UsuarioProprietarioId = testContext.Usuarios.ToList()[2].Id
                 }
             };
 
-            users[0].UserTeam = new UsuarioTime { UserId = users[0].Id, TeamId = teams[0].Id, Accepted = true };
-            users[1].UserTeam = new UsuarioTime { UserId = users[1].Id, TeamId = teams[1].Id, Accepted = true };
-            users[2].UserTeam = new UsuarioTime { UserId = users[2].Id, TeamId = teams[2].Id, Accepted = true };
+            users[0].UsuarioTime = new UsuarioTime { UsuarioId = users[0].Id, TimeId = teams[0].Id, Aceito = true };
+            users[1].UsuarioTime = new UsuarioTime { UsuarioId = users[1].Id, TimeId = teams[1].Id, Aceito = true };
+            users[2].UsuarioTime = new UsuarioTime { UsuarioId = users[2].Id, TimeId = teams[2].Id, Aceito = true };
 
-            testContext.Users.UpdateRange(users);
-            testContext.Teams.AddRange(teams);
+            testContext.Usuarios.UpdateRange(users);
+            testContext.Times.AddRange(teams);
             testContext.SaveChanges();
 
             #endregion
 
-            #region Soccer Court
+            #region Quadra
 
             var soccerCourt = new List<QuadraFutebol>
             {
                 new QuadraFutebol
                 {
-                    Name = "Soccer Court 1",
-                    Image = "soccerCourt1.png",
-                    HourPrice = 100M,
-                    Phone = "(11) 1234-5678",
-                    Address = "Av. teste 10, teste",
+                    Nome = "Soccer Court 1",
+                    Imagem = "soccerCourt1.png",
+                    PrecoHora = 100M,
+                    Telefone = "(11) 1234-5678",
+                    Endereco = "Av. teste 10, teste",
                     Cep = "12345-789",
                     Latitude = -23.1278154,
                     Longitude = -46.5552845,
-                    OwnerUserId = testContext.Users.ToList()[0].Id
+                    UsuarioProprietarioId = testContext.Usuarios.ToList()[0].Id
                 },
                 new QuadraFutebol
                 {
-                    Name = "Soccer Court 2",
-                    Image = "soccerCourt2.png",
-                    HourPrice = 110M,
-                    Phone = "(11) 0000-9999",
-                    Address = "Av. teste 123, teste",
+                    Nome = "Soccer Court 2",
+                    Imagem = "soccerCourt2.png",
+                    PrecoHora = 110M,
+                    Telefone = "(11) 0000-9999",
+                    Endereco = "Av. teste 123, teste",
                     Cep = "98745-036",
                     Latitude = -22.3254,
                     Longitude = -43.7595,
-                    OwnerUserId = testContext.Users.ToList()[1].Id
+                    UsuarioProprietarioId = testContext.Usuarios.ToList()[1].Id
                 },
                 new QuadraFutebol
                 {
-                    Name = "Soccer Court 3",
-                    Image = "soccerCourt3.png",
-                    HourPrice = 90M,
-                    Phone = "(11) 3692-1472",
-                    Address = "Av. teste 321, teste",
+                    Nome = "Soccer Court 3",
+                    Imagem = "soccerCourt3.png",
+                    PrecoHora = 90M,
+                    Telefone = "(11) 3692-1472",
+                    Endereco = "Av. teste 321, teste",
                     Cep = "01012-345",
                     Latitude = -23.1096504,
                     Longitude = -46.533172,
-                    OwnerUserId = testContext.Users.ToList()[2].Id
+                    UsuarioProprietarioId = testContext.Usuarios.ToList()[2].Id
                 }
             };
 
-            testContext.SoccerCourts.AddRange(soccerCourt);
+            testContext.Quadras.AddRange(soccerCourt);
             testContext.SaveChanges();
 
             #endregion
 
-            #region Schedule Match
+            #region Partida
 
             var matches = new List<Partida>
             {
                 new Partida
                 {
-                    FirstTeamId = testContext.Teams.ToList()[0].Id,
-                    FirstTeamConfirmed = true,
-                    SecondTeamId = testContext.Teams.ToList()[2].Id,
-                    SecondTeamConfirmed = true,
-                    SoccerCourtId = testContext.SoccerCourts.ToList()[2].Id,
-                    TotalHours = 1,
-                    Date = new DateTime(2020,10,20,21,0,0,DateTimeKind.Local),
-                    MatchStatus = StatusPartida.Confirmed
+                    PrimeiroTimeId = testContext.Times.ToList()[0].Id,
+                    PrimeiroTimeConfirmado = true,
+                    SegundoTimeId = testContext.Times.ToList()[2].Id,
+                    SegundoTimeConfirmado = true,
+                    QuadraFutebolId = testContext.Quadras.ToList()[2].Id,
+                    HorasPartida = 1,
+                    DataPartida = new DateTime(2020,10,20,21,0,0,DateTimeKind.Local),
+                    StatusPartida = StatusPartida.Confirmada
                 },
                 new Partida
                 {
-                    FirstTeamId = testContext.Teams.ToList()[1].Id,
-                    FirstTeamConfirmed = true,
-                    SecondTeamId = testContext.Teams.ToList()[0].Id,
-                    SecondTeamConfirmed = false,
-                    SoccerCourtId = testContext.SoccerCourts.ToList()[1].Id,
-                    TotalHours = 1,
-                    Date = new DateTime(2020,10,19,18,0,0,DateTimeKind.Local),
-                    MatchStatus = StatusPartida.WaitingForConfirmation
+                    PrimeiroTimeId = testContext.Times.ToList()[1].Id,
+                    PrimeiroTimeConfirmado = true,
+                    SegundoTimeId = testContext.Times.ToList()[0].Id,
+                    SegundoTimeConfirmado = false,
+                    QuadraFutebolId = testContext.Quadras.ToList()[1].Id,
+                    HorasPartida = 1,
+                    DataPartida = new DateTime(2020,10,19,18,0,0,DateTimeKind.Local),
+                    StatusPartida = StatusPartida.AguardandoConfirmacao
                 },
                 new Partida
                 {
-                    FirstTeamId = testContext.Teams.ToList()[1].Id,
-                    FirstTeamConfirmed = true,
-                    SecondTeamId = testContext.Teams.ToList()[2].Id,
-                    SecondTeamConfirmed = true,
-                    SoccerCourtId = testContext.SoccerCourts.ToList()[1].Id,
-                    TotalHours = 1,
-                    Date = new DateTime(2020,10,21,19,0,0,DateTimeKind.Local),
-                    MatchStatus = StatusPartida.Confirmed
+                    PrimeiroTimeId = testContext.Times.ToList()[1].Id,
+                    PrimeiroTimeConfirmado = true,
+                    SegundoTimeId = testContext.Times.ToList()[2].Id,
+                    SegundoTimeConfirmado = true,
+                    QuadraFutebolId = testContext.Quadras.ToList()[1].Id,
+                    HorasPartida = 1,
+                    DataPartida = new DateTime(2020,10,21,19,0,0,DateTimeKind.Local),
+                    StatusPartida = StatusPartida.Confirmada
                 },
                 new Partida
                 {
-                    FirstTeamId = testContext.Teams.ToList()[0].Id,
-                    FirstTeamConfirmed = true,
-                    SecondTeamId = testContext.Teams.ToList()[1].Id,
-                    SecondTeamConfirmed = true,
-                    SoccerCourtId = testContext.SoccerCourts.ToList()[0].Id,
-                    TotalHours = 1,
-                    Date = new DateTime(2020,10,16,20,0,0,DateTimeKind.Local),
-                    MatchStatus = StatusPartida.Finished
+                    PrimeiroTimeId = testContext.Times.ToList()[0].Id,
+                    PrimeiroTimeConfirmado = true,
+                    SegundoTimeId = testContext.Times.ToList()[1].Id,
+                    SegundoTimeConfirmado = true,
+                    QuadraFutebolId = testContext.Quadras.ToList()[0].Id,
+                    HorasPartida = 1,
+                    DataPartida = new DateTime(2020,10,16,20,0,0,DateTimeKind.Local),
+                    StatusPartida = StatusPartida.Finalizada
                 },
                 new Partida
                 {
-                    FirstTeamId = testContext.Teams.ToList()[2].Id,
-                    FirstTeamConfirmed = false,
-                    SecondTeamId = testContext.Teams.ToList()[1].Id,
-                    SecondTeamConfirmed = true,
-                    SoccerCourtId = testContext.SoccerCourts.ToList()[2].Id,
-                    TotalHours = 1,
-                    Date = new DateTime(2020,10,18,17,0,0,DateTimeKind.Local),
-                    MatchStatus = StatusPartida.Canceled
+                    PrimeiroTimeId = testContext.Times.ToList()[2].Id,
+                    PrimeiroTimeConfirmado = false,
+                    SegundoTimeId = testContext.Times.ToList()[1].Id,
+                    SegundoTimeConfirmado = true,
+                    QuadraFutebolId = testContext.Quadras.ToList()[2].Id,
+                    HorasPartida = 1,
+                    DataPartida = new DateTime(2020,10,18,17,0,0,DateTimeKind.Local),
+                    StatusPartida = StatusPartida.Cancelada
                 }
             };
 
-            testContext.ScheduleMatches.Add(matches[0]);
+            testContext.Partidas.Add(matches[0]);
             testContext.SaveChanges();
-            testContext.ScheduleMatches.Add(matches[1]);
+            testContext.Partidas.Add(matches[1]);
             testContext.SaveChanges();
-            testContext.ScheduleMatches.Add(matches[2]);
+            testContext.Partidas.Add(matches[2]);
             testContext.SaveChanges();
-            testContext.ScheduleMatches.Add(matches[3]);
+            testContext.Partidas.Add(matches[3]);
             testContext.SaveChanges();
-            testContext.ScheduleMatches.Add(matches[4]);
+            testContext.Partidas.Add(matches[4]);
             testContext.SaveChanges();
 
             #endregion

@@ -16,7 +16,7 @@ using System.Text;
 
 namespace MatchDayApp.UnitTest.Configuration
 {
-    public static class ServicesConfiguration
+    public class ServicesConfiguration
     {
         public static IServiceProvider Configure()
         {
