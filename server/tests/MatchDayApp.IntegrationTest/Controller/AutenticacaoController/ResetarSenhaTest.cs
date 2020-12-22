@@ -1,5 +1,9 @@
 ﻿using Bogus;
 using FluentAssertions;
+using MatchDayApp.Domain.Resources;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Auth;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Respostas.Auth;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -9,32 +13,32 @@ using Xunit.Abstractions;
 
 namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 {
-    [Trait("AutenticacaoController", "ResetPassword")]
+    [Trait("AutenticacaoController", "Resetar Senha")]
     public class ResetarSenhaTest : ControllerTest
     {
-        private readonly string _requestUri = ApiRotas.Authentication.ResetPassword;
-        private readonly ResetarSenhaRequest _resetPassRequest;
+        private readonly string _requestUri = ApiRotas.Autenticacao.ResetarSenha;
+        private readonly ResetarSenhaRequest _resetarSenhaRequest;
 
         public ResetarSenhaTest(CustomWebApplicationFactory factory,
             ITestOutputHelper output) : base(factory, output)
         {
-            _resetPassRequest = new ResetarSenhaRequest
+            _resetarSenhaRequest = new ResetarSenhaRequest
             {
                 Email = "test2@email.com",
-                Password = "Test@321",
-                ConfirmPassword = "Test@321"
+                Senha = "Test@321",
+                ConfirmacaoSenha = "Test@321"
             };
         }
 
         #region Email Validation
 
         [Fact]
-        public async Task ResetPassword_AuthenticationController_FailedResponseIfEmailIsInvalid()
+        public async Task ResetarSenha_AutenticacaoController_RespostaComFalhaSeEmailEhInvalido()
         {
-            _resetPassRequest.Email = Faker.Random.String2(15, 20);
+            _resetarSenhaRequest.Email = Faker.Random.String2(15, 20);
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _resetPassRequest);
+                .PostAsJsonAsync(_requestUri, _resetarSenhaRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -42,25 +46,25 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV011 });
+                .BeEquivalentTo(new[] { Dicionario.MV011 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetarSenhaRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         #endregion
 
-        #region Password Validation
+        #region Senha Validation
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public async Task ResetPassword_AuthenticationController_FailedResponseIfPasswordIsNullOrEmpty(string invalidPassword)
+        public async Task ResetarSenha_AutenticacaoController_RespostaComFalhaSeSenhaEhNulaOuVazia(string senhaInvalida)
         {
-            _resetPassRequest.Password = invalidPassword;
+            _resetarSenhaRequest.Senha = senhaInvalida;
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _resetPassRequest);
+                .PostAsJsonAsync(_requestUri, _resetarSenhaRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -68,21 +72,21 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV013 });
+                .BeEquivalentTo(new[] { Dicionario.MV013 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetarSenhaRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task ResetPassword_AuthenticationController_FailedResponseIfPasswordIsNotMatchStrongPattern()
+        public async Task ResetarSenha_AutenticacaoController_RespostaComFalhaSeSenhaNaoCorresponderComPadraoForte()
         {
             var invalidPassword = Faker.Internet.Password();
-            _resetPassRequest.Password = invalidPassword;
-            _resetPassRequest.ConfirmPassword = invalidPassword;
+            _resetarSenhaRequest.Senha = invalidPassword;
+            _resetarSenhaRequest.ConfirmacaoSenha = invalidPassword;
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _resetPassRequest);
+                .PostAsJsonAsync(_requestUri, _resetarSenhaRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -90,9 +94,9 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV014 });
+                .BeEquivalentTo(new[] { Dicionario.MV014 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetarSenhaRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -101,12 +105,12 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
         #region ConfirmPassword Validation
 
         [Fact]
-        public async Task ResetPassword_AuthenticationController_FailedResponseIfConfirmPasswordIsNotEqualPassword()
+        public async Task ResetarSenha_AutenticacaoController_RespostaComFalhaSeConfirmacaoDeSenhaNaoForIgualASenha()
         {
-            _resetPassRequest.ConfirmPassword = Faker.Internet.Password();
+            _resetarSenhaRequest.ConfirmacaoSenha = Faker.Internet.Password();
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _resetPassRequest);
+                .PostAsJsonAsync(_requestUri, _resetarSenhaRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -114,66 +118,66 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV015 });
+                .BeEquivalentTo(new[] { Dicionario.MV015 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetarSenhaRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         #endregion
 
         [Fact]
-        public async Task ResetPassword_AuthenticationController_FailedResponseIfEmailNotExists()
+        public async Task ResetarSenha_AutenticacaoController_RespostaComFalhaSeEmailNaoExiste()
         {
-            _resetPassRequest.Email = Faker.Person.Email;
+            _resetarSenhaRequest.Email = Faker.Person.Email;
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _resetPassRequest);
+                .PostAsJsonAsync(_requestUri, _resetarSenhaRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
                 .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
-            authResponse.Message.Should()
-                .Be(Dictionary.ME001);
+            authResponse.Mensagem.Should()
+                .Be(Dicionario.ME001);
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetarSenhaRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task ResetPassword_AuthenticationController_FailedResponseIfUserIsDeleted()
+        public async Task ResetarSenha_AutenticacaoController_RespostaComFalhaSeUsuarioEstaDeletado()
         {
-            _resetPassRequest.Email = "test1@email.com";
+            _resetarSenhaRequest.Email = "test1@email.com";
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _resetPassRequest);
+                .PostAsJsonAsync(_requestUri, _resetarSenhaRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
                 .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
-            authResponse.Message.Should()
-                .Be(Dictionary.ME001);
+            authResponse.Mensagem.Should()
+                .Be(Dicionario.ME001);
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetarSenhaRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task ResetPassword_AuthenticationController_SuccessResponse()
+        public async Task ResetarSenha_AutenticacaoController_RespostaDeSucessoESenhaDoUsuarioResetada()
         {
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _resetPassRequest);
+                .PostAsJsonAsync(_requestUri, _resetarSenhaRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var authResponse = await response.Content
                 .ReadAsAsync<AutenticacaoComSucessoResponse>();
 
-            authResponse.Message.Should()
-                .Be(Dictionary.MS002);
+            authResponse.Mensagem.Should()
+                .Be(Dicionario.MS002);
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetPassRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_resetarSenhaRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
     }

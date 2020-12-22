@@ -14,12 +14,12 @@ using Xunit.Abstractions;
 namespace MatchDayApp.IntegrationTest.Controller.UsuarioController
 {
     [Trait("UsuarioController", "Get")]
-    public class GetUserDetailsTest : ControllerTest
+    public class ObterUsuarioPorIdTeste : ControllerTest
     {
         private readonly string _requestUri = ApiRotas.Usuario.Get;
         private readonly MatchDayAppContext _memoryDb;
 
-        public GetUserDetailsTest(CustomWebApplicationFactory factory,
+        public ObterUsuarioPorIdTeste(CustomWebApplicationFactory factory,
             ITestOutputHelper output) : base(factory, output)
         {
             _memoryDb = factory.Services

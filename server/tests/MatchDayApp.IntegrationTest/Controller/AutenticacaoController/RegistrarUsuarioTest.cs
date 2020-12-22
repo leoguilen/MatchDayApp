@@ -1,8 +1,10 @@
 ﻿using Bogus;
 using FluentAssertions;
 using MatchDayApp.Domain.Entidades.Enum;
+using MatchDayApp.Domain.Resources;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Auth;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Respostas.Auth;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -12,16 +14,16 @@ using Xunit.Abstractions;
 
 namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 {
-    [Trait("AutenticacaoController", "Register")]
+    [Trait("AutenticacaoController", "Registrar Usuario")]
     public class RegistrarUsuarioTest : ControllerTest
     {
         private readonly string _requestUri = ApiRotas.Autenticacao.RegistrarUsuario;
-        private readonly RegistrarUsuarioRequest _registerRequest;
+        private readonly RegistrarUsuarioRequest _registrarUsuarioRequest;
 
         public RegistrarUsuarioTest(CustomWebApplicationFactory factory,
             ITestOutputHelper output) : base(factory, output)
         {
-            _registerRequest = new RegistrarUsuarioRequest
+            _registrarUsuarioRequest = new RegistrarUsuarioRequest
             {
                 Nome = "Mateus",
                 Sobrenome = "Silva",
@@ -34,17 +36,17 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
             };
         }
 
-        #region FirstName Validation
+        #region Nome Validation
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public async Task Register_AuthenticationController_FailedResponseIfFirstNameIsNullOrEmpty(string invalidFirstName)
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeNomeEhNuloOuVazio(string nomeInvalido)
         {
-            _registerRequest.FirstName = invalidFirstName;
+            _registrarUsuarioRequest.Nome = nomeInvalido;
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -52,19 +54,19 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV005 });
+                .BeEquivalentTo(new[] { Dicionario.MV005 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task Register_AuthenticationController_FailedResponseIfFirstNameIsLessThan4()
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeNomePossuiMenosDe4Caracteres()
         {
-            _registerRequest.FirstName = Faker.Random.String2(1, 3);
+            _registrarUsuarioRequest.Nome = Faker.Random.String2(1, 3);
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -72,19 +74,19 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV006 });
+                .BeEquivalentTo(new[] { Dicionario.MV006 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task Register_AuthenticationController_FailedResponseIfFirstNameHasSpecialCaractersOrNumber()
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeNomeTiverCaracteresEspeciaisOuNumeros()
         {
-            _registerRequest.FirstName = Faker.Random.String2(5, 10, chars: "abc123#@$");
+            _registrarUsuarioRequest.Nome = Faker.Random.String2(5, 10, chars: "abc123#@$");
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -92,25 +94,25 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV009 });
+                .BeEquivalentTo(new[] { Dicionario.MV009 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         #endregion
 
-        #region LastName Validation
+        #region Sobrenome Validation
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public async Task Register_AuthenticationController_FailedResponseIfLastNameIsNullOrEmpty(string invalidLastName)
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeSobrenomeEhNuloOuVazio(string sobrenomeInvalido)
         {
-            _registerRequest.LastName = invalidLastName;
+            _registrarUsuarioRequest.Sobrenome = sobrenomeInvalido;
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -118,19 +120,19 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV007 });
+                .BeEquivalentTo(new[] { Dicionario.MV007 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task Register_AuthenticationController_FailedResponseIfLastNameIsLessThan4()
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeSobrenomePossuirMenosDe4Caracteres()
         {
-            _registerRequest.LastName = Faker.Random.String2(1, 3);
+            _registrarUsuarioRequest.Sobrenome = Faker.Random.String2(1, 3);
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -138,19 +140,20 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV008 });
+                .BeEquivalentTo(new[] { Dicionario.MV008 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task Register_AuthenticationController_FailedResponseIfLastNameHasSpecialCaractersOrNumber()
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeSobrenomeTiverCaracteresEspeciaisOuNumeros()
         {
-            _registerRequest.LastName = Faker.Random.String2(5, 10, chars: "abc123#@$");
+            _registrarUsuarioRequest.Sobrenome = Faker.Random
+                .String2(5, 10, chars: "abc123#@$");
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -158,9 +161,9 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV010 });
+                .BeEquivalentTo(new[] { Dicionario.MV010 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -169,12 +172,12 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
         #region Email Validation
 
         [Fact]
-        public async Task Register_AuthenticationController_FailedResponseIfEmailIsInvalid()
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeEmailEhInvalido()
         {
-            _registerRequest.Email = Faker.Random.String2(15, 20);
+            _registrarUsuarioRequest.Email = Faker.Random.String2(15, 20);
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -182,9 +185,9 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV011 });
+                .BeEquivalentTo(new[] { Dicionario.MV011 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -195,12 +198,12 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public async Task Register_AuthenticationController_FailedResponseIfUsernameIsNullOrEmpty(string invalidUsername)
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeUsernameEhNuloOuVazio(string usernameInvalido)
         {
-            _registerRequest.UserName = invalidUsername;
+            _registrarUsuarioRequest.Username = usernameInvalido;
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -208,9 +211,9 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV012 });
+                .BeEquivalentTo(new[] { Dicionario.MV012 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -221,12 +224,12 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public async Task Register_AuthenticationController_FailedResponseIfPasswordIsNullOrEmpty(string invalidPassword)
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeSenhaEhNulaOuVazia(string senhaInvalida)
         {
-            _registerRequest.Password = invalidPassword;
+            _registrarUsuarioRequest.Senha = senhaInvalida;
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -234,21 +237,21 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV013 });
+                .BeEquivalentTo(new[] { Dicionario.MV013 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         [Fact]
-        public async Task Register_AuthenticationController_FailedResponseIfPasswordIsNotMatchStrongPattern()
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeSenhaNaoCorresponderAoPadraoForte()
         {
             var invalidPassword = Faker.Internet.Password();
-            _registerRequest.Password = invalidPassword;
-            _registerRequest.ConfirmPassword = invalidPassword;
+            _registrarUsuarioRequest.Senha = invalidPassword;
+            _registrarUsuarioRequest.ConfirmacaoSenha = invalidPassword;
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -256,9 +259,9 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV014 });
+                .BeEquivalentTo(new[] { Dicionario.MV014 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
@@ -267,12 +270,12 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
         #region ConfirmPassword Validation
 
         [Fact]
-        public async Task Register_AuthenticationController_FailedResponseIfConfirmPasswordIsNotEqualPassword()
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeConfirmacaoDeSenhaForDiferenteDaSenha()
         {
-            _registerRequest.ConfirmPassword = Faker.Internet.Password();
+            _registrarUsuarioRequest.ConfirmacaoSenha = Faker.Internet.Password();
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
@@ -280,52 +283,52 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
 
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV015 });
+                .BeEquivalentTo(new[] { Dicionario.MV015 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
 
         #endregion
 
         [Fact]
-        public async Task Register_AuthenticationController_FailedResponseIfEmailAlreadyExists()
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeEmailJaExiste()
         {
             var existingEmail = "test2@email.com";
-            _registerRequest.Email = existingEmail;
+            _registrarUsuarioRequest.Email = existingEmail;
 
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var authResponse = await response.Content
                 .ReadAsAsync<AutenticacaoComFalhaResponse>();
 
-            authResponse.Message.Should().Be(Dictionary.ME005);
+            authResponse.Mensagem.Should().Be(Dicionario.ME005);
             authResponse.Errors.Should()
                 .HaveCount(1).And
-                .BeEquivalentTo(new[] { Dictionary.MV003 });
+                .BeEquivalentTo(new[] { Dicionario.MV003 });
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
 
         }
 
         [Fact]
-        public async Task Register_AuthenticationController_SuccessResponseAndRegisterUser()
+        public async Task RegistrarUsuario_AutenticacaoController_RespostaComSucessoEUsuarioRegistrado()
         {
             var response = await HttpClientTest
-                .PostAsJsonAsync(_requestUri, _registerRequest);
+                .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var authResponse = await response.Content
                 .ReadAsAsync<AutenticacaoComSucessoResponse>();
 
-            authResponse.Message.Should().Be(Dictionary.MS003);
+            authResponse.Mensagem.Should().Be(Dicionario.MS003);
             authResponse.Token.Should().NotBeNullOrEmpty();
-            authResponse.User.Email.Should().Be(_registerRequest.Email);
+            authResponse.Usuario.Email.Should().Be(_registrarUsuarioRequest.Email);
 
-            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registerRequest)} 
+            Output.WriteLine($@"Valor entrada: {JsonSerializer.Serialize(_registrarUsuarioRequest)} 
                               | Resultado teste: {response.StatusCode}");
         }
     }

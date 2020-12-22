@@ -11,13 +11,13 @@ using Xunit.Abstractions;
 namespace MatchDayApp.IntegrationTest.Controller.UsuarioController
 {
     [Trait("UsuarioController", "GetAll")]
-    public class GetUsersTest : ControllerTest
+    public class ObterUsuariosTeste : ControllerTest
     {
         private readonly string _requestUri = ApiRotas.Usuario.GetAll;
 
         private readonly PaginacaoQuery _pagination;
 
-        public GetUsersTest(CustomWebApplicationFactory factory,
+        public ObterUsuariosTeste(CustomWebApplicationFactory factory,
             ITestOutputHelper output) : base(factory, output)
         {
             _pagination = new PaginacaoQuery
