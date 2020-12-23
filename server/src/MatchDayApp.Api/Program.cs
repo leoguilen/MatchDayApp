@@ -26,7 +26,12 @@ namespace MatchDayApp.Api
                     {
                         var appAssembly = Assembly.Load(new AssemblyName(env.ApplicationName));
                         if (appAssembly != null)
+                        {
+                            config.AddJsonFile($"appsettings.{env.EnvironmentName}.json",
+                                optional: false, reloadOnChange: true);
                             config.AddUserSecrets(appAssembly, optional: true);
+                            config.AddEnvironmentVariables();
+                        }
                     }
                     else
                     {

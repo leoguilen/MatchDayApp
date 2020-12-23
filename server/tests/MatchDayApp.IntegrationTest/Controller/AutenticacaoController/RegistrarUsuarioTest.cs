@@ -25,14 +25,14 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
         {
             _registrarUsuarioRequest = new RegistrarUsuarioRequest
             {
-                Nome = "Mateus",
-                Sobrenome = "Silva",
-                Username = "mateus.silva",
-                Email = "mateussilva@email.com",
-                Senha = "Mateus@123",
-                ConfirmacaoSenha = "Mateus@123",
+                Nome = Faker.Random.String2(4, 10),
+                Sobrenome = Faker.Random.String2(4, 10),
+                Username = Faker.Person.UserName,
+                Email = Faker.Person.Email,
+                Senha = "Teste@123",
+                ConfirmacaoSenha = "Teste@123",
                 TipoUsuario = TipoUsuario.Jogador,
-                Avatar = "avatar.png"
+                Avatar = Faker.Person.Avatar
             };
         }
 
@@ -246,7 +246,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
         [Fact]
         public async Task RegistrarUsuario_AutenticacaoController_RespostaComFalhaSeSenhaNaoCorresponderAoPadraoForte()
         {
-            var invalidPassword = Faker.Internet.Password();
+            var invalidPassword = Faker.Random.String2(10, 15);
             _registrarUsuarioRequest.Senha = invalidPassword;
             _registrarUsuarioRequest.ConfirmacaoSenha = invalidPassword;
 
@@ -320,7 +320,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
             var response = await HttpClientTest
                 .PostAsJsonAsync(_requestUri, _registrarUsuarioRequest);
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
             var authResponse = await response.Content
                 .ReadAsAsync<AutenticacaoComSucessoResponse>();
 
