@@ -19,68 +19,88 @@ namespace MatchDayApp.Infra.Data.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.ScheduleMatch", b =>
+            modelBuilder.Entity("MatchDayApp.Domain.Entidades.ConfirmacaoEmail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<Guid>("ChaveConfirmacao")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Confirmado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("RequisicaoEm")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("FirstTeamConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("FirstTeamId")
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("MatchStatus")
+                    b.HasKey("Id");
+
+                    b.ToTable("ConfirmacaoEmails");
+                });
+
+            modelBuilder.Entity("MatchDayApp.Domain.Entidades.Partida", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataPartida")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HorasPartida")
                         .HasColumnType("int");
 
-                    b.Property<bool>("SecondTeamConfirmed")
+                    b.Property<bool>("PrimeiroTimeConfirmado")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("SecondTeamId")
+                    b.Property<Guid>("PrimeiroTimeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("SoccerCourtId")
+                    b.Property<Guid>("QuadraFutebolId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TotalHours")
+                    b.Property<bool>("SegundoTimeConfirmado")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("SegundoTimeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("StatusPartida")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FirstTeamId");
+                    b.HasIndex("PrimeiroTimeId");
 
-                    b.HasIndex("SecondTeamId");
+                    b.HasIndex("QuadraFutebolId");
 
-                    b.HasIndex("SoccerCourtId");
+                    b.HasIndex("SegundoTimeId");
 
-                    b.ToTable("ScheduleMatches");
+                    b.ToTable("Partidas");
                 });
 
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.SoccerCourt", b =>
+            modelBuilder.Entity("MatchDayApp.Domain.Entidades.QuadraFutebol", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Address")
+                    b.Property<string>("Cep")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CriadoEm")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Endereco")
                         .IsRequired()
                         .HasColumnType("nvarchar(150)")
                         .HasMaxLength(150);
 
-                    b.Property<string>("Cep")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("HourPrice")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Image")
+                    b.Property<string>("Imagem")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Latitude")
@@ -89,57 +109,60 @@ namespace MatchDayApp.Infra.Data.Data.Migrations
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<Guid>("OwnerUserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<double>("PrecoHora")
+                        .HasColumnType("float");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("Telefone")
                         .IsRequired()
                         .HasColumnType("nvarchar(16)")
                         .HasMaxLength(16);
 
+                    b.Property<Guid>("UsuarioProprietarioId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerUserId");
+                    b.HasIndex("UsuarioProprietarioId");
 
-                    b.ToTable("SoccerCourts");
+                    b.ToTable("Quadras");
                 });
 
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.Team", b =>
+            modelBuilder.Entity("MatchDayApp.Domain.Entidades.Time", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("CriadoEm")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Image")
+                    b.Property<string>("Imagem")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<Guid>("OwnerUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("TotalPlayers")
+                    b.Property<int>("QtdIntegrantes")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("UsuarioProprietarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerUserId");
+                    b.HasIndex("UsuarioProprietarioId");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Times");
                 });
 
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.User", b =>
+            modelBuilder.Entity("MatchDayApp.Domain.Entidades.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -148,13 +171,10 @@ namespace MatchDayApp.Infra.Data.Data.Migrations
                     b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("ConfirmedEmail")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("CriadoEm")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Deleted")
+                    b.Property<bool>("Deletado")
                         .HasColumnType("bit");
 
                     b.Property<string>("Email")
@@ -162,29 +182,32 @@ namespace MatchDayApp.Infra.Data.Data.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("FirstName")
+                    b.Property<bool>("EmailConfirmado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Salt")
                         .IsRequired()
                         .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
-                    b.Property<int>("UserType")
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sobrenome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Telefone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TipoUsuario")
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
@@ -200,107 +223,102 @@ namespace MatchDayApp.Infra.Data.Data.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Usuarios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ffa9e4f2-94db-4675-aa8b-f6d2b6ec997a"),
+                            Avatar = "",
+                            CriadoEm = new DateTime(2020, 12, 22, 18, 3, 35, 578, DateTimeKind.Local).AddTicks(9287),
+                            Deletado = false,
+                            Email = "desenvolvimento.dev1@gmail.com",
+                            EmailConfirmado = true,
+                            Nome = "Administrador",
+                            Salt = "5faZt0QPw1U=",
+                            Senha = "eDT9dORv00PU5SqHm0PH8C1fuhUPCJmkWDESHg3w/no=",
+                            Sobrenome = "Master",
+                            Telefone = "+55 (11)1020-3040",
+                            TipoUsuario = 3,
+                            Username = "admin.master"
+                        });
                 });
 
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.UserConfirmEmail", b =>
+            modelBuilder.Entity("MatchDayApp.Domain.Entidades.UsuarioTime", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ConfirmKey")
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Confirmed")
+                    b.Property<Guid>("TimeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Aceito")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("RequestedAt")
-                        .HasColumnType("datetime2");
+                    b.HasKey("Id", "UsuarioId", "TimeId");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasIndex("TimeId");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("UserConfirmEmails");
-                });
-
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.UserTeam", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TeamId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Accepted")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id", "UserId", "TeamId");
-
-                    b.HasIndex("TeamId");
-
-                    b.HasIndex("UserId")
+                    b.HasIndex("UsuarioId")
                         .IsUnique();
 
-                    b.ToTable("UserTeams");
+                    b.ToTable("UsuarioTimes");
                 });
 
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.ScheduleMatch", b =>
+            modelBuilder.Entity("MatchDayApp.Domain.Entidades.Partida", b =>
                 {
-                    b.HasOne("MatchDayApp.Domain.Entities.Team", "FirstTeam")
+                    b.HasOne("MatchDayApp.Domain.Entidades.Time", "PrimeiroTime")
                         .WithMany()
-                        .HasForeignKey("FirstTeamId")
+                        .HasForeignKey("PrimeiroTimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MatchDayApp.Domain.Entities.Team", "SecondTeam")
+                    b.HasOne("MatchDayApp.Domain.Entidades.QuadraFutebol", "QuadraFutebol")
                         .WithMany()
-                        .HasForeignKey("SecondTeamId")
+                        .HasForeignKey("QuadraFutebolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MatchDayApp.Domain.Entities.SoccerCourt", "SoccerCourt")
+                    b.HasOne("MatchDayApp.Domain.Entidades.Time", "SegundoTime")
                         .WithMany()
-                        .HasForeignKey("SoccerCourtId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.SoccerCourt", b =>
-                {
-                    b.HasOne("MatchDayApp.Domain.Entities.User", "OwnerUser")
-                        .WithMany()
-                        .HasForeignKey("OwnerUserId")
+                        .HasForeignKey("SegundoTimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.Team", b =>
+            modelBuilder.Entity("MatchDayApp.Domain.Entidades.QuadraFutebol", b =>
                 {
-                    b.HasOne("MatchDayApp.Domain.Entities.User", "OwnerUser")
+                    b.HasOne("MatchDayApp.Domain.Entidades.Usuario", "UsuarioProprietario")
                         .WithMany()
-                        .HasForeignKey("OwnerUserId")
+                        .HasForeignKey("UsuarioProprietarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MatchDayApp.Domain.Entities.UserTeam", b =>
+            modelBuilder.Entity("MatchDayApp.Domain.Entidades.Time", b =>
                 {
-                    b.HasOne("MatchDayApp.Domain.Entities.Team", "Team")
+                    b.HasOne("MatchDayApp.Domain.Entidades.Usuario", "UsuarioProprietario")
                         .WithMany()
-                        .HasForeignKey("TeamId")
+                        .HasForeignKey("UsuarioProprietarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MatchDayApp.Domain.Entidades.UsuarioTime", b =>
+                {
+                    b.HasOne("MatchDayApp.Domain.Entidades.Time", "Time")
+                        .WithMany()
+                        .HasForeignKey("TimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MatchDayApp.Domain.Entities.User", null)
-                        .WithOne("UserTeam")
-                        .HasForeignKey("MatchDayApp.Domain.Entities.UserTeam", "UserId")
+                    b.HasOne("MatchDayApp.Domain.Entidades.Usuario", null)
+                        .WithOne("UsuarioTime")
+                        .HasForeignKey("MatchDayApp.Domain.Entidades.UsuarioTime", "UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

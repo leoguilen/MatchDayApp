@@ -1,4 +1,4 @@
-using MatchDayApp.Infra.CrossCutting.InversionOfControl;
+using MatchDayApp.Infra.CrossCutting.Ioc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;

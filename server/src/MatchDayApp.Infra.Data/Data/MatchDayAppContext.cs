@@ -1,4 +1,4 @@
-﻿using MatchDayApp.Domain.Entities;
+﻿using MatchDayApp.Domain.Entidades;
 using MatchDayApp.Infra.Data.Data.Mapping;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,20 +13,20 @@ namespace MatchDayApp.Infra.Data.Data
 
         public MatchDayAppContext() { }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserTeam> UserTeams { get; set; }
-        public DbSet<Team> Teams { get; set; }
-        public DbSet<SoccerCourt> SoccerCourts { get; set; }
-        public DbSet<ScheduleMatch> ScheduleMatches { get; set; }
-        public DbSet<UserConfirmEmail> UserConfirmEmails { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<UsuarioTime> UsuarioTimes { get; set; }
+        public DbSet<Time> Times { get; set; }
+        public DbSet<QuadraFutebol> Quadras { get; set; }
+        public DbSet<Partida> Partidas { get; set; }
+        public DbSet<ConfirmacaoEmail> ConfirmacaoEmails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new UserMap());
-            modelBuilder.ApplyConfiguration(new UserTeamMap());
-            modelBuilder.ApplyConfiguration(new TeamMap());
-            modelBuilder.ApplyConfiguration(new SoccerCourtMap());
-            modelBuilder.ApplyConfiguration(new ScheduleMatchMap());
+            modelBuilder.ApplyConfiguration(new UsuarioMap());
+            modelBuilder.ApplyConfiguration(new UsuarioTimeMap());
+            modelBuilder.ApplyConfiguration(new TimeMap());
+            modelBuilder.ApplyConfiguration(new QuadraFutebolMap());
+            modelBuilder.ApplyConfiguration(new PartidaMap());
         }
     }
 }

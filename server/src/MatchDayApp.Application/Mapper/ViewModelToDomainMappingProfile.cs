@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MatchDayApp.Application.Models;
 using MatchDayApp.Application.Models.Auth;
-using MatchDayApp.Domain.Entities;
+using MatchDayApp.Domain.Entidades;
 
 namespace MatchDayApp.Application.Mapper
 {
@@ -9,11 +9,10 @@ namespace MatchDayApp.Application.Mapper
     {
         public ViewModelToDomainMappingProfile()
         {
-            CreateMap<RegisterModel, User>().ReverseMap();
-            CreateMap<TeamModel, Team>().ReverseMap();
-            CreateMap<SoccerCourtModel, SoccerCourt>().ReverseMap();
-            CreateMap<ScheduleMatchModel, ScheduleMatch>().ReverseMap()
-                .ForMember(scm => scm.MatchDate, prop => prop.MapFrom(sc => sc.Date));
+            CreateMap<RegistrarUsuarioModel, Usuario>().ReverseMap();
+            CreateMap<TimeModel, Time>().ReverseMap();
+            CreateMap<QuadraModel, QuadraFutebol>().ReverseMap();
+            CreateMap<PartidaModel, Partida>().ReverseMap();
         }
     }
 }

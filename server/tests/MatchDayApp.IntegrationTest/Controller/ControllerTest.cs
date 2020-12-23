@@ -1,7 +1,7 @@
 ﻿using Bogus;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Request.Auth;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Response.Auth;
-using MatchDayApp.Infra.CrossCutting.V1;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Auth;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Respostas.Auth;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -31,15 +31,15 @@ namespace MatchDayApp.IntegrationTest.Controller
         private async Task<string> GetJwtAsync()
         {
             var response = await HttpClientTest.PostAsJsonAsync(
-                ApiRoutes.Authentication.Login,
+                ApiRotas.Autenticacao.Login,
                 new LoginRequest
                 {
                     Email = "test2@email.com",
-                    Password = "test321"
+                    Senha = "test321"
                 });
 
             var authResponse = await response.Content
-                .ReadAsAsync<AuthSuccessResponse>();
+                .ReadAsAsync<AutenticacaoComSucessoResponse>();
 
             return authResponse.Token;
         }

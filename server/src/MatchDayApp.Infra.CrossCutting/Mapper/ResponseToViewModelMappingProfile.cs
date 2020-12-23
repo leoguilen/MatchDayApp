@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MatchDayApp.Application.Models;
-using MatchDayApp.Infra.CrossCutting.Contract.V1.Response;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1.Respostas;
 
 namespace MatchDayApp.Infra.CrossCutting.Mapper
 {
@@ -8,16 +8,13 @@ namespace MatchDayApp.Infra.CrossCutting.Mapper
     {
         public ResponseToViewModelMappingProfile()
         {
-            CreateMap<UserModel, UserResponse>();
-            CreateMap<TeamModel, TeamResponse>();
-            CreateMap<SoccerCourtModel, SoccerCourtResponse>();
-            CreateMap<ScheduleMatchModel, ScheduleMatchResponse>()
-                .ForMember(res => res.FirstTeamId, prop => prop.MapFrom(sm => sm.FirstTeam.Id))
-                .ForMember(res => res.FirstTeamName, prop => prop.MapFrom(sm => sm.FirstTeam.Name))
-                .ForMember(res => res.SecondTeamId, prop => prop.MapFrom(sm => sm.SecondTeam.Id))
-                .ForMember(res => res.SecondTeamName, prop => prop.MapFrom(sm => sm.SecondTeam.Name))
-                .ForMember(res => res.SoccerCourtId, prop => prop.MapFrom(sm => sm.SoccerCourt.Id))
-                .ForMember(res => res.SoccerCourtName, prop => prop.MapFrom(sm => sm.SoccerCourt.Name));
+            CreateMap<UsuarioModel, UsuarioResponse>();
+            CreateMap<TimeModel, TimeResponse>();
+            CreateMap<QuadraModel, QuadraResponse>();
+            CreateMap<PartidaModel, PartidaResponse>()
+                .ForMember(res => res.PrimeiroTimeId, prop => prop.MapFrom(sm => sm.PrimeiroTimeId))
+                .ForMember(res => res.SegundoTimeId, prop => prop.MapFrom(sm => sm.SegundoTimeId))
+                .ForMember(res => res.QuadraFutebolId, prop => prop.MapFrom(sm => sm.QuadraFutebolId));
         }
     }
 }
