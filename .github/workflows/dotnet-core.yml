@@ -21,18 +21,6 @@ jobs:
       run: dotnet restore .//server//
     - name: Build
       run: dotnet build .//server// --configuration Release --no-restore
-    - name: App Settings Variable Substitution
-      uses: microsoft/variable-substitution@v1
-      with:
-        files: './/server//src//MatchDayApp.Api//appsettings.json'
-      env:
-        JwtConfiguracao.Secret: ${{ secrets.JwtSecret }}
-        SmtpConfiguracao.SmtpUsername: ${{ secrets.SmtpUsername }}
-        SmtpConfiguracao.SmtpPassword: ${{ secrets.StmpPassword }}
-        TwilioConfiguracao.TwilioAccountSID: ${{ secrets.TwilioAccountSID }}
-        TwilioConfiguracao.TwilioAuthToken: ${{ secrets.TwilioAuthToken }}
-        TwilioConfiguracao.TwilioPhoneNumber: ${{ secrets.TwilioPhoneNumber }}
-        TwilioConfiguracao.TwilioWhatsappNumber: ${{ secrets.TwilioWhatsappNumber }}
     - name: Unit Test
       run: dotnet test .//server//tests//MatchDayApp.UnitTest// --no-restore --verbosity minimal
     - name: Integration Test
