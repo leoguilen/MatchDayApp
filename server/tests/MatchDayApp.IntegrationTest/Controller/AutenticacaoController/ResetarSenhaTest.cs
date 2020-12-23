@@ -81,7 +81,7 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
         [Fact]
         public async Task ResetarSenha_AutenticacaoController_RespostaComFalhaSeSenhaNaoCorresponderComPadraoForte()
         {
-            var invalidPassword = Faker.Internet.Password();
+            var invalidPassword = Faker.Random.String2(10,14);
             _resetarSenhaRequest.Senha = invalidPassword;
             _resetarSenhaRequest.ConfirmacaoSenha = invalidPassword;
 
@@ -167,6 +167,8 @@ namespace MatchDayApp.IntegrationTest.Controller.AutenticacaoController
         [Fact]
         public async Task ResetarSenha_AutenticacaoController_RespostaDeSucessoESenhaDoUsuarioResetada()
         {
+            _resetarSenhaRequest.Email = "test3@email.com";
+
             var response = await HttpClientTest
                 .PostAsJsonAsync(_requestUri, _resetarSenhaRequest);
 

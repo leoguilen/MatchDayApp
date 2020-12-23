@@ -44,16 +44,31 @@ namespace MatchDayApp.IntegrationTest
                         .GetRequiredService<MatchDayAppContext>();
                     providerDbContext.SeedFakeData();
 
-                    var smtpSetting = new SmtpConfiguracao();
-                    configuration.Bind(nameof(SmtpConfiguracao), smtpSetting);
-                    services.AddSingleton(smtpSetting);
+                    var jwtOptions = new JwtConfiguracao
+                    {
+                        Secret = "9ce891b219b6fb5b0088e3e05e05baf5",
+                        TokenLifetime = TimeSpan.FromMinutes(5)
+                    };
 
-                    var twilioSettings = new TwilioConfiguracao();
-                    configuration.Bind(nameof(TwilioConfiguracao), twilioSettings);
+                    var smtpSetting = new SmtpConfiguracao
+                    {
+                        SmtpAddress = "smtp.gmail.com",
+                        SmtpPort = 465,
+                        UseSsl = true,
+                        SmtpUsername = "desenvolvimento.dev1@gmail.com",
+                        SmtpPassword = "Dev@2020"
+                    };
+
+                    var twilioSettings = new TwilioConfiguracao
+                    {
+                        TwilioAccountSID = "ACee2e2e7da6a0b0324b9ee07edd0ce97c",
+                        TwilioAuthToken = "00185e58ac4a15e42bf3eb6483b9a5f7",
+                        TwilioPhoneNumber = "+19514388489",
+                        TwilioWhatsappNumber = "+14155238886"
+                    };
+
                     services.AddSingleton(twilioSettings);
-
-                    var jwtOptions = new JwtConfiguracao();
-                    configuration.Bind(nameof(JwtConfiguracao), jwtOptions);
+                    services.AddSingleton(smtpSetting);
                     services.AddSingleton(jwtOptions);
                     services.AddSingleton(new TokenValidationParameters
                     {
