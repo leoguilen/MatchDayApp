@@ -52,7 +52,7 @@ namespace MatchDayApp.IntegrationTest
 
                     var jwtOptions = new JwtConfiguracao();
                     configuration.Bind(nameof(JwtConfiguracao), jwtOptions);
-                    
+
                     services.AddSingleton(twilioSettings);
                     services.AddSingleton(smtpSetting);
                     services.AddSingleton(jwtOptions);

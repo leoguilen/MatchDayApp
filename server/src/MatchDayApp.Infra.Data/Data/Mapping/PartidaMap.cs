@@ -8,6 +8,8 @@ namespace MatchDayApp.Infra.Data.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Partida> builder)
         {
+            builder.ToTable("Partida");
+
             builder.HasKey(prop => prop.Id);
 
             builder.Property(prop => prop.StatusPartida)

@@ -8,6 +8,8 @@ namespace MatchDayApp.Infra.Data.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<UsuarioTime> builder)
         {
+            builder.ToTable("UsuarioTime");
+
             builder.Property(prop => prop.Id).ValueGeneratedOnAdd();
             builder.Ignore(prop => prop.Usuario)
                 .HasKey(prop => new { prop.Id, prop.UsuarioId, prop.TimeId });

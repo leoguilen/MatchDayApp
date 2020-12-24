@@ -3,7 +3,6 @@ using MatchDayApp.Domain.Entidades.Enum;
 using MatchDayApp.Domain.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace MatchDayApp.Infra.Data.Data.Mapping
 {
@@ -11,6 +10,8 @@ namespace MatchDayApp.Infra.Data.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {
+            builder.ToTable("Usuario");
+
             builder.HasKey(prop => prop.Id);
 
             builder.Property(prop => prop.Nome)

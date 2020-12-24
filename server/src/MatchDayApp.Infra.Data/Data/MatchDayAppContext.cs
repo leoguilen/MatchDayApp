@@ -20,6 +20,14 @@ namespace MatchDayApp.Infra.Data.Data
         public DbSet<Partida> Partidas { get; set; }
         public DbSet<ConfirmacaoEmail> ConfirmacaoEmails { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=localhost;Database=MatchDayDB;Trusted_Connection=yes;");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UsuarioMap());

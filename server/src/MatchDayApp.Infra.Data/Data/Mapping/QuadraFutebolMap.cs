@@ -8,6 +8,8 @@ namespace MatchDayApp.Infra.Data.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<QuadraFutebol> builder)
         {
+            builder.ToTable("QuadraFutebol");
+
             builder.HasKey(prop => prop.Id);
 
             builder.Property(prop => prop.Nome)
