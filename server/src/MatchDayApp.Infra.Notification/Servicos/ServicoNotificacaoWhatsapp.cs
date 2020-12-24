@@ -39,7 +39,7 @@ namespace MatchDayApp.Infra.Notification.Servicos
                 if (msgResource.Status == MessageResource.StatusEnum.Failed)
                     throw new Exception($"{msgResource.ErrorCode} - {msgResource.ErrorMessage}");
 
-                _logger.LogInformation($"Mensagem enviada para {msgResource.To} em {msgResource.DateSent}");
+                _logger.LogInformation($"Mensagem enviada para {msgResource.To} em {DateTime.Now}");
                 return true;
             }
             catch (Exception ex)

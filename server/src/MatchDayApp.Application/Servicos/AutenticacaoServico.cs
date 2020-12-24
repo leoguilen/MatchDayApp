@@ -25,7 +25,7 @@ namespace MatchDayApp.Application.Servicos
             _jwtOptions = jwtOptions ?? throw new ArgumentNullException(nameof(jwtOptions));
         }
 
-        public async Task<bool> AdicionarSolicitacaoConfirmacaoEmail(Guid usuarioId)
+        public async Task<Guid> AdicionarSolicitacaoConfirmacaoEmail(Guid usuarioId)
         {
             return await _uow.ConfirmacaoEmailRepositorio
                 .AdicionarRequisicaoAsync(usuarioId);

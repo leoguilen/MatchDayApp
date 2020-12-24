@@ -11,6 +11,6 @@ namespace MatchDayApp.Application.Interfaces
         Task<AutenticacaoResult> RegistrarUsuarioAsync(RegistrarUsuarioModel model);
         Task<AutenticacaoResult> ResetarSenhaAsync(ResetarSenhaModel model);
         Task<AutenticacaoResult> ConfirmarEmailAsync(ConfirmacaoEmailModel model);
-        Task<bool> AdicionarSolicitacaoConfirmacaoEmail(Guid usuarioId);
+        Task<Guid> AdicionarSolicitacaoConfirmacaoEmail(Guid usuarioId);
     }
 }

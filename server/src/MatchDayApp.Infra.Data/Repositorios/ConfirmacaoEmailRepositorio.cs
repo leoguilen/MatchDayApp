@@ -14,7 +14,7 @@ namespace MatchDayApp.Infra.Data.Repositorios
         public ConfirmacaoEmailRepositorio(MatchDayAppContext context)
             => _context = context;
 
-        public async Task<bool> AdicionarRequisicaoAsync(Guid usuarioId)
+        public async Task<Guid> AdicionarRequisicaoAsync(Guid usuarioId)
         {
             var confirmacaoEmail = new ConfirmacaoEmail
             {
@@ -28,7 +28,11 @@ namespace MatchDayApp.Infra.Data.Repositorios
                 .AddAsync(confirmacaoEmail);
 
             var saved = _context.SaveChanges();
-            return saved > 0;
+
+            if(saved > 0)
+                return confirmacaoEmail.ChaveConfirmacao;
+
+            return Guid.Empty;
         }
 
         public bool AtualizarRequisicao(ConfirmacaoEmail confirmacaoEmail)

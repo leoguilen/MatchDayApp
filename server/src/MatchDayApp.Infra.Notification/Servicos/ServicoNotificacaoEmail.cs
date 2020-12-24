@@ -51,6 +51,7 @@ namespace MatchDayApp.Infra.Notification.Servicos
                 await client.SendAsync(msg);
                 await client.DisconnectAsync(true);
 
+                _logger.LogInformation($"Mensagem enviada para {msg.To} em {DateTime.Now}");
                 return true;
             }
             catch (Exception ex)

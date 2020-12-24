@@ -1,10 +1,12 @@
 ﻿using MatchDayApp.Application.Events.Usuario;
 using MatchDayApp.Application.Interfaces;
 using MatchDayApp.Domain.Configuracoes;
+using MatchDayApp.Domain.Resources;
 using MatchDayApp.Infra.Notification.Enum;
 using MatchDayApp.Infra.Notification.Models;
 using MatchDayApp.Infra.Notification.Servicos;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
@@ -21,9 +23,10 @@ namespace MatchDayApp.Application.Handlers
         private readonly TwilioConfiguracao _twilioSettings;
         private readonly EstrategiaServicoNotificacao _messageStrategy;
         private readonly IAutenticacaoServico _autenticacaoServico;
+        private readonly IHttpContextAccessor _accessor;
 
         public UsuarioEventHandler(IAutenticacaoServico autenticacaoServico, SmtpConfiguracao smtpSettings,
-            TwilioConfiguracao twilioSettings, ILogger logger)
+            TwilioConfiguracao twilioSettings, ILogger logger, IHttpContextAccessor accessor)
         {
             _autenticacaoServico = autenticacaoServico
                 ?? throw new ArgumentNullException(nameof(autenticacaoServico));
@@ -31,6 +34,8 @@ namespace MatchDayApp.Application.Handlers
                 ?? throw new ArgumentNullException(nameof(smtpSettings));
             _twilioSettings = twilioSettings
                 ?? throw new ArgumentNullException(nameof(twilioSettings));
+            _accessor = accessor
+                ?? throw new ArgumentNullException(nameof(accessor));
 
             _messageStrategy = new EstrategiaServicoNotificacao(
                 smtpSettings, twilioSettings, logger);
@@ -50,8 +55,12 @@ namespace MatchDayApp.Application.Handlers
 
         public async Task Handle(UsuarioRegistradoEvent notification, CancellationToken cancellationToken)
         {
-            var addRequest = await _autenticacaoServico
+            var requisicaoId = await _autenticacaoServico
                 .AdicionarSolicitacaoConfirmacaoEmail(notification.UsuarioId);
+
+            var request = _accessor.HttpContext.Request;
+            var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+            var confirmarEmailUri = $"{absoluteUri}/auth/confirmarEmail?chave={requisicaoId}";
 
             // Enviando email
             await _messageStrategy.DefineEstrategia(TipoNotificacao.Email)
@@ -60,7 +69,9 @@ namespace MatchDayApp.Application.Handlers
                     De = _smtpSettings.SmtpUsername,
                     Para = notification.Email,
                     Assunto = "[MatchDayApp] | SEJA BEM VINDO",
-                    Conteudo = $"Olá {notification.Nome}, seja bem vindo!"
+                    Conteudo = Dicionario_EmailTemplate.TPT01
+                        .Replace("{UsuarioNome}", notification.Nome)
+                        .Replace("{UrlConfirmacao}", confirmarEmailUri)
                 });
 
             // Enviando Sms

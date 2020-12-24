@@ -229,4 +229,7 @@
     <value>Nome do time inválido</value>
     <comment>Mensagem de validação de inserção de time com nome inválido</comment>
   </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
 </root>
