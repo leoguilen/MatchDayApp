@@ -69,7 +69,7 @@ namespace MatchDayApp.Application.Handlers
                     De = _smtpSettings.SmtpUsername,
                     Para = notification.Email,
                     Assunto = "[MatchDayApp] | SEJA BEM VINDO",
-                    Conteudo = Dicionario_EmailTemplate.TPT01
+                    Conteudo = DicionarioEmailTemplate.TPT01
                         .Replace("{UsuarioNome}", notification.Nome)
                         .Replace("{UrlConfirmacao}", confirmarEmailUri)
                 });

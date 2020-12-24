@@ -36,7 +36,8 @@ namespace MatchDayApp.UnitTest.Repositorios
             var result = await _confirmacaoEmailRepositorio
                 .AdicionarRequisicaoAsync(usuarioId);
 
-            result.Should().BeTrue();
+            result.Should().NotBeEmpty()
+                .And.NotBe(Guid.Empty);
         }
 
         [Fact]

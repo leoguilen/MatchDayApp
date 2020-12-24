@@ -15,17 +15,17 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="Recursos\Dicionario.EmailTemplate.Designer.cs">
+    <Compile Update="Recursos\DicionarioEmailTemplate.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Dicionario.EmailTemplate.resx</DependentUpon>
+      <DependentUpon>DicionarioEmailTemplate.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Recursos\Dicionario.EmailTemplate.resx">
+    <EmbeddedResource Update="Recursos\DicionarioEmailTemplate.resx">
       <CustomToolNamespace>MatchDayApp.Domain.Resources</CustomToolNamespace>
-      <LastGenOutput>Dicionario.EmailTemplate.Designer.cs</LastGenOutput>
+      <LastGenOutput>DicionarioEmailTemplate.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Recursos\Dicionario.resx">
