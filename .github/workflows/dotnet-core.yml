@@ -24,7 +24,7 @@ jobs:
     - name: Appsettings variable substitution	
       uses: microsoft/variable-substitution@v1	
       with:	
-        files: './/server//src//MatchDayApp.Api//appsettings.json'
+        files: './/server//**//**//*.json'
       env:
         JwtConfiguracao.Secret: ${{ secrets.JwtSecret }}	
         SmtpConfiguracao.SmtpUsername: ${{ secrets.SmtpUsername }}	
