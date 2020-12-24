@@ -5,6 +5,8 @@
 
     <IsPackable>false</IsPackable>
 
+    <UserSecretsId>ac005777-06ac-4424-b687-4dd8a8c9140b</UserSecretsId>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +19,7 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="Twilio" Version="5.52.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -32,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\MatchDayApp.Api\MatchDayApp.Api.csproj" />
     <ProjectReference Include="..\..\src\MatchDayApp.Domain\MatchDayApp.Domain.csproj" />
     <ProjectReference Include="..\..\src\MatchDayApp.Infra.Data\MatchDayApp.Infra.Data.csproj" />
     <ProjectReference Include="..\..\src\MatchDayApp.Infra.Notification\MatchDayApp.Infra.Notification.csproj" />
