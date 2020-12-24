@@ -9,8 +9,8 @@ namespace MatchDayApp.Infra.CrossCutting.SwaggerExemplos.Requisicoes
         {
             return new LoginRequest
             {
-                Email = "leonardoguilen1@gmail.com",
-                Senha = "Leo@123"
+                Email = "teste.exemplo@email.com",
+                Senha = "Teste@exemplo123"
             };
         }
     }

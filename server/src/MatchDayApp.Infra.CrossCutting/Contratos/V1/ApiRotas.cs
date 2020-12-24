@@ -8,45 +8,45 @@
 
         public static class Autenticacao
         {
-            public const string RegistrarUsuario = Base + "/auth/register";
+            public const string RegistrarUsuario = Base + "/auth/registrar";
             public const string Login = Base + "/auth/login";
-            public const string ResetarSenha = Base + "/auth/reset";
-            public const string ConfirmarEmail = Base + "/auth/confirmEmail";
+            public const string ResetarSenha = Base + "/auth/resetarSenha";
+            public const string ConfirmarEmail = Base + "/auth/confirmarEmail";
         }
 
         public static class Usuario
         {
-            public const string GetAll = Base + "/user";
-            public const string Get = Base + "/user/{id}";
-            public const string Update = Base + "/user/{id}";
-            public const string Delete = Base + "/user/{id}";
+            public const string GetAll = Base + "/usuario";
+            public const string Get = Base + "/usuario/{id}";
+            public const string Update = Base + "/usuario/{id}";
+            public const string Delete = Base + "/usuario/{id}";
         }
 
         public static class Time
         {
-            public const string GetAll = Base + "/team";
-            public const string Get = Base + "/team/{id}";
-            public const string Create = Base + "/team";
-            public const string Update = Base + "/team/{id}";
-            public const string Delete = Base + "/team/{id}";
+            public const string GetAll = Base + "/time";
+            public const string Get = Base + "/time/{id}";
+            public const string Create = Base + "/time";
+            public const string Update = Base + "/time/{id}";
+            public const string Delete = Base + "/time/{id}";
         }
 
         public static class Quadra
         {
-            public const string GetAll = Base + "/soccercourt";
-            public const string Get = Base + "/soccercourt/{id}";
-            public const string Create = Base + "/soccercourt";
-            public const string Update = Base + "/soccercourt/{id}";
-            public const string Delete = Base + "/soccercourt/{id}";
+            public const string GetAll = Base + "/quadra";
+            public const string Get = Base + "/quadra/{id}";
+            public const string Create = Base + "/quadra";
+            public const string Update = Base + "/quadra/{id}";
+            public const string Delete = Base + "/quadra/{id}";
         }
 
         public static class Partida
         {
-            public const string GetAll = Base + "/schedulematch";
-            public const string Get = Base + "/schedulematch/{id}";
-            public const string MarcarPartida = Base + "/schedulematch";
-            public const string ConfirmarPartida = Base + "/schedulematch/confirm";
-            public const string DesmarcarPartida = Base + "/schedulematch/uncheck";
+            public const string GetAll = Base + "/partida";
+            public const string Get = Base + "/partida/{id}";
+            public const string MarcarPartida = Base + "/partida";
+            public const string ConfirmarPartida = Base + "/partida/confirmar";
+            public const string DesmarcarPartida = Base + "/partida/desmarcar";
         }
     }
 }
