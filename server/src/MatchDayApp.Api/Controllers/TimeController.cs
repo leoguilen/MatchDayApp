@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MatchDayApp.Api.Controllers.Base;
 using MatchDayApp.Api.Extensions;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Query;
@@ -21,23 +22,16 @@ namespace MatchDayApp.Api.Controllers
     /// Controller responsável pela gestão dos times
     /// </summary>
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ApiController]
-    [ApiVersion("1.0")]
-    [Produces("application/json")]
-    public class TimeController : ControllerBase
+    public class TimeController : BaseController
     {
         private readonly ITimeAppServico _timeServico;
-        private readonly IUriServico _uriServico;
-        private readonly IMapper _mapper;
 
-        public TimeController(ITimeAppServico timeServico, IMapper mapper, IUriServico uriServico)
+        public TimeController(ITimeAppServico timeServico,
+            ICacheServico cacheServico, IUriServico uriServico, IMapper mapper)
+            : base(cacheServico, uriServico, mapper)
         {
             _timeServico = timeServico
                 ?? throw new ArgumentNullException(nameof(timeServico));
-            _mapper = mapper
-                ?? throw new ArgumentNullException(nameof(mapper));
-            _uriServico = uriServico
-                ?? throw new ArgumentNullException(nameof(uriServico));
         }
 
         /// <summary>
@@ -49,11 +43,22 @@ namespace MatchDayApp.Api.Controllers
         [ProducesResponseType(typeof(PagedResponse<TimeResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll([FromQuery] PaginacaoQuery pagination)
         {
-            var times = await _timeServico
-                .ObterTimesAsync(pagination);
+            var timesResponse = CacheServico
+                .GetCachedResponse<IReadOnlyList<TimeResponse>>(
+                    ApiRotas.Time.GetAll);
 
-            var timesResponse = _mapper
-                .Map<IReadOnlyList<TimeResponse>>(times);
+            if(timesResponse is null)
+            {
+                var times = await _timeServico
+                    .ObterTimesAsync(pagination);
+                timesResponse = Mapper
+                    .Map<IReadOnlyList<TimeResponse>>(times);
+
+                CacheServico.SetCacheResponse(
+                    ApiRotas.Time.GetAll,
+                    timesResponse,
+                    TimeSpan.FromMinutes(2));
+            }
 
             if (pagination == null || pagination.NumeroPagina < 1 || pagination.QuantidadePagina < 1)
             {
@@ -61,7 +66,7 @@ namespace MatchDayApp.Api.Controllers
             }
 
             var paginationResponse = PaginationHelpers
-                .CriarRespostaPaginada(_uriServico, pagination, timesResponse.ToList());
+                .CriarRespostaPaginada(UriServico, pagination, timesResponse.ToList());
 
             return Ok(paginationResponse);
         }
@@ -77,14 +82,27 @@ namespace MatchDayApp.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var time = await _timeServico
+            var timeResponse = CacheServico
+                .GetCachedResponse<Response<TimeResponse>>(
+                    ApiRotas.Time.Get.Replace("{id}", id.ToString()));
+
+            if(timeResponse is null)
+            {
+                var time = await _timeServico
                 .ObterTimePorIdAsync(id);
 
-            if (time is null)
-                return NotFound();
+                if (time is null)
+                    return NotFound();
 
-            return Ok(new Response<TimeResponse>(_mapper
-                .Map<TimeResponse>(time)));
+                timeResponse = new Response<TimeResponse>(Mapper
+                    .Map<TimeResponse>(time));
+
+                CacheServico.SetCacheResponse(
+                    ApiRotas.Time.Get.Replace("{id}", id.ToString()),
+                    timeResponse, TimeSpan.FromMinutes(2));
+            }
+
+            return Ok(timeResponse);
         }
 
         /// <summary>
@@ -112,7 +130,7 @@ namespace MatchDayApp.Api.Controllers
                 });
             }
 
-            return Created(_uriServico.GetTimeUri(novoTime.Id.ToString()),
+            return Created(UriServico.GetTimeUri(novoTime.Id.ToString()),
                 new Response<object>
                 {
                     Mensagem = "Time adicionado com sucesso",

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MatchDayApp.Api.Controllers.Base;
 using MatchDayApp.Api.Extensions;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Quadra;
@@ -21,23 +22,16 @@ namespace MatchDayApp.Api.Controllers
     /// Controller responsável pela gestão das quadras
     /// </summary>
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ApiController]
-    [ApiVersion("1.0")]
-    [Produces("application/json")]
-    public class QuadraController : ControllerBase
+    public class QuadraController : BaseController
     {
         private readonly IQuadraAppServico _quadraServico;
-        private readonly IUriServico _uriServico;
-        private readonly IMapper _mapper;
 
-        public QuadraController(IQuadraAppServico quadraServico, IMapper mapper, IUriServico uriServico)
+        public QuadraController(IQuadraAppServico quadraServico,
+            ICacheServico cacheServico, IUriServico uriServico, IMapper mapper)
+            : base(cacheServico, uriServico, mapper)
         {
             _quadraServico = quadraServico
                 ?? throw new ArgumentNullException(nameof(quadraServico));
-            _mapper = mapper
-                ?? throw new ArgumentNullException(nameof(mapper));
-            _uriServico = uriServico
-                ?? throw new ArgumentNullException(nameof(uriServico));
         }
 
         /// <summary>
@@ -49,19 +43,30 @@ namespace MatchDayApp.Api.Controllers
         [ProducesResponseType(typeof(PagedResponse<QuadraResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll([FromQuery] PaginacaoQuery pagination)
         {
-            var quadra = await _quadraServico
-                .ObterQuadrasAsync(pagination);
+            var quadrasResponse = CacheServico
+                .GetCachedResponse<IReadOnlyList<QuadraResponse>>(
+                    ApiRotas.Quadra.GetAll);
 
-            var quadraResponse = _mapper
-                .Map<IReadOnlyList<QuadraResponse>>(quadra);
+            if(quadrasResponse is null)
+            {
+                var quadra = await _quadraServico
+                    .ObterQuadrasAsync(pagination);
+                quadrasResponse = Mapper
+                    .Map<IReadOnlyList<QuadraResponse>>(quadra);
+
+                CacheServico.SetCacheResponse(
+                    ApiRotas.Quadra.GetAll,
+                    quadrasResponse,
+                    TimeSpan.FromMinutes(2));
+            }
 
             if (pagination == null || pagination.NumeroPagina < 1 || pagination.QuantidadePagina < 1)
             {
-                return Ok(new PagedResponse<QuadraResponse>(quadraResponse));
+                return Ok(new PagedResponse<QuadraResponse>(quadrasResponse));
             }
 
             var paginationResponse = PaginationHelpers
-                .CriarRespostaPaginada(_uriServico, pagination, quadraResponse.ToList());
+                .CriarRespostaPaginada(UriServico, pagination, quadrasResponse.ToList());
 
             return Ok(paginationResponse);
         }
@@ -77,14 +82,27 @@ namespace MatchDayApp.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var quadra = await _quadraServico
-                .ObterQuadraPorIdAsync(id);
+            var quadraResponse = CacheServico
+                .GetCachedResponse<Response<QuadraResponse>>(
+                    ApiRotas.Quadra.Get.Replace("{id}", id.ToString()));
 
-            if (quadra is null)
-                return NotFound();
+            if (quadraResponse is null)
+            {
+                var quadra = await _quadraServico
+                    .ObterQuadraPorIdAsync(id);
 
-            return Ok(new Response<QuadraResponse>(_mapper
-                .Map<QuadraResponse>(quadra)));
+                if (quadra is null)
+                    return NotFound();
+
+                quadraResponse = new Response<QuadraResponse>(
+                    Mapper.Map<QuadraResponse>(quadra));
+
+                CacheServico.SetCacheResponse(
+                    ApiRotas.Quadra.Get.Replace("{id}", id.ToString()),
+                    quadraResponse, TimeSpan.FromMinutes(2));
+            }
+
+            return Ok(quadraResponse);
         }
 
         /// <summary>
@@ -112,7 +130,7 @@ namespace MatchDayApp.Api.Controllers
                 });
             }
 
-            return Created(_uriServico.GetQuadraUri(novaQuadra.Id.ToString()),
+            return Created(UriServico.GetQuadraUri(novaQuadra.Id.ToString()),
                 new Response<object>
                 {
                     Mensagem = "Quadra adicionada com sucesso",

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MatchDayApp.Api.Controllers.Base;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Partida;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Query;
@@ -20,23 +21,16 @@ namespace MatchDayApp.Api.Controllers
     /// Controller responsável pela gestão das partidas
     /// </summary>
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ApiController]
-    [ApiVersion("1.0")]
-    [Produces("application/json")]
-    public class PartidaController : ControllerBase
+    public class PartidaController : BaseController
     {
         private readonly IPartidaAppServico _partidaService;
-        private readonly IUriServico _uriServico;
-        private readonly IMapper _mapper;
 
-        public PartidaController(IPartidaAppServico partidaService, IUriServico uriServico, IMapper mapper)
+        public PartidaController(IPartidaAppServico partidaService,
+            ICacheServico cacheServico, IUriServico uriServico, IMapper mapper)
+            : base(cacheServico, uriServico, mapper)
         {
             _partidaService = partidaService
                 ?? throw new ArgumentNullException(nameof(partidaService));
-            _uriServico = uriServico
-                ?? throw new ArgumentNullException(nameof(uriServico));
-            _mapper = mapper
-                ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <summary>
@@ -48,17 +42,27 @@ namespace MatchDayApp.Api.Controllers
         [ProducesResponseType(typeof(PagedResponse<PartidaResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll([FromQuery] PaginacaoQuery pagination, [FromQuery] PartidaFilterQuery filter)
         {
-            var partidas = await _partidaService
-                .ObterPartidasAsync(pagination, filter);
+            var partidasResponse = CacheServico
+                .GetCachedResponse<IReadOnlyList<PartidaResponse>>(ApiRotas.Partida.GetAll);
 
-            var partidasResponse = _mapper
-                .Map<IReadOnlyList<PartidaResponse>>(partidas);
+            if(partidasResponse is null)
+            {
+                var partidas = await _partidaService
+                    .ObterPartidasAsync(pagination, filter);
+                partidasResponse = Mapper
+                    .Map<IReadOnlyList<PartidaResponse>>(partidas);
+
+                CacheServico.SetCacheResponse(
+                    ApiRotas.Partida.GetAll, 
+                    partidasResponse, 
+                    TimeSpan.FromMinutes(2));
+            }
 
             if (pagination == null || pagination.NumeroPagina < 1 || pagination.QuantidadePagina < 1)
                 return Ok(new PagedResponse<PartidaResponse>(partidasResponse));
 
             var paginationResponse = PaginationHelpers
-                .CriarRespostaPaginada(_uriServico, pagination, partidasResponse.ToList());
+                .CriarRespostaPaginada(UriServico, pagination, partidasResponse.ToList());
 
             return Ok(paginationResponse);
         }
@@ -74,14 +78,27 @@ namespace MatchDayApp.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var partida = await _partidaService
-                .ObterPartidaPorIdAsync(id);
+            var partidaResponse = CacheServico
+                .GetCachedResponse<Response<PartidaResponse>>(
+                    ApiRotas.Partida.Get.Replace("{id}", id.ToString()));
 
-            if (partida is null)
-                return NotFound();
+            if(partidaResponse is null)
+            {
+                var partida = await _partidaService
+                    .ObterPartidaPorIdAsync(id);
 
-            return Ok(new Response<PartidaResponse>(_mapper
-                .Map<PartidaResponse>(partida)));
+                if (partida is null)
+                    return NotFound();
+
+                partidaResponse = new Response<PartidaResponse>(
+                    Mapper.Map<PartidaResponse>(partida));
+
+                CacheServico.SetCacheResponse(
+                    ApiRotas.Partida.Get.Replace("{id}", id.ToString()), 
+                    partidaResponse, TimeSpan.FromMinutes(2));
+            }
+
+            return Ok(partidaResponse);
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿using MatchDayApp.Infra.CrossCutting.Contratos.V1;
+﻿using AutoMapper;
+using MatchDayApp.Api.Controllers.Base;
+using MatchDayApp.Infra.CrossCutting.Contratos.V1;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Auth;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1.Respostas.Auth;
 using MatchDayApp.Infra.CrossCutting.Servicos.Interfaces;
@@ -13,21 +15,17 @@ namespace MatchDayApp.Api.Controllers
     /// <summary>
     /// Controller responsavel por fazer a autenticação do usuário no sistema
     /// </summary>
-    [ApiController]
     [AllowAnonymous]
-    [ApiVersion("1.0")]
-    [Produces("application/json")]
-    public class AutenticacaoController : ControllerBase
+    public class AutenticacaoController : BaseController
     {
         private readonly IAutenticacaoAppServico _autenticacaoServico;
-        private readonly IUriServico _uriServico;
-
-        public AutenticacaoController(IAutenticacaoAppServico autenticacaoServico, IUriServico uriServico)
+        
+        public AutenticacaoController(IAutenticacaoAppServico autenticacaoServico, 
+            ICacheServico cacheServico, IUriServico uriServico, IMapper mapper) 
+            : base(cacheServico, uriServico, mapper)
         {
-            _autenticacaoServico = autenticacaoServico
+            _autenticacaoServico = autenticacaoServico 
                 ?? throw new ArgumentNullException(nameof(autenticacaoServico));
-            _uriServico = uriServico
-                ?? throw new ArgumentNullException(nameof(uriServico));
         }
 
         /// <summary>
@@ -52,7 +50,7 @@ namespace MatchDayApp.Api.Controllers
                 });
             }
 
-            return Created(_uriServico.GetUsuarioUri(
+            return Created(UriServico.GetUsuarioUri(
                 autenticacaoResult.Usuario.Id.ToString()),
                 new AutenticacaoComSucessoResponse
                 {

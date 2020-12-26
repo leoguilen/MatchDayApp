@@ -22,6 +22,7 @@ namespace MatchDayApp.Infra.CrossCutting.Ioc
             var twilioSettings = new TwilioConfiguracao();
             configuration.Bind(nameof(TwilioConfiguracao), twilioSettings);
             services.AddSingleton(twilioSettings);
+            services.AddSingleton<ICacheServico, CacheServico>();
 
             // Application Services
             services.AddAutoMapper(new[] { Assembly.Load("MatchDayApp.Application"), Assembly.Load("MatchDayApp.Infra.CrossCutting") });

@@ -58,6 +58,8 @@ namespace MatchDayApp.Infra.CrossCutting.Ioc
                 options.Providers.Add(typeof(GzipCompressionProvider));
             });
 
+            services.AddMemoryCache();
+
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));

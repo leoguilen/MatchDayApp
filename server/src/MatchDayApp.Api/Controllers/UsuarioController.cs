@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MatchDayApp.Api.Controllers.Base;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Query;
 using MatchDayApp.Infra.CrossCutting.Contratos.V1.Requisicao.Usuario;
@@ -20,20 +21,16 @@ namespace MatchDayApp.Api.Controllers
     /// Controller responsável pela gestão dos usuário no sistema
     /// </summary>
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ApiController]
-    [ApiVersion("1.0")]
-    [Produces("application/json")]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : BaseController
     {
         private readonly IUsuarioAppServico _usuarioServico;
-        private readonly IMapper _mapper;
 
-        public UsuarioController(IUsuarioAppServico usuarioServico, IMapper mapper)
+        public UsuarioController(IUsuarioAppServico usuarioServico,
+            ICacheServico cacheServico, IUriServico uriServico, IMapper mapper)
+            : base(cacheServico, uriServico, mapper)
         {
             _usuarioServico = usuarioServico
                 ?? throw new ArgumentNullException(nameof(usuarioServico));
-            _mapper = mapper
-                ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <summary>
@@ -45,10 +42,22 @@ namespace MatchDayApp.Api.Controllers
         [ProducesResponseType(typeof(PagedResponse<UsuarioResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll([FromQuery] PaginacaoQuery pagination, [FromServices] IUriServico uriServico)
         {
-            var usuarios = await _usuarioServico
-                .ObterUsuariosAsync(pagination);
-            var usuariosResponse = _mapper
-                .Map<IReadOnlyList<UsuarioResponse>>(usuarios);
+            var usuariosResponse = CacheServico
+                .GetCachedResponse<IReadOnlyList<UsuarioResponse>>(
+                    ApiRotas.Usuario.GetAll);
+
+            if(usuariosResponse is null)
+            {
+                var usuarios = await _usuarioServico
+                    .ObterUsuariosAsync(pagination);
+                usuariosResponse = Mapper
+                    .Map<IReadOnlyList<UsuarioResponse>>(usuarios);
+
+                CacheServico.SetCacheResponse(
+                    ApiRotas.Usuario.GetAll,
+                    usuariosResponse,
+                    TimeSpan.FromMinutes(2));
+            }
 
             if (pagination == null || pagination.NumeroPagina < 1 || pagination.QuantidadePagina < 1)
             {
@@ -72,14 +81,27 @@ namespace MatchDayApp.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var usuario = await _usuarioServico
-                .ObterUsuarioPorIdAsync(id);
+            var usuarioResponse = CacheServico
+                .GetCachedResponse<Response<UsuarioResponse>>(
+                    ApiRotas.Usuario.Get.Replace("{id}", id.ToString()));
 
-            if (usuario is null)
-                return NotFound();
+            if(usuarioResponse is null)
+            {
+                var usuario = await _usuarioServico
+                    .ObterUsuarioPorIdAsync(id);
 
-            return Ok(new Response<UsuarioResponse>(_mapper
-                .Map<UsuarioResponse>(usuario)));
+                if (usuario is null)
+                    return NotFound();
+
+                usuarioResponse = new Response<UsuarioResponse>(Mapper
+                    .Map<UsuarioResponse>(usuario));
+
+                CacheServico.SetCacheResponse(
+                    ApiRotas.Usuario.Get.Replace("{id}", id.ToString()),
+                    usuarioResponse, TimeSpan.FromMinutes(2));
+            }
+
+            return Ok(usuarioResponse);
         }
 
         /// <summary>
