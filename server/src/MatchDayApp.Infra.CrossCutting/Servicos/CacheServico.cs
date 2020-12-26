@@ -52,16 +52,7 @@ namespace MatchDayApp.Infra.CrossCutting.Servicos
         public void SetCacheResponse<T>(string key, T response, TimeSpan timeLive)
         {
             if (string.IsNullOrEmpty(GetCachedResponse(key)))
-            {
-                var cacheExpirationOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpiration = DateTime.Now.AddHours(6),
-                    Priority = CacheItemPriority.Normal,
-                    SlidingExpiration = timeLive,
-                };
-
-                _cache.Set(key, response, cacheExpirationOptions);
-            }
+                _cache.Set(key, response, timeLive);
         }
     }
 }
