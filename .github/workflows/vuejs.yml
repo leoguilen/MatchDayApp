@@ -1,0 +1,31 @@
+name: Vue.Js
+ 
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Change into webapp folder
+        run: cd web/
+      
+      - uses: actions/setup-node@master
+      - name: Installing Vue-cli
+        run: npm install -g @vue/cli
+      - name: Installing project dependencies
+        run: npm install
+      - name: Building the project
+        run: npm run build
+      
+      - uses: actions/upload-artifact@v2.2.1
+        with:
+          name: matchdayapp-web-artifacts
+          path: /home/runner/work/dist/
