@@ -1,3 +1,5 @@
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
 * {
   margin: 0;
   padding: 0;
@@ -7,7 +9,7 @@
 *, button, input {
   border: 0;
   outline: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 html, body, #app {
@@ -16,5 +18,7 @@ html, body, #app {
 
 // Color variables
 :root {
+  --header: #000;
+
   --white: #fff;
 }
