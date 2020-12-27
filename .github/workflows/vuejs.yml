@@ -15,17 +15,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Change into webapp folder
-        run: cd web/
-      
+     
       - uses: actions/setup-node@master
       - name: Install Packages and Build Application
         run: |
+         cd web
          npm install
          npm run build
       
       - uses: actions/upload-artifact@v2.2.1
         with:
           name: matchdayapp-web-artifacts
-          path: /home/runner/work/dist/
+          path: /home/runner/work/matchday-app/matchday-app/web/dist/
