@@ -1,4 +1,4 @@
-name: Vue.Js
+name: Front-end workflow
  
 on:
   push:
@@ -20,11 +20,8 @@ jobs:
         run: cd web/
       
       - uses: actions/setup-node@master
-        with: 
-         node-version: 10.x
       - name: Install Packages and Build Application
         run: |
-         npm install -g @vue/cli
          npm install
          npm run build
       
