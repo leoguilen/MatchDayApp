@@ -3,6 +3,8 @@ name: Vue.Js
 on:
   push:
     branches: [ master ]
+    paths-ignore: 
+     - server/**
   pull_request:
     branches: [ master ]
 
@@ -18,12 +20,13 @@ jobs:
         run: cd web/
       
       - uses: actions/setup-node@master
-      - name: Installing Vue-cli
-        run: npm install -g @vue/cli
-      - name: Installing project dependencies
-        run: npm install
-      - name: Building the project
-        run: npm run build
+        with: 
+         node-version: 10.x
+      - name: Install Packages and Build Application
+        run: |
+         npm install -g @vue/cli
+         npm install
+         npm run build
       
       - uses: actions/upload-artifact@v2.2.1
         with:
