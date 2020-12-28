@@ -1,0 +1,55 @@
+version: '3.5'
+
+services: 
+  matchday-api:
+    build: server/
+    container_name: matchday-api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - JwtConfiguracao:Secret=9ce891b219b6fb5b0088e3e05e05baf5
+      - SmtpConfiguracao:SmtpUsername=desenvolvimento.dev1@gmail.com
+      - SmtpConfiguracao:SmtpPassword=Dev@2020
+      - TwilioConfiguracao:TwilioAccountSID=ACee2e2e7da6a0b0324b9ee07edd0ce97c
+      - TwilioConfiguracao:TwilioAuthToken=00185e58ac4a15e42bf3eb6483b9a5f7
+      - TwilioConfiguracao:TwilioPhoneNumber=+19514388489
+      - TwilioConfiguracao:TwilioWhatsappNumber=+14155238886 
+    ports:
+      - "5000:80"
+    depends_on:
+      - matchday-db
+    networks: 
+      - matchday-net
+
+  matchday-db: 
+    image: mcr.microsoft.com/mssql/server:2017-CU8-ubuntu
+    container_name: matchday-db
+    environment: 
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Development123#
+      - MSSQL_TCP_PORT=1433
+    ports:
+      - "1433:1433"
+    volumes: 
+      - matchday-db-sql:/var/opt/mssql
+    networks: 
+      - matchday-net
+
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    restart: always
+    ports: 
+      - "9000:9000"
+    volumes: 
+      - "portainer-data:/data"
+    networks: 
+      - matchday-net
+
+volumes:
+  matchday-db-sql:
+  portainer-data:
+        
+networks:
+  matchday-net:
+    name: matchday-net
